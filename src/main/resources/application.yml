@@ -7,6 +7,7 @@ spring:
   output:
     ansi:
       enabled: always
+
   jpa:
     # 기본적으로 data.sql 은 Hibernate 가 초기화 되기전에 수행된다.
     # Hibernate 에서 생성한뒤 data.sql 이 수행되게 하려면 아래설정을 해주어야 한다
@@ -23,5 +24,11 @@ spring:
   # thymeleaf 설정
   thymeleaf:
     cache: false
-    prefix: classpath:templates/views/
+    prefix: classpath:templates/
 
+  # datasource 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lta_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: lta_admin
+    password: 1234
