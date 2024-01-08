@@ -1,0 +1,27 @@
+# 서버 포트 번호
+server:
+  port: 8080
+
+spring:
+  # 콘솔 ANSI 색상
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    # 기본적으로 data.sql 은 Hibernate 가 초기화 되기전에 수행된다.
+    # Hibernate 에서 생성한뒤 data.sql 이 수행되게 하려면 아래설정을 해주어야 한다
+    defer-datasource-initialization: true
+
+    # JPA에서 생성되는 SQL 문을 콘솔 출력
+    show-sql: true
+
+    # 쿼리가 훨씬 보기 좋게 정렬되어 로그 찍힌다
+    properties:
+      hibernate:
+        format_sql: true
+
+  # thymeleaf 설정
+  thymeleaf:
+    cache: false
+    prefix: classpath:templates/views/
+
