@@ -1,10 +1,7 @@
 package com.lec.sping.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,4 +25,18 @@ public class User {
     private Long user_state;        // 개인 상태
     private String user_context;    // 자기소개
     private String user_profile;    // 프로필 이미지
+
+    //----------------------------------------------
+    //FK 영역
+    @JoinColumn
+    @ManyToOne
+    private Authority authority;      // 유저 권한 (FK)
+
+    @JoinColumn
+    @ManyToOne
+    private CrewData crew;
+
+
+
+
 }

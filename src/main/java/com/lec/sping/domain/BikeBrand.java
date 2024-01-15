@@ -16,6 +16,6 @@ public class BikeBrand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bikebrand_id;
-    private String bikebrand_name;
+    private Long bikebrand_id;      // 바이크 브랜드 ID
+    private String bikebrand_name;  // 바이크 브랜드 이름
 }

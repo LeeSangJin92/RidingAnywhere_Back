@@ -1,12 +1,11 @@
 package com.lec.sping.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +22,11 @@ public class CrewData {
     private String crew_profile;        // 크루 프로필
     private String crew_igurl;          // 크루 인스타 url
     private String crew_openkakaourl;   // 크루 오픈 카카오 url
+
+    //-----------------------------------------------------
+    // 참조키 영역
+
+    @JoinColumn
+    @OneToMany
+    private List<User> user;
 }

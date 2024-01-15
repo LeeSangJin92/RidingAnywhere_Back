@@ -1,7 +1,6 @@
 package com.lec.sping.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +14,13 @@ import java.time.LocalDateTime;
 public class BikeGarage {
 
     @Id
-    private Long bikemodel_id;
-    @Id
-    private Long user_id;
+    @ManyToOne
+    private BikeModel bikemodel;          // 바이크 모델 ID (FK)
 
-    private LocalDateTime bike_year;
-    private String bike_state;
+    @Id
+    @ManyToOne
+    private User user;               // 유저 ID (FK)
+
+    private LocalDateTime bike_year;    // 바이크 년식
+    private String bike_state;          // 바이크 상태
 }

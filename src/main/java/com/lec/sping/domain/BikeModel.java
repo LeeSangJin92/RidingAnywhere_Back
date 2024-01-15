@@ -1,9 +1,6 @@
 package com.lec.sping.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +13,12 @@ import lombok.NoArgsConstructor;
 public class BikeModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bikemodl_id;
-    private String bikemodel_name;
-    private Long bikemodel_cc;
+    private Long bikemodl_id;           // 바이크 모델 ID
+    private String bikemodel_name;      // 바이크 이름
+    private Long bikemodel_cc;          // 바이크 CC
+
+    @ManyToOne
+    private BikeBrand brand;            // 바이크 브랜드 (FK)
 
 
 
