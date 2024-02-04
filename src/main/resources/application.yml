@@ -21,6 +21,10 @@ spring:
       hibernate:
         format_sql: true
 
+    # 테이블 생성 시 테이블 초기화 방식
+    hibernate:
+      ddl-auto: create-drop
+
   # thymeleaf 설정
   thymeleaf:
     cache: false
@@ -29,6 +33,6 @@ spring:
   # datasource 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lta_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: lta_admin
+    url: jdbc:mysql://localhost:3306/ra_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ra_admin
     password: 1234
