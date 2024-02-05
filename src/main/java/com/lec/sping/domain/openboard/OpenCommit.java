@@ -25,16 +25,16 @@ public class OpenCommit {
     // FK 영역
     @ManyToOne
     @JoinColumn(name = "user")
-    private User user;
+    private User user;                      // 작성자
 
     @ManyToOne
     @JoinColumn(name = "openboard")
-    private OpenBoard openBoard;
+    private OpenBoard openboard;            // 상위 게시판
 
     @ManyToOne
-    @JoinColumn(name = "opencommit")
-    private OpenCommit openCommit;
+    @JoinColumn(name = "opencommit_id")
+    private OpenCommit opencommit;          // 상위 댓글
 
     @OneToMany(mappedBy = "opencommit")
-    private List<OpenCommit> openCommitList;
+    private List<OpenCommit> openCommitList; // 하위 댓글 리스트
 }

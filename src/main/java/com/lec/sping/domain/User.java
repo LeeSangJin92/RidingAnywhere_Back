@@ -2,9 +2,13 @@ package com.lec.sping.domain;
 
 
 import com.lec.sping.domain.bike.BikeGarage;
+import com.lec.sping.domain.camping.CampingAttendance;
+import com.lec.sping.domain.course.CourseBoard;
 import com.lec.sping.domain.crew.*;
 import com.lec.sping.domain.openboard.OpenBoard;
 import com.lec.sping.domain.openboard.OpenCommit;
+import com.lec.sping.domain.tour.TourAttendance;
+import com.lec.sping.domain.tour.TourBoard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -79,4 +83,19 @@ public class User {
     @ToString.Exclude
     private List<OpenCommit> openCommits;       // 라이더 게시판 댓글 리스트
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<TourBoard> tourBoardList;      // 작성한 투어 게시글 리스트
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<TourAttendance> tourAttendanceList; // 참석하는 투어 리스트
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<CampingAttendance> campingAttendanceList; // 참석하는 모캠 리스트
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
 }

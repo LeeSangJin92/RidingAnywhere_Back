@@ -27,9 +27,9 @@ public class OpenBoard {
     // FK 영역
     @ManyToOne
     @JoinColumn(name = "user")
-    private User user;
+    private User user;                  // 작성자
 
     @OneToMany(mappedBy = "openboard")
     @ToString.Exclude
-    private List<OpenCommit> openCommit;
+    private List<OpenCommit> opencommit; // 하위 댓글 리스트
 }
