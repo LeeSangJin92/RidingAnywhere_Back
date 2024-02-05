@@ -1,7 +1,6 @@
 package com.lec.sping.domain.bike;
 
 import com.lec.sping.domain.User;
-import com.lec.sping.repository.LoginRepository;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
