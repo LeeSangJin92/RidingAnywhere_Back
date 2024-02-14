@@ -28,7 +28,7 @@ public class Crew {
 
     // FK 영역
     @OneToOne(optional = false)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "crewMaster")
     private User user;                  // 크루 마스터(크루장)
 
     @OneToMany(mappedBy = "crew")

@@ -3,12 +3,14 @@ package com.lec.sping.domain.crew;
 
 import com.lec.sping.domain.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class CrewJoin  {
 
     @EmbeddedId
@@ -17,10 +19,13 @@ public class CrewJoin  {
 
     // FK 영역
     @OneToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
+    @MapsId("user_fk")
     private User user;                  // 가입 요청하는 유저
 
     @ManyToOne
+    @MapsId("crew_fk")
+    @JoinColumn(name = "crew_id")
     private Crew crew;                  // 크루
 
 }

@@ -36,7 +36,7 @@ public class User {
     private String user_name;       // 유저 이름
     @Column(nullable = false)
     private String user_birthday;   // 유저 생년월일
-    private boolean user_sex;       // 유저 성별
+    private boolean user_gender;    // 유저 성별
     private String user_phone;      // 유저 연락처
     @Column(nullable = false)
     private String user_email;      // 유저 메일
@@ -64,11 +64,9 @@ public class User {
     private Crew crew;              // 소속 크루
 
     @OneToOne(mappedBy = "user")
-    @ToString.Exclude
     private Crew createcrew;              // 생성한 크루
 
     @OneToOne(mappedBy = "user")
-    @ToString.Exclude
     private CrewManager crewmanager;      // 크루 관리 유저
 
     @OneToOne(mappedBy = "user")

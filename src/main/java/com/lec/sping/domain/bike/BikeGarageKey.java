@@ -5,6 +5,6 @@ import java.io.Serializable;
 
 @Embeddable
 public class BikeGarageKey implements Serializable {
-    private Long user_id;
-    private Long bike_id;
+    private Long user_fk;
+    private Long bikemodel_fk;
 }

@@ -7,6 +7,6 @@ import java.io.Serializable;
 @Embeddable
 public class CrewAttendanceKey implements Serializable {
 
-    private Long user_id;
-    private Long schedule_id;
+    private Long user_fk;
+    private Long schedule_fk;
 }

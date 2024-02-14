@@ -12,6 +12,7 @@ select * from crew_attendance;
 select * from crew_join;
 select * from crew_join_board;
 select * from crew_schedule;
+select * from crew_manager;
 select * from open_board;
 select * from open_commit;
 select * from tour_attendance;

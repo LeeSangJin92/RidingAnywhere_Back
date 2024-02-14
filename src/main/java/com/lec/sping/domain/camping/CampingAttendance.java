@@ -2,10 +2,7 @@ package com.lec.sping.domain.camping;
 
 
 import com.lec.sping.domain.User;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +20,12 @@ public class CampingAttendance {
     // FK 영역
 
     @ManyToOne
-    @JoinColumn(name = "campingboard")
+    @JoinColumn(name = "campingboard_id")
+    @MapsId("campingboard_fk")
     private CampingBoard campingboard;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
+    @MapsId("user_fk")
     private User user;
 }

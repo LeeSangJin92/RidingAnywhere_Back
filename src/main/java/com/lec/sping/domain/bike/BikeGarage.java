@@ -20,10 +20,12 @@ public class BikeGarage {
 
     // FK 영역
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
+    @MapsId("user_fk")
     private User user;                  // 유저
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "bikemodel")
-    private BikeModel bikeModels;       // 바이크 모델
+    @JoinColumn(name = "bikemodel_id")
+    @MapsId("bikemodel_fk")
+    private BikeModel bikeModel;       // 바이크 모델
 }

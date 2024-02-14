@@ -17,10 +17,12 @@ public class CrewAttendance {
     private CrewAttendanceKey attendance_id;
 
     @ManyToOne
-    @JoinColumn(name = "schedule")
+    @JoinColumn(name = "schedule_id")
+    @MapsId("schedule_fk")
     private CrewSchedule schedule;          // 크루 일정 ID
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @MapsId("user_fk")
+    @JoinColumn(name = "user_id")
     private User user;                      // 일정 작성자 ID
 }
