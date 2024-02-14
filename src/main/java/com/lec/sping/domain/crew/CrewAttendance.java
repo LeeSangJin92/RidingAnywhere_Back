@@ -18,9 +18,9 @@ public class CrewAttendance {
 
     @ManyToOne
     @JoinColumn(name = "schedule")
-    private CrewSchedule schedule;
+    private CrewSchedule schedule;          // 크루 일정 ID
 
     @ManyToOne
     @JoinColumn(name = "user")
-    private User user;
+    private User user;                      // 일정 작성자 ID
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/homepage.css';
 import '../css/index.css';
+import DefaultFooter from '../component/DefaultFooter';
 
 const HomePage = () => {
     document.title = "Riding AnyWhere"
@@ -13,7 +14,7 @@ const HomePage = () => {
                 </div>
                 <div className='top_line'>
                     <div className='top_tag_line'>
-                        <Link to="" className='top_tag'>login</Link>
+                        <Link to="/RA/Login" className='top_tag'>login</Link>
                         <Link to="" className='top_tag'>my page</Link>
                     </div>
                     <nav className='topNav'>
@@ -40,15 +41,14 @@ const HomePage = () => {
                 </div>
             </header>
             <section>  {/* 메인 영역 부분*/}
-                    <div>
-                        
+                    <div className='CrewHome'>
+                        크루 영역
+                    </div>
+                    <div className='RiderHome'>
+                        오픈 게시판 영역
                     </div>
             </section>
-            <footer>    {/* 푸터 영역*/}
-                <h3>Riding Anywhere 는 모든 라이더들의 안전한 라이딩을 기원합니다!</h3>
-                <h3>문의 사항은 IG :
-                <Link to="https://www.instagram.com/lee.traveler92?igsh=bm1ibWVxczR3YzRt" >LeeTraveler92</Link> 로 DM 남겨주시길 바랍니다.</h3>
-            </footer>
+            <DefaultFooter/>
         </body>
     );
 };
