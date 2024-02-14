@@ -16,10 +16,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.lang.NonNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @NoArgsConstructor
 @Data
@@ -29,38 +28,39 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;           // 기본 Id
+    private Long userId;           // 기본 Id
     @Column(nullable = false)
-    private String user_nickname;   // 유저 닉네임
+    private String userNickname;      // 유저 연락처
+    private String userName;       // 유저 이름
     @Column(nullable = false)
-    private String user_name;       // 유저 이름
+    private String userBirthday;   // 유저 생년월일
+    private boolean userGender;    // 유저 성별
+    private String userPhone;      // 유저 연락처
+    @Column(nullable = false,unique = true)
+    private String userEmail;      // 유저 메일
+    @ColumnDefault("0")
+    private Long userCnt;          // 유저 출석 수
+    private String userState;      // 유저 상태
+    private String userProfile;    // 유저 프로필
     @Column(nullable = false)
-    private String user_birthday;   // 유저 생년월일
-    private boolean user_gender;    // 유저 성별
-    private String user_phone;      // 유저 연락처
-    @Column(nullable = false)
-    private String user_email;      // 유저 메일
-    private Long user_cnt;          // 유저 출석 수
-    private String user_state;      // 유저 상태
-    private String user_profile;    // 유저 프로필
-    @Column(nullable = false)
-    @JsonIgnore
-    private String user_password;   // 유저 비밀번호
+    private String userPassword;   // 유저 비밀번호
     @Transient
     @ToString.Exclude
     @JsonIgnore
-    private String user_password_rd; // 유저 비밀번호 확인용
-    private String user_context;    // 유저 자시소개
+    private String userPassword_rd; // 유저 비밀번호 확인용
+    private String userContext;    // 유저 자시소개
+    private LocalDateTime userRegdate; // 유저 회원가입 날짜
 
     //----------------------------------------------
     //FK 영역
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "authority")
-    private Authority authority;    // 유저 권한
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "authorityId")
+    private Authority authorityId;    // 유저 권한
 
     @ManyToOne
-    @JoinColumn(name = "crew")
+    @JoinColumn(name = "crewId")
     private Crew crew;              // 소속 크루
 
     @OneToOne(mappedBy = "user")
@@ -108,4 +108,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
+
+    // 계성 생성 날짜 입력
+    @PrePersist
+    private void set_Defalut(){
+        userRegdate = LocalDateTime.now();
+    }
 }

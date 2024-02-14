@@ -3,15 +3,23 @@ package com.lec.sping.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authority_id;          // 권한 ID
-    @NonNull
+    @Column(nullable = false)
     private String authority_name;      // 권한명
+
+    //FK 영역
+
+    @OneToMany(mappedBy = "authorityId")
+    @ToString.Exclude
+    private List<User> user;            // 유저
 }

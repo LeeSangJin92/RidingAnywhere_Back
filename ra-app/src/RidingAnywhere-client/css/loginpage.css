@@ -49,6 +49,11 @@ h2{
     color: transparent;
 }
 
+p{
+    display: none;
+    color: red;
+}
+
 .Login_InputLine{
     display: flex;
     padding: 0;
@@ -59,7 +64,7 @@ h2{
 
 .input_wrap{
     display: inline-block;
-    width: 300px;
+    width: 310px;
 
 }
 
@@ -70,8 +75,9 @@ h2{
     align-items: center;
 }
 
-.input_row *{
-    display: flex;
+.input_row>h2{
+    width: 80px;
+    text-align: center;
 }
 
 .login_textline{
@@ -80,7 +86,7 @@ h2{
     display: flex;
     align-items: center;
     text-align: center;
-    font-size: 25px;
+    font-size: 18px;
     border-radius: 10px;
 }
 

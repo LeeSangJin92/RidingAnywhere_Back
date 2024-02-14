@@ -16,7 +16,7 @@ const AddBike = () => {
                 <div className='addbike_line'><h2>바이크 연식</h2><input type='number' className='seuch_bike' placeholder='ex) 연식을 입력하세요'/></div>
                 <div className='addbike_line'><h2>바이크 상태</h2><input type='textbox' className='seuch_bike' placeholder='ex) 인수중, 수리중, 운행중'/></div>
                 <div className='Button_line'>
-                    <button className='btn_submit' id='btnSignUp'>가입 완료</button>
+                    <button className='btn_submit_addbike' id='btnSignUp'>가입 완료</button>
                 </div>
                 </div>
             </section>

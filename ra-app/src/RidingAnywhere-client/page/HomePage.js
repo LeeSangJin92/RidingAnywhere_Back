@@ -5,7 +5,9 @@ import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
 
 const HomePage = () => {
-    document.title = "Riding AnyWhere"
+    
+    
+
     return (
         <main>
             <header>    {/* 상단 타이틀 부분 */}

@@ -116,7 +116,6 @@
 }
 
 .NavCategory:hover{
-    color: yellow;
     font-size: larger;
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);

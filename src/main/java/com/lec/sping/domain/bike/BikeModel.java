@@ -12,11 +12,12 @@ public class BikeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bikemodel_id;      // 바이크 모델 ID
-    private String bikemodel_name;  // 바이크 모델명
-    private Long bikemodel_cc;      // 바이크 배기량
+    private Long model_id;      // 바이크 모델 ID
+    private String model_name;  // 바이크 모델명
+    private Long model_cc;      // 바이크 배기량
 
     // FK 영역
     @ManyToOne(optional = false)
+    @JoinColumn(name = "brand_id")
     private BikeBrand bikebrand_id;      // 바이크 브랜드 ID
 }
