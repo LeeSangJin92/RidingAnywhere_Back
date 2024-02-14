@@ -1,8 +1,3 @@
-@font-face {
-    font-family: Hobo_BT; /* 폰트 이름 */
-    src: url('./font-family/Hobo_BT.ttf') format('truetype'); /* 로컬에 위치한 폰트 파일 경로 */
-}
-
 .logimg{
     display: flex;
     width: 300px;

@@ -1,0 +1,110 @@
+.Section_signup{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 630px;
+}
+
+.Signup_Box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 500px;
+    border: 5px solid rgb(255, 192, 0);
+    border-radius: 40px;
+    padding: 20px 0;
+}
+
+.Signup_line{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.Signup_line h2{
+    font-size: 20px;
+    text-align: center;
+    min-width: 100px;
+    margin: 10px 0;
+}
+
+#Email_pass > [name='Eamil_check']{
+    display: none;
+}
+
+#Email_pass > label{
+    font-size: 18px;
+    margin: 8px 0;
+    padding: 1px;
+    min-width: 100px;
+    text-align: center;
+    border: 2px solid gray;
+    border-radius: 5px;
+    text-shadow: 1px 1px whitesmoke;
+}
+
+.Gender_radio{
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+[name='gender_button']{
+    display: none;
+}
+
+[name='gender_button'] + label{
+    display: flex;
+    justify-content: center;
+    width: 33%;
+    line-height: 50px;
+    align-items: center;
+    border: 2px solid gray;
+    height: 100%;
+}
+
+[name='gender_button'] + label:first-of-type{
+    border-radius: 4px 0 0 4px;    
+}
+
+[name='gender_button'] + label:last-of-type{
+    border-radius: 0 4px 4px 0;
+}
+
+input[type='radio']:checked + label{
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+label:hover, .btn_submit:hover{
+    cursor: pointer;
+}
+
+.Signup_line>input, #Email_pass>input{
+    height: 40%;
+    margin-left: 10px;
+}
+
+.btn_submit{
+    min-width: 150px;
+    min-height: 50px;
+    font-size: 20px;
+    background-color: black;
+    font-weight: bold;
+    color: gray;
+    text-shadow: 1px 1px whitesmoke;
+    border: 2px solid gray;
+    border-radius: 5px;
+}

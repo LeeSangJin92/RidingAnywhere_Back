@@ -7,7 +7,7 @@ import DefaultFooter from '../component/DefaultFooter';
 const HomePage = () => {
     document.title = "Riding AnyWhere"
     return (
-        <body>
+        <main>
             <header>    {/* 상단 타이틀 부분 */}
                 <div className='logimg'>
                     <img src='/img/Log_img.png' id="log_img" alt='logo192.png'/>
@@ -48,8 +48,8 @@ const HomePage = () => {
                         오픈 게시판 영역
                     </div>
             </section>
-            <DefaultFooter/>
-        </body>
+                <DefaultFooter/>
+        </main>
     );
 };
 

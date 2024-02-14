@@ -18,5 +18,5 @@ public class BikeModel {
 
     // FK 영역
     @ManyToOne(optional = false)
-    private BikeBrand bikebrand_id;      // 바이크 모델 ID
+    private BikeBrand bikebrand_id;      // 바이크 브랜드 ID
 }
