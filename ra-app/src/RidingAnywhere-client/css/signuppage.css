@@ -31,18 +31,13 @@
 }
 
 .Signup_Box h8{
-    display: none;
-    color: red;
+    /* display: none; */
     font-size: 15px;
     margin-top: 0px;
     margin-bottom: 10px;
 }
 
-#Email_pass > [name='Eamil_check']{
-    display: none;
-}
-
-#Email_pass > label{
+#Email_pass > [name='emailAuth']{
     font-size: 18px;
     margin: 8px 0;
     padding: 1px;
@@ -97,7 +92,7 @@ input[type='radio']:checked + label{
     color: transparent;
 }
 
-label:hover, .btn_submit_signup:hover{
+button:hover, .btn_submit_signup:hover{
     cursor: pointer;
 }
 

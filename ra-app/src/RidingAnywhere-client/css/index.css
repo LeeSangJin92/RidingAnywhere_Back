@@ -15,6 +15,7 @@ body,main {
   flex-direction: column;
   min-width: 1280px;
   background-color: black;
+
 }
 
 header{

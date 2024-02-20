@@ -1,9 +1,9 @@
 package com.lec.sping.controller;
 
 import com.lec.sping.domain.User;
+import com.lec.sping.service.EmailService;
 import com.lec.sping.service.LoginService;
 import com.lec.sping.service.SignUpService;
-import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ public class PageController {
 
         private final LoginService loginService;
         private final SignUpService signUpService;
+        private final EmailService emailService;
 
         @CrossOrigin
         @PostMapping("/RA/Login")
@@ -37,5 +38,14 @@ public class PageController {
                 } catch (DuplicateKeyException e){
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);                            // 이미 가입된 유저 400
                 }
+        }
+
+        @CrossOrigin
+        @PostMapping("/RA/SignUp/Email")
+        public ResponseEntity<String> check(@RequestBody String email) throws Exception{
+                System.out.println("받은 이메일 주소 : "+ email);
+                String code = emailService.sendSimpleMessage(email);
+                System.out.println("인증코드 : "+code);
+                return new ResponseEntity<>(code, HttpStatus.OK);
         }
 }

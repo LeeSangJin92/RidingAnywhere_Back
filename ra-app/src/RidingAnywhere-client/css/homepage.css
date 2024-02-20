@@ -43,6 +43,7 @@
     font-family: Hobo_BT;
     color: black;
     text-shadow: 1px 1px whitesmoke;
+    transition: all 0.5s;
 }
 
 .top_tag:hover{
@@ -113,6 +114,7 @@
     font-weight: bold;
     font-family: Hobo_BT;
     text-shadow: 1px 1px whitesmoke;
+    transition: all 0.5s;
 }
 
 .NavCategory:hover{
@@ -128,3 +130,9 @@
     cursor: pointer;
 }
 
+[name="accesslog_btn"]{
+    display: none;
+}
+[name="unaccesslog_btn"]{
+    /* display: none; */
+}

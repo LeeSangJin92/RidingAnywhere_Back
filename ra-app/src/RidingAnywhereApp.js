@@ -12,12 +12,13 @@ const RidingAnywhereApp = () => {
     return (
         <>
         <Container>
-            <Routes>
-                <Route path='/RA/Home' Component={HomePage}></Route>
-                <Route path='/RA/Login' Component={LoginPage}></Route>
-                <Route path='/RA/SignUp' Component={SignupPage}></Route>
-                <Route path='/RA/AddBike' Component={AddBike}></Route>
-            </Routes>
+                <Routes>
+                    <Route path='/' Component={HomePage}></Route>
+                    <Route path='/RA/Home' element={<HomePage/>}></Route>
+                    <Route path='/RA/Login' element={<LoginPage/>}></Route>
+                    <Route path='/RA/SignUp' element={<SignupPage/>}></Route>
+                    <Route path='/RA/AddBike' element={<AddBike/>}></Route>
+                </Routes>
         </Container>
             
         </>

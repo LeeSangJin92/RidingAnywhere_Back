@@ -3,6 +3,26 @@ server:
   port: 8080
 
 spring:
+  mail:
+  host: #Gmail의 SMTP 서버 호스트
+  prot: 587 #SMTP 서버 포트 번호, Gmail SMTP 서버는 587번 번호로 사용
+  username: yomko65@gmail.com #이메일 코드번호 발송용으로 사용되는 이메일 주소
+  password: aojclicwxbqlxyqc #이메일에서 생성된 앱 비밀번호를 입력
+  properties: #이메일 구성에 대한 추가 속성
+    mail:
+      smtp:
+        auth: true #SMTP 서버 인증이 필요한 경우 True로 지정. ※해당 프로젝트는 Gmail로 서버인증을 요구하여 true로 설정해야함!
+        starttls: #SMTP 서버가 TLS를 사용하여 안전한 연결을 요구하는 경우 True로 설정! #TLS는 데이터를 암호화하여 안전한 전송을 보장하는 프로토콜
+          enable: true
+          required: true
+        connectiontimeout: 5000 #클라이언트가 SMTP서버와의 연결을 설정하는데 대기하는 시간(Millisecond 단위).
+                                #연결이 불안정한 경우 대기 시간이 길어지기 때문에 너무 크게 설정하면 전송 속도가 느려짐!
+        timeout: 5000 #클라이언트가 SMTP 서버로부터 응답을 대기해야하는 시간(Millisecond 단위)
+                      #서버에서 응답이 오지 않는 경우 대기시간을 제한하기 위해 사용!
+        writetimeout: 5000 #클라이언트가 작업을 오나료하는데 대기해야 하는 시간(Millisecond 단위)
+                           #이메일을 SMTP 서버로 전송하는데 걸리는 시간을 제한하는데 사용
+  auth-code-expiration-millis: 1800000 #이메일 인증코드의 만료시간(Millisecond 단위)
+                                       #위 데이터는 30 x 60 x 1000 == 30분
   # 콘솔 ANSI 색상
   output:
     ansi:
@@ -36,3 +56,5 @@ spring:
     url: jdbc:mysql://localhost:3306/ra_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: ra_admin
     password: 1234
+jwt:
+  secret-key: "!_)_]*[@_r=eE2XX:m>EvxH#HWk9I`]*!$fwm{<pXVs:0\\5J#?jj0(o_zL70w`:W"
