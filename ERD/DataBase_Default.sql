@@ -2,7 +2,7 @@ show tables ;
 
 # 권한 테이블 데이터 추가
 insert into authority(authority_name)
-values ("Rider"),("Crew_C"),("Crew_B"),("Crew_A"),("Admin");
+values ("ROLE_RA_Member"),("ROLE_CREW_Master"),("ROLE_CREW_Named"),("ROLE_CREW_Member"),("ROLE_RA_ADMIN");
 select * from authority;
 
 # 바이크 브랜드 테이블 데이터 추가

@@ -11,10 +11,7 @@ import com.lec.sping.domain.openboard.OpenCommit;
 import com.lec.sping.domain.tour.TourAttendance;
 import com.lec.sping.domain.tour.TourBoard;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -112,6 +109,26 @@ public class User {
     // 계성 생성 날짜 입력
     @PrePersist
     private void set_Defalut(){
+
         userRegdate = LocalDateTime.now();
+        authorityId = new Authority();
+        authorityId.setAuthority_id(1l);
+        authorityId.setAuthority_name(Auth.ROLE_RA_Member);
+    }
+
+    @Builder
+    public User(Long userId, String userEmail, String userPassword,
+                String userNickname, String userBirthday, String userContext,
+                String userPhone, String userState, String userName
+                ){
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userNickname = userNickname;
+        this.userBirthday = userBirthday;
+        this.userContext = userContext;
+        this.userPhone = userPhone;
+        this.userState = userState;
+        this.userName = userName;
     }
 }

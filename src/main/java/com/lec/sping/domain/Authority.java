@@ -15,7 +15,8 @@ public class Authority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authority_id;          // 권한 ID
     @Column(nullable = false)
-    private String authority_name;      // 권한명
+    @Enumerated(EnumType.STRING)
+    private Auth authority_name;      // 권한명
 
     //FK 영역
 

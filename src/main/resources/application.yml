@@ -43,7 +43,7 @@ spring:
 
     # 테이블 생성 시 테이블 초기화 방식
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
   # thymeleaf 설정
   thymeleaf:
@@ -57,4 +57,4 @@ spring:
     username: ra_admin
     password: 1234
 jwt:
-  secret-key: "!_)_]*[@_r=eE2XX:m>EvxH#HWk9I`]*!$fwm{<pXVs:0\\5J#?jj0(o_zL70w`:W"
+  secret: FNHrYOpgUMkfzqgadNbwJnoWaXOiXdEgZAHTLOtUYAhsHhbMFReRJePtuUpGIuwlCOtuddzfLPkAxXXNoFuAcF
