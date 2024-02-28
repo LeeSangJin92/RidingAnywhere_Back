@@ -3,12 +3,8 @@ import { Link } from 'react-router-dom';
 import '../css/homepage.css';
 import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
-import LoginContextConsumer from '../contexts/LoginContextConsumer';
 
 const HomePage = () => {
-    
-    
-
     return (
         <main>
             <header>    {/* 상단 타이틀 부분 */}
@@ -18,7 +14,7 @@ const HomePage = () => {
                 <div className='top_line'>
                     <div className='top_tag_line'>
                         <Link to="/RA/Login" className='top_tag' name="unaccesslog_btn">log in</Link>
-                        <Link to="" className='top_tag' name="unaccesslog_btn">Sign Up</Link>
+                        <Link to="/RA/Signup" className='top_tag' name="unaccesslog_btn">Sign Up</Link>
                         <Link to="" className='top_tag' name="accesslog_btn">my page</Link>
                         <Link to="" className='top_tag' name="accesslog_btn">log out</Link>
                     </div>

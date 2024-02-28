@@ -109,6 +109,7 @@ const SignupPage = () => {
             }).then(code=>{
                 if(code.status===200) return code.json();
             }).then((data)=>{
+                console.log(data);
                 setEmailKey(data);
             })
             setEmailAuthDisabled(false);

@@ -39,10 +39,11 @@ public class TokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         long now = (new Date()).getTime();
+        System.out.println("현재시간 : " + new Date());
+        Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 
-        Date tokenExpiresIn = new Date(now * ACCESS_TOKEN_EXPIRE_TIME);
-
-        System.out.println(tokenExpiresIn);
+        System.out.println(tokenExpiresIn.getTime());
+        System.out.println("date 기준 : " + new Date(tokenExpiresIn.getTime()));
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())

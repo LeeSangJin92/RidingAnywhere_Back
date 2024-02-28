@@ -1,3 +1,7 @@
+show databases;
+use ra_db;
+drop database ra_db;
+create database ra_db;
 show tables ;
 
 # 권한 테이블 데이터 추가
@@ -19,6 +23,8 @@ values (1,"슈퍼커브",110),(1,"헌터커브",125),(1,"레블500",500),
        (5,"로드글라이드",800),(5,"스트라이드글라이드",1200),(5,"브레이크아웃",1500);
 select * from bike_model;
 
+delete from bike_model;
+
 # 유저 테이블 데이터 추가
 insert into user(user_nickname,user_name,user_birthday,user_gender,
                  user_phone,user_email,user_state,user_password,user_context,user_regdate,authority_id)
@@ -33,6 +39,8 @@ values ("관리1","이름1","20231231",true,"010-1111-1234","test1@naver.com","�
        ("별명9","이름9","20231231",true,"010-1111-1234","test9@naver.com","라이딩중","1234","자기소개9","2024-02-14T09:30:00",1);
 
 select * from user;
+
+delete from user;
 
 
 

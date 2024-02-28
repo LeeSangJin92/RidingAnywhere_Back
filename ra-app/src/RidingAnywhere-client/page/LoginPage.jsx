@@ -3,7 +3,7 @@ import '../css/loginpage.css';
 import DefaultFooter from '../component/DefaultFooter';
 import { Link, useNavigate } from 'react-router-dom';
 import DefaultHeader from '../component/DefaultHeader_small';
-import styled from 'styled-components';
+
 
 const LoginPage = () => {
 
@@ -14,7 +14,7 @@ const LoginPage = () => {
         userEmail:"",
         userPassword:""
     },[]);
-    
+
     const [loginBtnAct, setLoginBtnAct] = useState(true);
 
     // 로그인 데이터 수정하는 영역
@@ -42,9 +42,18 @@ const LoginPage = () => {
             },
             body:JSON.stringify(request)
             }).then(response => {
-                if(response.status===200) navigate("/RA/Home");
+                console.log(response)
+                if(response.status===200) return response.json();
                 else if(response.status===404) setErrorWord({...errorWord,errorUndefined:false});
                 else setErrorWord({...errorWord,errorUndefined:false})})
+            .then(data => {
+                console.log("토큰 : " + data.accessToken);
+                console.log("타입 : " + data.grantType);
+                console.log("유효 : " + new Date(data.tokenExpiresIn))
+                console.log("현재 : " + new Date())
+                console.log(new Date()<new Date(data.tokenExpiresIn))
+                navigate("/RA/Home");
+            });
     }
 
     const [errorWord,setErrorWord] = useState({

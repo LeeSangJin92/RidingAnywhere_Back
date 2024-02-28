@@ -35,11 +35,7 @@ public class AuthService {
 
     public TokenDto login(UserRequestDto requestDto){
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-        System.out.println("유저 찾는 중....");
-        System.out.println("매니저빌드 : " + managerBuilder.getObject());
-        System.out.println("유저 데이터 : " +authenticationToken );
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-        System.out.println("토큰 생성 완료");
         return tokenProvider.generateTokenDto(authentication);
     }
 }

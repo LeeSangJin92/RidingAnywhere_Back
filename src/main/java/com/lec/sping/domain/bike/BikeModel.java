@@ -1,9 +1,17 @@
 package com.lec.sping.domain.bike;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.web.bind.annotation.Mapping;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -20,4 +28,5 @@ public class BikeModel {
     @ManyToOne(optional = false)
     @JoinColumn(name = "brand_id")
     private BikeBrand bikebrand_id;      // 바이크 브랜드 ID
+
 }

@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/Login").permitAll()
                 .requestMatchers("/RA/Signup").permitAll()
                 .requestMatchers("/RA/SignUp/Email").permitAll()
+                .requestMatchers("/RA/BikeModel").permitAll()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
