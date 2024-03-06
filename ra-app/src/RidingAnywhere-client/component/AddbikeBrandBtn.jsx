@@ -2,19 +2,18 @@ import React from 'react';
 
 
 // 바이크 추가에서 브랜드 라디오 버튼의 컴포넌트
-function AddbikeBrandBtn({btnName,value, onChange, label}) {
+function AddbikeBrandBtn({btnName, onChange, brand}) {
     return (
             <>
                 <input
-                    id={value}
+                    id={brand}
                     className='btn'
                     type='radio'
                     name={btnName}
-                    value={value}
+                    value={brand}
                     onChange={onChange}/>
-
-                <label for={value} className='brandBtn'>
-                    {label}
+                <label htmlFor={brand} className='brandBtn'>
+                    {brand}
                 </label>
             </>
     );

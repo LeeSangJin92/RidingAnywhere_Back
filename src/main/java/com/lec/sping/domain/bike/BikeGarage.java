@@ -12,21 +12,20 @@ import java.time.LocalDate;
 @Entity
 public class BikeGarage {
 
-    @EmbeddedId
-    private BikeGarageKey bikegarage_id;          // 내 바이크 Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long bikegarage_id;          // 내 바이크 Id
     private String bike_state;          // 바이크 상태 (고장, 정비, 사고 등...)
-    private Long bike_record;         // 바이크 주행 기록
-    private Long bike_year;           // 바이크 연식
+    private String bike_year;           // 바이크 연식
 
     // FK 영역
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    @MapsId("user_fk")
+    @MapsId
     private User user;                  // 유저
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "bikemodel_id")
-    @MapsId("bikemodel_fk")
+    @MapsId
     private BikeModel bikeModel;       // 바이크 모델
 }

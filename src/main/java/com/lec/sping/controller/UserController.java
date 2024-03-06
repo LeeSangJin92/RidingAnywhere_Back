@@ -28,18 +28,6 @@ public class UserController {
         return ResponseEntity.ok((myInfoBySecurity));
     }
 
-    @CrossOrigin
-    @GetMapping("/BikeModel")
-    public ResponseEntity<BikeAllDataDto> getBikeModel(){
-        System.out.println("바이크 모델 조회 시작...");
-//        BikeModelDto bikeModleDto = bikeService.getBikeModeList();
-        System.out.println("바이크 모델 전달 완료!");
-//        System.out.println(bikeModleDto);
-        BikeAllDataDto bikeModelList = bikeService.getfindAll();
-        System.out.println(bikeModelList);
-        return new ResponseEntity<>(bikeModelList, HttpStatus.OK);
-    }
-
     @PostMapping("/userNickName")
     public ResponseEntity<UserResponseDto> setUserNickName(@RequestBody UserRequestDto userRequestDto){
         return ResponseEntity.ok(userService.changeUserNickname(userRequestDto.getUserEmail(), userRequestDto.getUserNickname()));

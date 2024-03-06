@@ -1,12 +1,9 @@
 package com.lec.sping.controller;
 
-import com.lec.sping.domain.User;
-import com.lec.sping.dto.TokenDto;
 import com.lec.sping.dto.UserRequestDto;
 import com.lec.sping.dto.UserResponseDto;
 import com.lec.sping.service.AuthService;
 import com.lec.sping.service.EmailService;
-import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +37,13 @@ public class AuthController {
     @CrossOrigin
     @PostMapping("/Login")
     public ResponseEntity<?> login(@RequestBody UserRequestDto requestDto){
-
+        try {
         System.out.println("로그인 시도 요청");
         System.out.println("요청 DTO 정보 : " + requestDto);
         System.out.println("토큰 정보 : " + authService.login(requestDto));
-        return new ResponseEntity<>(authService.login(requestDto),HttpStatus.OK);
+        return new ResponseEntity<>(authService .login(requestDto),HttpStatus.OK);
+        } catch (NullPointerException e){
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -89,7 +89,7 @@ public class TokenProvider {
         return false;
     }
 
-    private Claims parseClaims(String accessToken){
+    public Claims parseClaims(String accessToken){
         try{
             return Jwts.parser().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e){

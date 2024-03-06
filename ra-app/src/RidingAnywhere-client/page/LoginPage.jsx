@@ -4,7 +4,6 @@ import DefaultFooter from '../component/DefaultFooter';
 import { Link, useNavigate } from 'react-router-dom';
 import DefaultHeader from '../component/DefaultHeader_small';
 
-
 const LoginPage = () => {
 
     const navigate = useNavigate();
@@ -38,20 +37,34 @@ const LoginPage = () => {
         fetch("http://localhost:8080/RA/Login",{
             method: "POST", 
             headers: {
-                "Content-Type": "application/json;charset=utf-8",       // 전송되는 데이터 타입 옵션 설정!
+                // 전송되는 데이터 타입 옵션 설정!
+                "Content-Type": "application/json;charset=utf-8",
             },
             body:JSON.stringify(request)
             }).then(response => {
-                console.log(response)
-                if(response.status===200) return response.json();
-                else if(response.status===404) setErrorWord({...errorWord,errorUndefined:false});
-                else setErrorWord({...errorWord,errorUndefined:false})})
-            .then(data => {
+                    console.log("로그인 요청🛜")
+                    if(response.status===200) return response.json();
+                    else setErrorWord({...errorWord,errorUndefined:false});
+            }).then(data => {
+
+                // 로그인이 잘못되었을 경우
+                if(!data){
+                    alert("⚠️입력하신 정보가 잘못되었습니다");
+                    return;
+                }
+
+                // 받아온 데이터 확인
+                console.log(data+"로그인 완료✅")
                 console.log("토큰 : " + data.accessToken);
                 console.log("타입 : " + data.grantType);
                 console.log("유효 : " + new Date(data.tokenExpiresIn))
                 console.log("현재 : " + new Date())
                 console.log(new Date()<new Date(data.tokenExpiresIn))
+
+                // 토큰 세션에 저장
+                sessionStorage.setItem('accessToken', data.accessToken);
+                sessionStorage.setItem('tokenTime',new Date(data.tokenExpiresIn));
+
                 navigate("/RA/Home");
             });
     }

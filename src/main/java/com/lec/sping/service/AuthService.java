@@ -8,6 +8,7 @@ import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,8 @@ public class AuthService {
     }
 
     public TokenDto login(UserRequestDto requestDto){
+
+        userRepository.findByUserEmail(requestDto.getUserEmail()).orElseThrow(()->new NullPointerException("가입된 회원정보가 아닙니다."));
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
         return tokenProvider.generateTokenDto(authentication);

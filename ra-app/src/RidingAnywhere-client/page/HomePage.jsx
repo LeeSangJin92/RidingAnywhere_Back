@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/homepage.css';
 import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
 
 const HomePage = () => {
+
     return (
         <main>
             <header>    {/* 상단 타이틀 부분 */}

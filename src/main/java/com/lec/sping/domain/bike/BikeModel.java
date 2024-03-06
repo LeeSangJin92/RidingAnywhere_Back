@@ -22,7 +22,7 @@ public class BikeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long model_id;      // 바이크 모델 ID
     private String model_name;  // 바이크 모델명
-    private Long model_cc;      // 바이크 배기량
+    private String model_cc;      // 바이크 배기량
 
     // FK 영역
     @ManyToOne(optional = false)

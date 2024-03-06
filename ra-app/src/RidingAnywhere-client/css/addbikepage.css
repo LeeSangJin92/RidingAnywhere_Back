@@ -10,23 +10,25 @@
     align-items: center;
     flex-direction: column;
     margin-top: 20px;
-    width: 500px;
+    width: 700px;
+    height: 950px;
     border: 5px solid rgb(255, 192, 0);
     border-radius: 40px;
     padding: 20px 0;
 }
 
 .addbike_line{
+    width: 100%;
     display: flex;
     justify-content: center;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
 .addbike_line h2{
     font-size: 20px;
     text-align: center;
-    min-width: 150px;
+    min-width: 200x;
     margin: 10px 0;
 }
 
@@ -40,8 +42,43 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-    width: 300px;
+    width: 500px;
     height: 100px;
+}
+
+.bikeImfo_line{
+    position: absolute;
+    bottom: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+}
+
+.bikeImfo_line>*{
+    margin: 0 15px;
+}
+
+.bikeImfo_line>h2{
+    text-align: center;
+    margin: 0;
+    width: 100px;
+}
+
+.bikeImfoInput{
+    width: 100px;
+    height: 30px;
+    border: 3px solid orange;
+    border-radius: 5px;
+}
+
+.Addbike_Box > .button_line{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 25px;
 }
 
 .brandBtn{
@@ -69,6 +106,22 @@
 }
 
 .btn_submit_addbike{
+    min-width: 150px;
+    min-height: 50px;
+    font-size: 20px;
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    font-weight: bold;
+    text-shadow: none;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border: 3px solid orange;
+    border-radius: 5px;
+}
+
+.btn_submit_addbike:disabled{
     min-width: 150px;
     min-height: 50px;
     font-size: 20px;

@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 @EnableWebSecurity
 @Component
 public class WebSecurityConfig {
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final TokenProvider tokenProvider;
@@ -44,6 +43,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/Signup").permitAll()
                 .requestMatchers("/RA/SignUp/Email").permitAll()
                 .requestMatchers("/RA/BikeModel").permitAll()
+                .requestMatchers("/RA/AddBike").permitAll()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
