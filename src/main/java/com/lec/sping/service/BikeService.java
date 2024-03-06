@@ -26,7 +26,6 @@ public class BikeService {
     private final BikeBrandRepository bikeBrandRepository;
     private final BikeAddRepository bikeAddRepository;
 
-    @Transactional
     public BikeAllDataDto getfindAll(){
         BikeAllDataDto bikeAlllDto = new BikeAllDataDto();
         bikeAlllDto.setBikeModelList(bikeModelRepository.findAll());
@@ -34,7 +33,6 @@ public class BikeService {
         return bikeAlllDto;
     }
 
-    @Transactional
     public BikeGarage addBikeData(BikeAddDataDto addData){
         User user = userRepository.findByUserEmail(addData.getUserEmail()).orElseThrow(()->new NullPointerException("존재하지 않은 유저입니다."));
 
@@ -49,5 +47,10 @@ public class BikeService {
         bikeGarage.setBike_year(addData.getBikeYear());
         System.out.println("✅"+bikeGarage);
         return bikeAddRepository.save(bikeGarage);
+    }
+
+    /*✅라이더가 소유하고 있는 바이크 모두 조회*/
+    public List<BikeGarage> findAllRiderBike(User user){
+        return bikeAddRepository.findAllByUser(user);
     }
 }

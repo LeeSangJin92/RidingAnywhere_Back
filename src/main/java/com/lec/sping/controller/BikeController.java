@@ -25,7 +25,6 @@ public class BikeController {
         System.out.println("바이크 모델 조회 시작...");
         BikeAllDataDto bikeModelList = bikeService.getfindAll();
         System.out.println("바이크 모델 전달 완료!");
-        System.out.println(bikeModelList);
         return new ResponseEntity<>(bikeModelList, HttpStatus.OK);
     }
 

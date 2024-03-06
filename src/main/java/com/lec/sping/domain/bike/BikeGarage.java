@@ -1,11 +1,10 @@
 package com.lec.sping.domain.bike;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lec.sping.domain.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
@@ -19,13 +18,12 @@ public class BikeGarage {
     private String bike_year;           // 바이크 연식
 
     // FK 영역
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    @MapsId
     private User user;                  // 유저
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "bikemodel_id")
-    @MapsId
     private BikeModel bikeModel;       // 바이크 모델
 }

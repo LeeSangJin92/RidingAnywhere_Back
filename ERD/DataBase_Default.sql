@@ -5,9 +5,7 @@ create database ra_db;
 show tables ;
 
 drop table bike_garage;
-
-select * from bi
-    ke_garage;
+select * from bike_garage;
 
 # 권한 테이블 데이터 추가
 insert into authority(authority_name)

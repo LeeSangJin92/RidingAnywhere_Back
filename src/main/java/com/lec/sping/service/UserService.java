@@ -17,13 +17,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public User findByUserEmail(String userEmail){
+        return userRepository.findByUserEmail(userEmail)
+                .orElseThrow(()->new RuntimeException("❌정보 요청에 오류가 발생되었습니다"));
+    }
+
     public UserResponseDto getMyInfoBySecurity(){
         return userRepository.findByUserEmail(SecurityUtil.getCurrentUserId())
                 .map(UserResponseDto::of)
                 .orElseThrow(()->new RuntimeException("로그인 유저 정보가 없습니다."));
     }
 
-    @Transactional
     public UserResponseDto changeUserNickname(String userEmail, String userNickname){
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(()-> new RuntimeException("로그인 유저 정보가 없습니다."));
         user.setUserNickname(userNickname);
