@@ -99,30 +99,29 @@ p{
     align-items: center;
     justify-content: center;
     font-family: Hobo_BT;
-    background-color: black;
-    font-size: 35px;
-    font-weight: bold;
-    font-family: Hobo_BT;
-    color: gray;
-    text-shadow: 1px 1px whitesmoke;
-    border: 3px solid gray;
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    -webkit-text-stroke-width: 0.1px;
+    -webkit-text-stroke-color: black;
+    background-clip: text;
+    border: 3px solid orange;
     border-radius: 10px;
+    font-weight: bold;
+    font-size: 35px;
     margin-bottom: 5px;
-
+    color: transparent;
     transition: all 0.3s;
 }
 
+.Login_Button:disabled{
+    background-color: black;
+    color: gray;
+    text-shadow: 1px 1px whitesmoke;
+    border: 3px solid gray;
+    
+}
+
 .Login_Button:hover{
-    text-shadow: none;
-    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.1px;
-    -webkit-text-stroke-color: black;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
     cursor: pointer;
-    border: 3px solid orange;
 };
 
 .OAuth_Line{

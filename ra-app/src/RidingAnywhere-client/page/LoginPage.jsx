@@ -30,7 +30,6 @@ const LoginPage = () => {
             errorPW:passwordRegExp.test(request.userPassword)})
     };
 
-
     // Request 보내는 작업 영역
     const login_start = (e)=>{
         e.preventDefault();
@@ -82,6 +81,8 @@ const LoginPage = () => {
                 <div className='Login_Box'>
                     <div className='Login_InputLine'>
                         <div className='input_wrap'>
+
+                            {/* ✅ 이메일 및 비밀번호 입력 라인 */}
                             <div className='input_row'>
                                 <h2>Emaiil</h2>
                                 <input className='login_textline' name='userEmail' type='textbox' onChange={changeValue} onBlur={changeValue}/>
@@ -92,11 +93,17 @@ const LoginPage = () => {
                             </div>
                         </div>
                         <div className='input_wrap'>
+
+                            {/* ✅ 로그인 버튼 */}
                             <input type='button' className='Login_Button' value={'Login'} onClick={login_start} disabled={loginBtnAct}/>
+
+                            {/* ✅ 회원가입 버튼 */}
                             <Link to={'/RA/SignUp'}><img className='OAuth_log' src='/img/RA_icon.png' alt=''/></Link>
                         </div>
                     </div>
                 </div>
+
+                {/*❌ 에러 워드 */}
                 <p className='errorWord' name='errorEmail' style={{display:errorWord.errorEmail?'none':'block'}}>이메일 정보가 정확하지 않습니다.</p>
                 <p className='errorWord' name='errorPW' style={{display:errorWord.errorPW?'none':'block'}}>비밀번호가 정확하지 않습니다.</p>
                 <p className='errorWord' name='errorUndefined' style={{display:errorWord.errorUndefined?'none':'block'}}>등록되지 않은 이메일 정보입니다.</p>

@@ -105,7 +105,10 @@ const AddBike = () => {
                 "Content-Type": "application/json;charset=utf-8"},
             body:JSON.stringify(addBikeData)
         }).then(response => {
-            if(response.status===200) console.log("정상 받음")
+            if(response.status===200){
+                alert('✅바이크 추가가 완료 되었습니다!');
+                navigate("/RA/Home");
+            }
         })
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/signuppage.css';
 import DefaultHeader from '../component/DefaultHeader_small';
@@ -15,10 +15,10 @@ const SignupPage = () => {
         userGender:"",
         userPhone:"",
         userEmail:"",
-        emailAuth:"",
+        // emailAuth:"",
         userPassword:"",
-        userPasswordRe:"",
-        authority:""
+        userPasswordRe:""
+        // authority:""
     },[])
 
     // 입력된 정보 에러 체크 및 Display 설정 [에러문구 색상, Display 설정]
@@ -26,14 +26,18 @@ const SignupPage = () => {
         userNickname:[false,false],
         userName:[false,false],
         userBirthday:[false,false],
-        userGender:[false,false],
         userPhone:[false,false],
         userEmail:[false,false],
         emailAuth:[false,false],
         userPassword:[false,false],
-        userPasswordRe:[false,false],
-        authority:[false,false]
+        userPasswordRe:[false,false]
     },[])
+
+    // 서브밋 버튼 활성화 및 비활성화 여부 확인
+    const [disableBtn,setDisableBtn] = useState(false)
+    useEffect(()=>{
+        setDisableBtn(Object.values(dataCheck).map(data=>data[0]).includes(false))
+    },[dataCheck])
 
     // 회원 데이터 입력 설정
     const changeData = (data) =>{
@@ -93,7 +97,7 @@ const SignupPage = () => {
                 return response.json;
             }
         }).then(()=>{
-            navigate("/RA/Login");
+            navigate("/RA/AddBike");
         })
 
     }
@@ -187,7 +191,7 @@ const SignupPage = () => {
 
                 {/* 서브밋 버튼 라인 */}
                 <div className='Button_line'>
-                    <button className='btn_submit_signup' id='btnSignUp' onClick={signUpPost}>다음</button>
+                    <button className='btn_submit_signup' id='btnSignUp' disabled={disableBtn} onClick={signUpPost}>다음</button>
                 </div>
                 </div>
             </section>
