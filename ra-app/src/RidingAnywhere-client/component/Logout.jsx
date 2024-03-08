@@ -1,16 +1,24 @@
 import React from 'react';
 import "../css/logout.css"
+import { useNavigate } from 'react-router-dom';
 
-function Logout(){
+
+function Logout(props){
+
+    const navigate = useNavigate();
+    const {setLogoutBox} = props;
 
     // 로그아웃 진행 ✅
     function logoutOk(){
-        alert("로그아웃을 진행합니다.")
+        console.log("✅로그아웃 진행.")
+        sessionStorage.removeItem('accessToken');
+        navigate('/RA/Login');
     }
 
     // 로그아웃 취소 ❌
     function logoutCancel(){
-        alert("로그아웃 취소!")
+        console.log("✅로그아웃 취소.")
+        setLogoutBox(false);
     }
     return (
         <>
@@ -19,7 +27,7 @@ function Logout(){
                     <h1>⚠️ 로그아웃 ⚠️</h1>
                     <h2>- 정말 로그아웃 하시겠습니까? -</h2>
                     <div className='logoutBtnLine'>
-                        <input type='button' value={"🤗 Ok"} onClick={logoutOk}></input>
+                        <input type='button' value={"🤗 Yes"} onClick={logoutOk}></input>
                         <input type='button' value={"😎 No"} onClick={logoutCancel}></input>
                     </div>
             </div>

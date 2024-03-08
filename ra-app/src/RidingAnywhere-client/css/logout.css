@@ -1,8 +1,7 @@
 
 /* 로그아웃 메인 박스 */
 .logoutBox{
-    display: none;
-    /* display: flex; */
+    display: flex;
     position: fixed;
     background-color: black;
     top: 35%;

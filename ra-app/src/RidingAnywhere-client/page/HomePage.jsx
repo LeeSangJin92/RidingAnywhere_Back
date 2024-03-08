@@ -7,6 +7,7 @@ import OkBtnBox from '../component/OkBtnBox';
 import Logout from '../component/Logout';
 
 const HomePage = () => {
+
     // 🪙토큰 확인
     const [accessToken, setAccessToken] = useState(!sessionStorage.getItem('accessToken'))
     const checkData = async () => {
@@ -31,6 +32,12 @@ const HomePage = () => {
         } else console.log("⛔접속자에게 엑세스 없음")
     }
 
+    // 로그아웃 박스 display 컨트롤
+    const [logoutBox,setLogoutBox] = useState(false);
+    const showLogoutBox = () => {
+        setLogoutBox(true);
+    }
+
     checkData();
     return (
         <main>
@@ -43,7 +50,7 @@ const HomePage = () => {
                         <Link to="/RA/Login" className='top_tag' name="unaccesslog_btn" style={{display:!accessToken?"none":"flex"}}>log in</Link>
                         <Link to="/RA/Signup" className='top_tag' name="unaccesslog_btn" style={{display:!accessToken?"none":"flex"}}>Sign Up</Link>
                         <Link to="" className='top_tag' name="accesslog_btn" style={{display:!accessToken?"flex":"none"}}>my page</Link>
-                        <Link to="" className='top_tag' name="accesslog_btn" style={{display:!accessToken?"flex":"none"}}>log out</Link>
+                        <input type="button" className='top_tag' name="accesslog_btn" style={{display:!accessToken?"flex":"none"}} value="log out" onClick={showLogoutBox}/>
                     </div>
                     <nav className='topNav'>
                         <div className='NavMiain'>
@@ -68,7 +75,7 @@ const HomePage = () => {
                     </nav>
                 </div>
             </header>
-            <section>  {/* 메인 영역 부분*/}
+            <section className='HomeSection'>  {/* 메인 영역 부분*/}
                     <div className='CrewHome'>
                         크루 영역
                     </div>
@@ -76,7 +83,9 @@ const HomePage = () => {
                         오픈 게시판 영역
                     </div>
             </section>
-            <Logout/>
+
+            {/* ✏️ 픽스로 들어가는 태그 및 컴포넌트 */}
+            {logoutBox?<Logout setLogoutBox={setLogoutBox}/>:<></>}
             <OkBtnBox title={"테스트 제목"} context={"테스트 내용"}/>
                 <DefaultFooter/>
         </main>

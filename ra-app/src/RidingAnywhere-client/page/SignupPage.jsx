@@ -15,10 +15,8 @@ const SignupPage = () => {
         userGender:"",
         userPhone:"",
         userEmail:"",
-        // emailAuth:"",
         userPassword:"",
         userPasswordRe:""
-        // authority:""
     },[])
 
     // 입력된 정보 에러 체크 및 Display 설정 [에러문구 색상, Display 설정]
