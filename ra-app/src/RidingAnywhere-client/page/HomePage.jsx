@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../css/homepage.css';
 import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
 import OkBtnBox from '../component/OkBtnBox';
-import Logout from '../component/Logout';
+import DefaultHeader from '../component/DefaultHeader_main';
 
 const HomePage = () => {
 
@@ -31,50 +30,11 @@ const HomePage = () => {
 
         } else console.log("⛔접속자에게 엑세스 없음")
     }
-
-    // 로그아웃 박스 display 컨트롤
-    const [logoutBox,setLogoutBox] = useState(false);
-    const showLogoutBox = () => {
-        setLogoutBox(true);
-    }
-
     checkData();
+
     return (
         <main>
-            <header>    {/* 상단 타이틀 부분 */}
-                <div className='logimg'>
-                    <img src='/img/Log_img.png' id="log_img" alt='logo192.png'/>
-                </div>
-                <div className='top_line'>
-                    <div className='top_tag_line'>
-                        <Link to="/RA/Login" className='top_tag' name="unaccesslog_btn" style={{display:!accessToken?"none":"flex"}}>log in</Link>
-                        <Link to="/RA/Signup" className='top_tag' name="unaccesslog_btn" style={{display:!accessToken?"none":"flex"}}>Sign Up</Link>
-                        <Link to="" className='top_tag' name="accesslog_btn" style={{display:!accessToken?"flex":"none"}}>my page</Link>
-                        <input type="button" className='top_tag' name="accesslog_btn" style={{display:!accessToken?"flex":"none"}} value="log out" onClick={showLogoutBox}/>
-                    </div>
-                    <nav className='topNav'>
-                        <div className='NavMiain'>
-                            <h1>CREW AREA</h1>
-                            <div className='NavMenu'>
-                                <div className='NavCategory'>CREW<br/>MASTER</div>      {/*크루 설정, 생성*/}
-                                <div className='NavCategory'>CREW<br/>MANAGER</div>     {/*크루원 관리*/}
-                                <div className='NavCategory'>CREW<br/>BOARD</div>       {/*크루 게시판*/}
-                                <div className='NavCategory'>CREW<br/>PAGE</div>        {/*크루원 페이지*/}
-                                <div className='NavCategory'>CREW<br/>JOIN</div>        {/*크루원 모집*/}
-                            </div>
-                        </div>
-                        <div className='NavMiain'>
-                            <h1>RIDER AREA</h1>       
-                            <div className='NavMenu'>      
-                                <div className='NavCategory'>RIDER<br/>BOARD</div>      {/*라이더 커뮤니티*/}
-                                <div className='NavCategory'>TOUR<br/>BOARD</div>       {/*투어 게시판*/}
-                                <div className='NavCategory'>MOTO<br/>CAMPING</div>     {/*모토 캠핑 게시판*/}
-                                <div className='NavCategory'>RIDING<br/>COURSE</div>    {/*라이딩 코스 추천*/}
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </header>
+            <DefaultHeader/>
             <section className='HomeSection'>  {/* 메인 영역 부분*/}
                     <div className='CrewHome'>
                         크루 영역
@@ -85,7 +45,6 @@ const HomePage = () => {
             </section>
 
             {/* ✏️ 픽스로 들어가는 태그 및 컴포넌트 */}
-            {logoutBox?<Logout setLogoutBox={setLogoutBox}/>:<></>}
             <OkBtnBox title={"테스트 제목"} context={"테스트 내용"}/>
                 <DefaultFooter/>
         </main>

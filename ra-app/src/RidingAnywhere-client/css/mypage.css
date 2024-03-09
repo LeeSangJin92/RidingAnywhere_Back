@@ -1,0 +1,86 @@
+.myPage{
+    display: flex;
+    flex-direction: column;
+}
+
+page_tile{
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.myInfoLine{
+    border-top: 2px dotted orange;
+    border-bottom: 2px dotted orange;
+    border-spacing: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+profile{
+    margin-left: 20px;
+    width: 200px;
+    height: 100%;
+    text-align: center;
+}
+
+#profile_img{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    border-radius: 10%;
+    border:3px solid orange;
+}
+
+profile>h3{
+    color: gold;
+    margin: 0;
+}
+
+#prfile_btnLline>h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    background-color: black;
+    font-weight: bold;
+    color: gray;
+    text-shadow: 1px 1px whitesmoke;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+#prfile_btnLline>h3:hover{
+    border: 2px solid orange;
+    text-shadow: none;
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+riderInfo{
+    width: 550px;
+    margin-left: 30px;
+    border-right: 2px dotted orange;
+    border-spacing: 5px;
+}
+
+riderInfo td{
+    margin-left: 10px;
+    width: 220px;
+}
+
+riderInfo h2{
+    text-align: center;
+    margin: 10px 5px;
+}
