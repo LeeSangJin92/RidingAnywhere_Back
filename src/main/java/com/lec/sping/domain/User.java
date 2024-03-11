@@ -14,6 +14,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class User {
     @ColumnDefault("0")
     private Long userCnt;          // 유저 출석 수
     private String userState;      // 유저 상태
-    private String userProfile;    // 유저 프로필
+    @Lob
+    private byte[] userProfile;    // 유저 프로필
     @Column(nullable = false)
     private String userPassword;   // 유저 비밀번호
     @Transient

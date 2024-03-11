@@ -79,7 +79,7 @@ const MyPage = () => {
                             </div>
                             <label id='prfile_btnLline' htmlFor="profilebtn"><h3>이미지 변경</h3></label>
                             <input className='profile_btn' type='file' id="profilebtn" style={{display:'none'}} accept='.jpg, .png' onChange={profileimg}/>
-                            <h3>200px x 200px</h3>
+                            <h4>⚠️크기 : 200px x 200px</h4>
                         </profile>
                     <riderInfo>
                         <tablle>
