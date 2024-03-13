@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 630px;
+    height: 1100px;
 }
 
 .Addbike_Box{
@@ -10,7 +10,7 @@
     align-items: center;
     flex-direction: column;
     margin-top: 20px;
-    width: 700px;
+    width: 1100px;
     height: 950px;
     border: 5px solid rgb(255, 192, 0);
     border-radius: 40px;
@@ -20,16 +20,18 @@
 .addbike_line{
     width: 100%;
     display: flex;
-    justify-content: center;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    border-bottom: 5px solid orange;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .addbike_line h2{
     font-size: 20px;
     text-align: center;
     min-width: 200x;
-    margin: 10px 0;
+    margin-left: 30px;
 }
 
 .addbike_line>input{
@@ -37,13 +39,39 @@
     margin-left: 10px;
 }
 
-.btnLine{
+.addbike_line>.brandlogo_img{
+    display: flex;
+    width: 200px;
+    height: 200px;
+    
+}
+
+.brandBtnLine{
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-    width: 500px;
-    height: 100px;
+    width: 650px;
+    height: 300px;
+}
+
+.modelBtnLine{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 850px;
+    height: 400px;
+}
+
+.brandBtnLine>label{
+    margin: 10px;
+}
+
+.modelBtnLine>label{
+    margin: 20px;
 }
 
 .bikeImfo_line{
@@ -81,20 +109,18 @@
     bottom: 25px;
 }
 
-.brandBtn{
-    font-size: 15px;
+.brandBtn, .modelBtn{
+    font-size: 20px;
     color: gray;
     padding: 5px;
     border: 2px solid orange;
     border-radius: 5px;
 }
 
-.brandBtn:hover,.btn:checked+label{
-    font-size: 20px;
-    text-shadow: none;
+.brandBtn:hover,.btn:checked+label, .modelBtn:hover{
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;
-    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-width: 0.1px;
     -webkit-text-stroke-color: black;
     -webkit-background-clip: text;
     background-clip: text;

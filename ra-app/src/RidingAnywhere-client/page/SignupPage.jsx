@@ -66,7 +66,7 @@ const SignupPage = () => {
         "userNickname" : new RegExp('^([A-Za-z\\d\\uAC00-\\uD7A3\\u3131-\\u314E]){1,8}$'),
         "userName" : new RegExp('^([가-힣]){3,4}$'),
         "userBirthday" : new RegExp('^([\\d]){8,8}$'),
-        "userPhone" : new RegExp('^([\\d]){11,11}$')
+        "userPhone" : new RegExp('^(010+[\\d]{8,8})$')
     };
 
     // 회원 데이터 검증
@@ -183,8 +183,6 @@ const SignupPage = () => {
                     <label for='gender1'>남자</label>
                     <input id='gender2' name='userGender' type='radio' value='false' onChange={changeData}/>    
                     <label for='gender2'>여자</label>
-                    <input id='gender3' name='userGender' type='radio' value='null' onChange={changeData}/>    
-                    <label for='gender3'>선택안함</label>
                 </div>
 
                 {/* 서브밋 버튼 라인 */}

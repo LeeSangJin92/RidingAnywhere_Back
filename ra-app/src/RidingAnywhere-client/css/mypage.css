@@ -27,6 +27,23 @@ profile{
     text-align: center;
 }
 
+.profile_changeLine{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 30px;
+    width: 200px;
+}
+
+#profile_changeLine>img{
+    margin-left: 10px;
+    width: 70px;
+}
+
+#profile_changeLine>img:hover{
+    cursor: pointer;
+}
+
 #profile_img{
     overflow: hidden;
     display: flex;
@@ -69,7 +86,7 @@ profile>h4{
 }
 
 riderInfo{
-    width: 550px;
+    width: 470px;
     margin-left: 30px;
     border-right: 2px dotted orange;
     border-spacing: 5px;
@@ -77,10 +94,75 @@ riderInfo{
 
 riderInfo td{
     margin-left: 10px;
-    width: 220px;
+    width: 150px;
+    justify-content: center;
 }
 
 riderInfo h2{
     text-align: center;
     margin: 10px 5px;
+}
+
+.profile_inputLine{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 280px;
+}
+
+.profile_inputLine>input{
+    font-size: 20px;
+    text-align: center;
+    width: 280px;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid orange;
+    text-shadow: none;
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#userBirthday{
+    text-align: center;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile_inputLine>label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    background-color: black;
+    font-weight: bold;
+    color: gray;
+    text-shadow: 1px 1px whitesmoke;
+    border: 2px solid gray;
+    font-size: 20px;
+}
+
+.profile_inputLine>label:hover{
+    cursor: pointer;
+}
+
+.profile_inputLine>input:checked + label{
+    border: 2px solid orange;
+    text-shadow: none;
+    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }

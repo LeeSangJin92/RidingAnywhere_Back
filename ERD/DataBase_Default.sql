@@ -13,18 +13,10 @@ insert into authority(authority_name)
 values ("ROLE_RA_Member"),("ROLE_CREW_Master"),("ROLE_CREW_Named"),("ROLE_CREW_Member"),("ROLE_RA_ADMIN");
 select * from authority;
 
-# 바이크 브랜드 테이블 데이터 추가
-insert into bike_brand(bikebrand_name)
-values ("혼다"),("가와사키"),("스즈키"),("야마하"),("할리데이비슨");
-select * from bike_brand;
 
-# 바이크 모델 테이블 데이터 추가
-insert into bike_model(brand_id,model_name,model_cc)
-values (1,"슈퍼커브",110),(1,"헌터커브",125),(1,"레블500",500),
-       (2,"닌자300",300),(2,"닌자400",400),(2,"발칸",500),
-       (3,"스즈키2",300),(3,"스즈키4",600),(3,"스즈키8",900),
-       (4,"R3",300),(4,"R6",600),(4,"R9",900),
-       (5,"로드글라이드",800),(5,"스트라이드글라이드",1200),(5,"브레이크아웃",1500);
+
+
+
 select * from bike_model;
 
 delete from bike_model;

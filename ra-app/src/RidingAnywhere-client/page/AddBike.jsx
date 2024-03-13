@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddBike = () => {
     const navigate = useNavigate();
-
+    
     const [addBikeData,setAddBikeData] = useState({
         bikeBrand : "",
         bikeModel : "", 
@@ -17,10 +17,11 @@ const AddBike = () => {
         bikeState: ""
     });
 
-    const [accessToken,getAccessToken] = useState(sessionStorage.getItem('accessToken'))
-    const [modelList,setModelList] = useState(null)
-    const [brandList,setBrandList] = useState(null)
+    const [accessToken,getAccessToken] = useState(sessionStorage.getItem('accessToken'));
+    const [modelList,setModelList] = useState(null);
+    const [brandList,setBrandList] = useState(null);
     const [disabledBtn,setdisabledBtn] = useState(false);
+    const [brandlogo,setbrandlogo] = useState("");
 
     useEffect(() => {
         const getData = async()=>{
@@ -36,7 +37,7 @@ const AddBike = () => {
                 console.log("바이크 데이터 호출 완료✅");
 
                 // 바이크 브랜드 리스트 저장
-                setBrandList(data.bikeBrandList.map(brand => brand.bikebrand_name));
+                setBrandList(data.bikeBrandList.map(brand => [brand.bikebrand_name,brand.bikebrand_logo]));
 
                 // 바이크 모델 리스트 저장
                 setModelList(()=>{
@@ -52,11 +53,12 @@ const AddBike = () => {
     // 바이크 브랜드 선택
     const selectBrand = (data) => {
         let inputData = document.getElementsByClassName("bikeImfoInput");
-        inputData[0].selectedIndex = 0;  // input 데이터 초기화
-        inputData[1].selectedIndex = 0; 
+        inputData[0].selectedIndex = 0;  // 선택했던 연식 데이터 초기화
+        inputData[1].selectedIndex = 0;  // 선택했던 바이크 상태 데이터 초기화
         console.log("바이크 브랜드 선택");
+        setbrandlogo(data.target.value);
         setAddBikeData({...addBikeData,
-                        bikeBrand:data.target.value,
+                        bikeBrand:data.target.id,
                         bikeModel : "", 
                         bikeCC : "",
                         bikeYear : "",
@@ -119,17 +121,23 @@ const AddBike = () => {
                 <div className='Addbike_Box'>
 
                     {/* {/* 바이크 브랜드 설정 라인 */}
-                    <div className='addbike_line'><h2>바이크 브랜드</h2>
-                        <div className='btnLine'>
-                            {!!brandList&&brandList.map((brand)=><AddbikeBrandBtn key={brand} btnName={"brand"} brand={brand} onChange={selectBrand}/>)}
+                    <div className='addbike_line'>
+                        <h2>바이크 브랜드</h2>
+                        <div className='brandBtnLine'>
+                            {!!brandList&&brandList.map((brand)=><AddbikeBrandBtn key={brand[0]} brandName={brand[0]} brandLogo={brand[1]} logo={brand[1]} onChange={selectBrand}/>)}
                         </div>
+                            <img className='brandlogo_img' src={"/img/brand/"+brandlogo}/>
                     </div>
 
                     {/* 바이크 모델 설정 라인 */}
-                    <div className='addbike_line'><h2>바이크 모델</h2>
-                        <div className='btnLine'>
+                    <div className='addbike_line'>
+                        <h2>바이크 모델</h2>
+                        <div className='modelBtnLine'>
                             {!addBikeData.bikeBrand&&<h2>브랜드를 선택해주세요!</h2>}
-                            {!!addBikeData.bikeBrand&&modelList.filter((model)=>model.brand_name===addBikeData.bikeBrand).map((model)=><AddbikeModelBtn key={model.model_id} btnName={"model"} model={model.model_name} onChange={selectModel}/>)}
+                            {console.log(addBikeData.bikeBrand)}
+                            {!!addBikeData.bikeBrand&&modelList.filter((model)=>model.brand_name===addBikeData.bikeBrand).map((model)=><AddbikeModelBtn key={model.model_id} model={model.model_name} onChange={selectModel}/>)}
+                        </div>
+                        <div className='blockBox'>
                         </div>
                     </div>
                     <div className='bikeImfo_line'>

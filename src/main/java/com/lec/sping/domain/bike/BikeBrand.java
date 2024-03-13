@@ -16,5 +16,6 @@ public class BikeBrand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bikebrand_id;      // 바이크 브랜드 ID
     @Column(nullable = false)
-    private String bikebrand_name;    // 바이크 브랜드 명
+    private String bikebrand_name;    // 바이크 브랜드명
+    private String bikebrand_logo;    // 바이크 로고 파일명
 }
