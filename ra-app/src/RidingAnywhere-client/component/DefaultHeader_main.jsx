@@ -18,7 +18,7 @@ const DefaultHeader_main = () => {
             <header>    
                     {/* ✏️ 로고 이미지 클릭 시 홈 이동 */}    
                     <div className='log_img'>
-                        <Link to="/RA/Home"><img className='log_img' src='/img/Log_img.png' alt='logo192.png'/></Link>
+                        <Link to="/RA/Home"><img className='log_img' src='/img/Log_img.png' alt=''/></Link>
                     </div>
                     <div className='top_line'>
                         <div className='top_tag_line'>

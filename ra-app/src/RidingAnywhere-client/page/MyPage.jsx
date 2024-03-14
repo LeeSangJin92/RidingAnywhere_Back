@@ -138,6 +138,13 @@ const MyPage = () => {
         })
     }
 
+    // 🛠️ 성별 데이터 설정하기
+    const insertGender = (genderBtn) => {
+        setUpdateRider({
+            ...updateRider,userGender:[genderBtn.target.value,true]
+        })
+    }
+
     
 
     useEffect(()=>{
@@ -198,10 +205,10 @@ const MyPage = () => {
                                 <td><h2>성별</h2></td>
                                 <td style={showinput?{display:'none'}:{display:'block'}} className='profile_inputLine'><h2>{riderInfo.userGender?"여성 ♀️":"남성 ♂️"}</h2></td>
                                 <td style={showinput?{display:'flex'}:{display:'none'}} className='profile_inputLine'>
-                                    <input id='gender1' name='changeGender' type='radio' value={false} style={{display:'none'}} />
+                                    <input id='gender1' name='changeGender' type='radio' value={false} style={{display:'none'}} checked={true}/>
                                     <label for='gender1'><h3>남자 ♂️</h3></label>
-                                    <input id='gender2' name='changeGender' type='radio' value={true} style={{display:'none'}}/>    
-                                    <label for='gender2'><h3>여자 ♀️</h3></label>
+                                    <input id='gender2' name='changeGender' type='radio' value={true} style={{display:'none'}} checked={false}/>    
+                                    <label for='gender2'><h3>여자 ♀️</h3></label> 
                                 </td>
                             </tr>
                         </tablle>
