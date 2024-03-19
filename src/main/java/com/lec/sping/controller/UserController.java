@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.util.Elements;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,20 +35,21 @@ public class UserController {
         UserAllDataDto userAllDataDto = new UserAllDataDto();
         userAllDataDto.setUserData(userData);
         userAllDataDto.setBikeList(bikeList);
-
-
         return new ResponseEntity<>(userAllDataDto,HttpStatus.OK);
     }
 
-    @PostMapping("/userNickName")
-    public ResponseEntity<UserResponseDto> setUserNickName(@RequestBody UserRequestDto userRequestDto){
-        return ResponseEntity.ok(userService.changeUserNickname(userRequestDto.getUserEmail(), userRequestDto.getUserNickname()));
-    }
+    @CrossOrigin
+    @PostMapping("/UpdateUser")
+    public ResponseEntity<?> update(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ProfileUpdateDto updateData){
+        System.out.println("🛜수정을 원하는 라이더 정보 수집중...");
+        String token = authTokenHeader.substring(7);
+        User userData = userService.findByUserEmail(tokenProvider.parseClaims(token).getSubject());
+        System.out.println("✅라이더 데이터 확인 완료");
+        updateData.setUser(userData);
+        System.out.println("🛜라이더 데이터 수정 요청");
+//        userService.UpdateProfile(updateData)
 
-    @PostMapping("/userPassword")
-    public ResponseEntity<UserResponseDto> setUserPassword(@RequestBody ChangePasswordRequestDto requestDto){
-        return ResponseEntity.ok(userService.changeUserPassword(requestDto.getUserEmail(),requestDto.getExUserPassword(),requestDto.getNewUserPassword()));
+        return ResponseEntity.ok("체크!");
     }
-
 
 }

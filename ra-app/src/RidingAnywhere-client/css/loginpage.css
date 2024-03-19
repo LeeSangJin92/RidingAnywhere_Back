@@ -38,7 +38,7 @@ h1{
     color: transparent;
 }
 
-h2{
+input_row>h2{
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;

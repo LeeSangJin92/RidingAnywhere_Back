@@ -3,12 +3,15 @@ package com.lec.sping.service;
 import com.fasterxml.classmate.MemberResolver;
 import com.lec.sping.config.SecurityUtil;
 import com.lec.sping.domain.User;
+import com.lec.sping.dto.ProfileUpdateDto;
 import com.lec.sping.dto.UserResponseDto;
 import com.lec.sping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +46,19 @@ public class UserService {
         }
         user.setUserPassword(passwordEncoder.encode((newPassword)));
         return UserResponseDto.of(userRepository.save(user));
+    }
+
+    @Transactional
+    public User UpdateProfile(ProfileUpdateDto updateData) throws IOException {
+        System.out.println("🛠️유저 데이터 수정 작업중...");
+        User afterUser = updateData.getUser();
+        afterUser.setUserNickname(updateData.getUserNickname());
+        afterUser.setUserName(updateData.getUserName());
+        afterUser.setUserPhone(updateData.getUserPhone());
+        afterUser.setUserBirthday(updateData.getUserBirthday());
+        afterUser.setUserGender(updateData.isUserGender());
+        afterUser.setUserProfile(updateData.getUserProfile().getBytes());
+        System.out.println("✅유저 데이터 수정 완료");
+        return userRepository.save(afterUser);
     }
 }
