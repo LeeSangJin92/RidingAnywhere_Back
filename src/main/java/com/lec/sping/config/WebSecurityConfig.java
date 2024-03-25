@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/CheckRider").permitAll()
                 .requestMatchers("/RA/MyPage").authenticated()
                 .requestMatchers("/RA/UpdateUser").authenticated()
+                .requestMatchers("/RA/UpdataImage").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

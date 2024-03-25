@@ -18,3 +18,6 @@ select * from open_commit;
 select * from tour_attendance;
 select * from tour_board;
 select * from user;
+select * from bike_garage;
+
+show tables;

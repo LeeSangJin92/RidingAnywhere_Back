@@ -29,7 +29,7 @@ const AddBike = () => {
                 alert("⚠️로그인이 필요한 페이지 입니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
                 navigate("/RA/Login");
             }
-            else await fetch("http://localhost:8080/RA/BikeModel")
+            else await fetch("/RA/BikeModel")
             .then(response => {
                 console.log("바이크 데이터 호출 시도🛜")
                 if(response.status===200) return response.json();
@@ -100,7 +100,7 @@ const AddBike = () => {
     // 입력한 바이크 데이터 저장
     const sendAddBikeData = () => {
         console.log("🛜바이크 데이터 서버로 전송")
-        fetch("http://localhost:8080/RA/AddBike",{
+        fetch("/RA/AddBike",{
             method: "POST",
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,

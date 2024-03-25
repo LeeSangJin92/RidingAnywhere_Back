@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-page_tile{
+.page_tile{
     margin-top: 10px;
     margin-left: 30px;
     margin-bottom: 10px;
@@ -19,7 +19,7 @@ page_tile{
     height: 600px;
 }
 
-profile{
+.profile{
     width: 730px;
     height: 600px;
     display: flex;
@@ -27,7 +27,7 @@ profile{
     border-right: 2px dotted orange;
 }
 
-profile_top{
+.profile_top{
     width: 100%;
     height: 70px;
     text-align: center;
@@ -43,7 +43,7 @@ profile_top{
     color: transparent;
 }
 
-profile_seccsion{
+.profile_seccsion{
     width: 730px;
     height: 600px;
     display: flex;
@@ -66,7 +66,7 @@ profile_seccsion{
     cursor: pointer;
 }
 
-profile_img{
+.profile_img{
     margin-left: 20px;
     padding-top: 50px;
     display: flex;
@@ -124,17 +124,17 @@ profile_img>h4{
     color: transparent;
 }
 
-riderInfo, riderInfo>table{
+.riderInfo, .riderInfo>table{
     margin-top: 10px;
     width: 500px;
 }
 
-riderInfo tr{
+.riderInfo tr{
     height: 80px;
     align-items: center;
 }
 
-riderInfo h2{
+.riderInfo h2{
     text-align: center;
     margin: 10px 0;
 }
@@ -223,7 +223,7 @@ riderInfo h2{
     color: transparent;
 }
 
-riderInfo h2, profile>h2{
+.riderInfo h2, profile>h2{
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;

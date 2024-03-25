@@ -14,7 +14,7 @@ const HomePage = () => {
         if(!accessToken){
             console.log("✅접속자에게 엑세스 있음!")
             console.log("🛜라이더 데이터 확인 중...")
-            await fetch("http://localhost:8080/RA/CheckRider",
+            await fetch("/RA/CheckRider",
             {headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                 "Content-Type": "application/json;charset=utf-8"}})

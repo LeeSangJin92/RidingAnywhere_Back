@@ -36,7 +36,10 @@ values ("관리1","이름1","20231231",true,"010-1111-1234","test1@naver.com","�
 
 select * from user;
 
+
+
 delete from user;
+delete from bike_garage;
 
 
 

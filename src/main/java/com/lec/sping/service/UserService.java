@@ -10,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @Service
 @RequiredArgsConstructor
@@ -31,25 +34,8 @@ public class UserService {
                 .orElseThrow(()->new RuntimeException("로그인 유저 정보가 없습니다."));
     }
 
-    public UserResponseDto changeUserNickname(String userEmail, String userNickname){
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(()-> new RuntimeException("로그인 유저 정보가 없습니다."));
-        user.setUserNickname(userNickname);
-        return UserResponseDto.of(userRepository.save(user));
-    }
-
     @Transactional
-    public UserResponseDto changeUserPassword(String userEmail, String exPassword, String newPassword){
-        User user = userRepository.findByUserEmail(SecurityUtil.getCurrentUserId())
-                .orElseThrow(()-> new RuntimeException("로그인 유저 정보가 없습니다."));
-        if(!passwordEncoder.matches(exPassword, user.getUserPassword())){
-            throw new RuntimeException("비밀번호가 맞지 않습니다.");
-        }
-        user.setUserPassword(passwordEncoder.encode((newPassword)));
-        return UserResponseDto.of(userRepository.save(user));
-    }
-
-    @Transactional
-    public User UpdateProfile(ProfileUpdateDto updateData) throws IOException {
+    public User UpdateProfile(ProfileUpdateDto updateData) {
         System.out.println("🛠️유저 데이터 수정 작업중...");
         User afterUser = updateData.getUser();
         afterUser.setUserNickname(updateData.getUserNickname());
@@ -57,8 +43,18 @@ public class UserService {
         afterUser.setUserPhone(updateData.getUserPhone());
         afterUser.setUserBirthday(updateData.getUserBirthday());
         afterUser.setUserGender(updateData.isUserGender());
-        afterUser.setUserProfile(updateData.getUserProfile().getBytes());
         System.out.println("✅유저 데이터 수정 완료");
         return userRepository.save(afterUser);
+    }
+
+    @Transactional
+    public User UpdateImage(User afteruser, MultipartFile updateImg) throws IOException, SQLException {
+        System.out.println("🛠️유저 프로필 이미지 수정중...");
+        byte[] imageBytes = updateImg.getBytes();
+        Blob profile = new javax.sql.rowset.serial.SerialBlob(imageBytes);
+        afteruser.setUserProfile(profile);
+        System.out.println(afteruser);
+        System.out.println("✅유저 프로필 이미지 수정 완료");
+        return userRepository.save(afteruser);
     }
 }

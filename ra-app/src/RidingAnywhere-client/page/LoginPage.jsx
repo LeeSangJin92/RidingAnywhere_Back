@@ -57,7 +57,7 @@ const LoginPage = () => {
     // Request 보내는 작업 영역
     const login_start = (e)=>{
         e.preventDefault();
-        fetch("http://localhost:8080/RA/Login",{
+        fetch("/RA/Login",{
             method: "POST", 
             headers: {
                 // 전송되는 데이터 타입 옵션 설정!

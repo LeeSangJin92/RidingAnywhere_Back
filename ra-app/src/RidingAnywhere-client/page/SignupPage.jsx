@@ -79,7 +79,7 @@ const SignupPage = () => {
     const signUpPost = (e) => {
         e.preventDefault();
         setUserData({...userData,authority:'1'})
-        fetch("http://localhost:8080/RA/Signup",{
+        fetch("/RA/Signup",{
             method: "POST", 
             headers: {
                 "Content-Type": "application/json;charset=utf-8",       // 전송되는 데이터 타입 옵션 설정!
@@ -103,7 +103,7 @@ const SignupPage = () => {
 
     // 이메일 인증 번호 전송
     const sendEmailAuth = () => {
-        fetch("http://localhost:8080/RA/SignUp/Email",{
+        fetch("/RA/SignUp/Email",{
             method: "POST",
             headers:{
                 "Content-Type": "application/json;charset=utf-8"},

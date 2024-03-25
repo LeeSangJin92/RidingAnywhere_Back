@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ public class UserAllDataDto {
 
     private List<BikeGarage> bikeList = new ArrayList<>();
     private User userData = new User();
-
     public UserAllDataDto setData(User user, List<BikeGarage> bikeGarages){
         return UserAllDataDto.builder().bikeList(bikeGarages).userData(user).build();
     }

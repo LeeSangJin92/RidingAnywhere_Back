@@ -2,6 +2,7 @@ package com.lec.sping.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lec.sping.domain.bike.BikeGarage;
 import com.lec.sping.domain.camping.CampingAttendance;
 import com.lec.sping.domain.course.CourseBoard;
@@ -40,7 +41,8 @@ public class User {
     private Long userCnt;          // 유저 출석 수
     private String userState;      // 유저 상태
     @Lob
-    private byte[] userProfile;    // 유저 프로필
+    @JsonSerialize(using = ByteArraySerializer.class)
+    private Blob userProfile;    // 유저 프로필
     @Column(nullable = false)
     private String userPassword;   // 유저 비밀번호
     @Transient
