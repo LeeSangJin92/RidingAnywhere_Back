@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/CheckRider")
-    public ResponseEntity<?> getMyUserInfo(@RequestHeader("Authorization") String authTokenHeader){
+    public ResponseEntity<?> getMyUserInfo(@RequestHeader("Authorization") String authTokenHeader) throws SQLException {
         System.out.println("🛜라이더 데이터 조회중...");
         String token = authTokenHeader.substring(7);
         User userData = userService.findByUserEmail(tokenProvider.parseClaims(token).getSubject());
@@ -37,6 +39,7 @@ public class UserController {
         UserAllDataDto userAllDataDto = new UserAllDataDto();
         userAllDataDto.setUserData(userData);
         userAllDataDto.setBikeList(bikeList);
+        System.out.println(userAllDataDto);
         return new ResponseEntity<>(userAllDataDto,HttpStatus.OK);
     }
 

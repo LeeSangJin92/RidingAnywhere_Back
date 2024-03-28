@@ -45,9 +45,6 @@ const MyPage = () => {
             }).then(data => {
                 console.log("✅라이더 데이터 수집 완료!");
                 let userData = data.userData;
-                const blob = new Blob([userData.userProfile], { type: 'image/jpeg' });
-                blob.lastModifiedDate = new Date();
-                blob.name = "RA_Profile";
                 setriderInfo({...riderInfo,
                     userEmail : userData.userEmail,
                     userName : userData.userName,
@@ -56,8 +53,7 @@ const MyPage = () => {
                     userGender : userData.userGender,
                     userPhone : userData.userPhone
                 });
-                console.log(blob)
-                setprofile(URL.createObjectURL(blob));
+                setprofile('data:image/png;base64,'+userData.userProfile);
                 if(data.bikeList.length===0){
                     console.log("⚠️입력된 바이크 정보가 없습니다.")
                 }
@@ -71,6 +67,7 @@ const MyPage = () => {
        const imagefile = data.target.files[0];
        const imageUrl = URL.createObjectURL(imagefile);
        setprofile(imageUrl);
+       console.log(imagefile)
        updateImg(imagefile);
    }
 
@@ -88,6 +85,9 @@ const MyPage = () => {
         console.log("✅요청 수신 완료!");
         console.log(response);
         console.log("✅ 이미지 변경이 완료 되었습니다.")
+        if(response.status===200) return response.json();
+    }).then(data=>{
+        console.log(data)
     }).catch(error=>{
         console.log(error);
     })

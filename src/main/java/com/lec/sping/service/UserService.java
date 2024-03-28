@@ -50,8 +50,7 @@ public class UserService {
     @Transactional
     public User UpdateImage(User afteruser, MultipartFile updateImg) throws IOException, SQLException {
         System.out.println("🛠️유저 프로필 이미지 수정중...");
-        byte[] imageBytes = updateImg.getBytes();
-        Blob profile = new javax.sql.rowset.serial.SerialBlob(imageBytes);
+        Blob profile = new javax.sql.rowset.serial.SerialBlob(updateImg.getBytes());
         afteruser.setUserProfile(profile);
         System.out.println(afteruser);
         System.out.println("✅유저 프로필 이미지 수정 완료");

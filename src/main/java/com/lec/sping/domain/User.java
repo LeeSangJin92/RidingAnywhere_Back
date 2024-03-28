@@ -41,7 +41,6 @@ public class User {
     private Long userCnt;          // 유저 출석 수
     private String userState;      // 유저 상태
     @Lob
-    @JsonSerialize(using = ByteArraySerializer.class)
     private Blob userProfile;    // 유저 프로필
     @Column(nullable = false)
     private String userPassword;   // 유저 비밀번호
