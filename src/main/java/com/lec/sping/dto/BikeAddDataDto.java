@@ -17,5 +17,5 @@ public class BikeAddDataDto {
     private String bikeModel;   // 바이크 모델
     private String bikeCC;      // 바이크 배기량
     private String bikeYear;    // 바이크 연식
-    private String bikeState;   // 바이크 상태
+    private Boolean bikeSelect; // 바이크 대표선택
 }

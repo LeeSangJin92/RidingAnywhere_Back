@@ -14,7 +14,7 @@ const AddBike = () => {
         bikeModel : "", 
         bikeCC : "",
         bikeYear : "",
-        bikeState: ""
+        bikeSelect: false
     });
 
     const [accessToken,getAccessToken] = useState(sessionStorage.getItem('accessToken'));
@@ -54,7 +54,6 @@ const AddBike = () => {
     const selectBrand = (data) => {
         let inputData = document.getElementsByClassName("bikeImfoInput");
         inputData[0].selectedIndex = 0;  // 선택했던 연식 데이터 초기화
-        inputData[1].selectedIndex = 0;  // 선택했던 바이크 상태 데이터 초기화
         console.log("바이크 브랜드 선택");
         setbrandlogo(data.target.value);
         setAddBikeData({...addBikeData,
@@ -62,7 +61,7 @@ const AddBike = () => {
                         bikeModel : "", 
                         bikeCC : "",
                         bikeYear : "",
-                        bikeState: ""});
+                        bikeSelect: false});
     }
 
 
@@ -83,14 +82,6 @@ const AddBike = () => {
         (setAddBikeData(!!inputData.target.value?       
             {...addBikeData,bikeYear : inputData.target.value}:
             {...addBikeData,bikeYear : ""}));
-    }
-
-    // 바이크 상태 선택
-    const selectState = (inputData) => {
-        console.log("바이크 상태 선택");
-        (setAddBikeData(!!inputData.target.value?
-            {...addBikeData,bikeState : inputData.target.value}:
-            {...addBikeData,bikeState : ""}));
     }
 
     useEffect(()=>{
@@ -190,15 +181,6 @@ const AddBike = () => {
                             <option value="1982">1982</option>
                             <option value="1981">1981</option>
                             <option value="1980">1980</option>
-                        </select>
-                        <h2>상태</h2>   
-                        <select onChange={selectState} className='bikeImfoInput'>
-                            <option value="">선택하세요.</option>
-                            <option value="운행중">운행중</option>
-                            <option value="대기중">대기중</option>
-                            <option value="수리중">수리중</option>
-                            <option value="인수중">인수중</option>
-                            <option value="폐차중">폐차중</option>
                         </select>
                     </div>
                     <div className='button_line'>

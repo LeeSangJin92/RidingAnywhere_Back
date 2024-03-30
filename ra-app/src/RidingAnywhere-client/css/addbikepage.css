@@ -117,7 +117,7 @@
     border-radius: 5px;
 }
 
-.brandBtn:hover,.btn:checked+label, .modelBtn:hover{
+.brandBtn:hover,.btn:checked+label, .modelBtn:hover, .Section_addbike h2{
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;
     -webkit-text-stroke-width: 0.1px;

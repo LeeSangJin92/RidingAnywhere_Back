@@ -14,8 +14,8 @@ public class BikeGarage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long bikegarage_id;          // 내 바이크 Id
-    private String bike_state;          // 바이크 상태 (고장, 정비, 사고 등...)
     private String bike_year;           // 바이크 연식
+    private Boolean bike_select;        // 대표 바이크
 
     // FK 영역
     @JsonIgnore

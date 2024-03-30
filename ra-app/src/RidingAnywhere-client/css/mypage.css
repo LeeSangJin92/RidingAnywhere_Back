@@ -15,12 +15,13 @@
     border-spacing: 5px;
     display: flex;
     width: 100%;
+    justify-content: space-around;
     align-items: center;
     height: 600px;
 }
 
 .profile{
-    width: 730px;
+    width: 700px;
     height: 600px;
     display: flex;
     flex-direction: column;
@@ -44,7 +45,7 @@
 }
 
 .profile_seccsion{
-    width: 730px;
+    width: 700px;
     height: 600px;
     display: flex;
     justify-content: space-between;
@@ -54,7 +55,71 @@
     position: absolute;
     display: flex;
     justify-content: end;
-    width: 720px;
+    padding-top: 10px;
+    padding-right: 20px;
+    width: 700px;
+}
+
+.bikeData{
+    display: flex;
+    flex-direction: column;
+    width: 560px;
+}
+
+.bikeLine, .crewLine{
+    width: 555px;
+    height: 300px;
+    text-align: center;
+    border-bottom: 1px dotted orange;
+}
+
+.bikeInfo{
+    display: flex;
+    height: 150px;
+    justify-content: space-between;
+}
+
+.bikeInfoLine{
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    gap: 15px;
+}
+
+.InfoBox{
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.InfoBox div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.InfoBox .bikeDataLine{
+    flex-direction: column;
+    margin-top: 5px;
+    width: 50px;
+}
+
+.InfoBox .bikeNameLine{
+    width: 150px;
+    height: 50px;
+}
+
+.InfoBox h4{
+    margin: 0;
+    text-wrap: wrap;
+}
+
+.InfoBox img{
+    width: 100px;
+    height: 100px;
 }
 
 #profile_changeLine>img{
@@ -126,7 +191,7 @@ profile_img>h4{
 
 .riderInfo, .riderInfo>table{
     margin-top: 10px;
-    width: 500px;
+    width: 450px;
 }
 
 .riderInfo tr{

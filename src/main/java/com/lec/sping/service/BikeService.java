@@ -35,7 +35,7 @@ public class BikeService {
 
     public BikeGarage addBikeData(BikeAddDataDto addData){
         User user = userRepository.findByUserEmail(addData.getUserEmail()).orElseThrow(()->new NullPointerException("존재하지 않은 유저입니다."));
-
+        System.out.println("바이크 모델 생성중..");
         BikeModel bikeModel = bikeModelRepository.findBymodel_nameAndmodel_cc(addData.getBikeModel(),addData.getBikeCC());
         System.out.println("통과");
         System.out.println(bikeModel);
@@ -43,8 +43,8 @@ public class BikeService {
         BikeGarage bikeGarage = new BikeGarage();
         bikeGarage.setUser(user);
         bikeGarage.setBikeModel(bikeModel);
-        bikeGarage.setBike_state(addData.getBikeState());
         bikeGarage.setBike_year(addData.getBikeYear());
+        bikeGarage.setBike_select(addData.getBikeSelect());
         System.out.println("✅"+bikeGarage);
         return bikeAddRepository.save(bikeGarage);
     }

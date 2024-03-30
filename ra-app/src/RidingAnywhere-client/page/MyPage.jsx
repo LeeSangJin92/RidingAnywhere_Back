@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
+import BikeInfoBox from '../component/mypage/BikeInfoBox';
 import "../css/mypage.css"
 
 const MyPage = () => {
@@ -22,7 +23,7 @@ const MyPage = () => {
     const [crewInfo, setcrewInfo] = useState({})
 
     // 🏍️ 오토바이 정보
-    const [bikeInfo, setbikeInfo] = useState({})
+    const [bikeInfo, setbikeInfo] = useState()
 
     useEffect(()=>{
         checkData();
@@ -57,9 +58,26 @@ const MyPage = () => {
                 if(data.bikeList.length===0){
                     console.log("⚠️입력된 바이크 정보가 없습니다.")
                 }
+                else {
+                    setbikeInfo(data.bikeList.map((data,index)=>{
+                        console.log("바이크 데이터",data)
+                        const bikeData = {
+                            bike_index:index,
+                            bike_year:data.bike_year,
+                            bike_cc:data.bikeModel.model_cc,
+                            bike_select:data.bike_select,
+                            model_name:data.bikeModel.model_name,
+                            bikebrand_logo:data.bikeModel.bikebrand_id.bikebrand_logo,
+                        }
+                        return bikeData
+                    }))
+                    console.log("바이크 데이터 수집 완료")}
+                
             })
         } else console.log("⛔접속자에게 엑세스 없음")
     }
+
+    
 
     // 📷 프로필 이미지 관련 라인
     const [profile,setprofile] = useState(null)
@@ -228,7 +246,6 @@ const MyPage = () => {
         if(data===riderInfo.userGender) setcheckBtn({...updateBtnAct,userGender:"/img/mypage/SaveBtnOff.png"});
         else setcheckBtn({...updateBtnAct,userGender:"/img/mypage/SaveBtnOn.png"});
     }
-
     return (
         <main>
             <DefaultHeader/>
@@ -237,77 +254,91 @@ const MyPage = () => {
                 <div className='page_tile'>
                     <h1>마이 페이지</h1>
                 </div>
-
-                    <div className='myInfoLine'>
-                        <div className='profile'>
-                            <div className='profile_top'>
-                                <h1>프로필</h1>
-                                <div className='profile_changeLine'>
-                                    {/* 수정, 취소 버튼 라인 */}
-                                    <label id='profile_changeLine' htmlFor='profile_changebtn'><img src={changeBtnAct} alt=''></img></label>
-                                    <input type='button' className='profile_changebtn' id='profile_changebtn' style={{display:'none'}} onClick={profileControl}/>
-                                </div>
-                            </div>
-                            <div className='profile_seccsion'>
-                                <div className='profile_img'>
-                                    <div id='profile_img'>
-                                        <img src={profile===null?'/img/mypage/DefaultProfileImg.png':profile} alt=''/>
-                                    </div>
-                                    <label id='prfile_btnLline' htmlFor="profilebtn" style={showinput?{display:'block'}:{display:'none'}}><h3>이미지 변경</h3></label>
-                                    <input className='profile_btn' type='file' id="profilebtn" style={{display:'none'}} accept='.jpg, .png' onChange={profileimg}/>
-                                    <h4 style={showinput?{display:'block'}:{display:'none'}}>⚠️크기 : 200px x 200px</h4>
-                                </div>
-                                <div className='riderInfo'>
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td><h2>이메일</h2></td>
-                                            <td><h2>{riderInfo.userEmail}</h2></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h2>닉네임</h2></td>
-                                            <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userNickname}</h2></td>
-                                            <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userNickname' id='userNickname' placeholder={riderInfo.userNickname} type='text' onChange={insertData}/></td>
-                                            <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userNickname'><img src={updateBtnAct.userNickname} alt=''></img></label><input id='save_userNickname' name='userNickname' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h2>이름</h2></td>
-                                            <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userName}</h2></td>
-                                            <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userName' id='userName' placeholder={riderInfo.userName} type='text' onChange={insertData}/></td>
-                                            <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userName'><img src={updateBtnAct.userName} alt=''></img></label><input id='save_userName' name='userName' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h2>연락처</h2></td>
-                                            <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userPhone}</h2></td>
-                                            <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userPhone' id='userPhone' placeholder={riderInfo.userPhone} type='text' maxLength={11} onChange={insertData}/></td>
-                                            <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userPhone'><img src={updateBtnAct.userPhone} alt=''></img></label><input id='save_userPhone' name='userPhone' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h2>생일</h2></td>
-                                            <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userBirthday}</h2></td>
-                                            <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input name='userBirthday' id='userBirthday' placeholder={riderInfo.userBirthday} type='text' maxLength={8} onChange={insertData}/></td>
-                                            <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userBirthday'><img src={updateBtnAct.userBirthday} alt=''></img></label><input id='save_userBirthday' name='userBirthday' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h2>성별</h2></td>
-                                            <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userGender?"여성 ♀️":"남성 ♂️"}</h2></td>
-                                            <td style={showinput?{display:'flex'}:{display:'none'}} className='profile_inputLine' name='changeGender'>
-                                                <input id='gender1' name='genderBtn' type='radio' value={false} style={{display:'none'}} onClick={insertGender} defaultChecked={!updateRider.userGender}/>
-                                                <label htmlFor='gender1'><h3>남자 ♂️</h3></label>
-                                                <input id='gender2' name='genderBtn' type='radio' value={true} style={{display:'none'}}  onClick={insertGender} defaultChecked={updateRider.userGender}/>    
-                                                <label htmlFor='gender2'><h3>여자 ♀️</h3></label> 
-                                            </td>
-                                            <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userGender'><img src={updateBtnAct.userGender} alt=''></img></label><input id='save_userGender' name='userGender' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                    </div>
-                    <div className='bikeData'>
-                            <div>
+                <div className='myInfoLine'>
+                    {/* ✏️ 라이더 프로필 범위 */}
+                    <div className='profile'>
+                        <div className='profile_top'>
+                            <h1>프로필</h1>
+                            <div className='profile_changeLine'>
+                                {/* 수정, 취소 버튼 라인 */}
+                                <label id='profile_changeLine' htmlFor='profile_changebtn'><img src={changeBtnAct} alt=''></img></label>
+                                <input type='button' className='profile_changebtn' id='profile_changebtn' style={{display:'none'}} onClick={profileControl}/>
                             </div>
                         </div>
+                        <div className='profile_seccsion'>
+                            <div className='profile_img'>
+                                <div id='profile_img'>
+                                    <img src={profile===null?'/img/mypage/DefaultProfileImg.png':profile} alt=''/>
+                                </div>
+                                <label id='prfile_btnLline' htmlFor="profilebtn" style={showinput?{display:'block'}:{display:'none'}}><h3>이미지 변경</h3></label>
+                                <input className='profile_btn' type='file' id="profilebtn" style={{display:'none'}} accept='.jpg, .png' onChange={profileimg}/>
+                                <h4 style={showinput?{display:'block'}:{display:'none'}}>⚠️크기 : 200px x 200px</h4>
+                            </div>
+                            <div className='riderInfo'>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td><h2>이메일</h2></td>
+                                        <td><h2>{riderInfo.userEmail}</h2></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>닉네임</h2></td>
+                                        <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userNickname}</h2></td>
+                                        <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userNickname' id='userNickname' placeholder={riderInfo.userNickname} type='text' onChange={insertData}/></td>
+                                        <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userNickname'><img src={updateBtnAct.userNickname} alt=''></img></label><input id='save_userNickname' name='userNickname' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>이름</h2></td>
+                                        <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userName}</h2></td>
+                                        <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userName' id='userName' placeholder={riderInfo.userName} type='text' onChange={insertData}/></td>
+                                        <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userName'><img src={updateBtnAct.userName} alt=''></img></label><input id='save_userName' name='userName' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>연락처</h2></td>
+                                        <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userPhone}</h2></td>
+                                        <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input className='profile_text' name='userPhone' id='userPhone' placeholder={riderInfo.userPhone} type='text' maxLength={11} onChange={insertData}/></td>
+                                        <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userPhone'><img src={updateBtnAct.userPhone} alt=''></img></label><input id='save_userPhone' name='userPhone' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>생일</h2></td>
+                                        <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userBirthday}</h2></td>
+                                        <td style={showinput?{display:'table-cell'}:{display:'none'}} className='profile_inputLine'><input name='userBirthday' id='userBirthday' placeholder={riderInfo.userBirthday} type='text' maxLength={8} onChange={insertData}/></td>
+                                        <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userBirthday'><img src={updateBtnAct.userBirthday} alt=''></img></label><input id='save_userBirthday' name='userBirthday' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>성별</h2></td>
+                                        <td style={showinput?{display:'none'}:{display:'table-cell'}} className='profile_inputLine'><h2>{riderInfo.userGender?"여성 ♀️":"남성 ♂️"}</h2></td>
+                                        <td style={showinput?{display:'flex'}:{display:'none'}} className='profile_inputLine' name='changeGender'>
+                                            <input id='gender1' name='genderBtn' type='radio' value={false} style={{display:'none'}} onClick={insertGender} defaultChecked={!updateRider.userGender}/>
+                                            <label htmlFor='gender1'><h3>남자 ♂️</h3></label>
+                                            <input id='gender2' name='genderBtn' type='radio' value={true} style={{display:'none'}}  onClick={insertGender} defaultChecked={updateRider.userGender}/>    
+                                            <label htmlFor='gender2'><h3>여자 ♀️</h3></label> 
+                                        </td>
+                                        <td className='saveBtn_Line'><label style={showinput?{display:'table-cell'}:{display:'none'}} htmlFor='save_userGender'><img src={updateBtnAct.userGender} alt=''></img></label><input id='save_userGender' name='userGender' type='button' onClick={checkUpdata} style={{display:'none'}}/></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* ✏️ 크루 및 바이크 범위*/}
+                    <div className='bikeData'>
+                        <div className='bikeLine'>
+                            <h1>바이크</h1>
+                            <div className='bikeInfo'>
+                                <input type='button'/>
+                                <div className='bikeInfoLine'>
+                                    {console.log(bikeInfo)}
+                                    {!!bikeInfo&&bikeInfo.map((bikeData) => <BikeInfoBox key={bikeData.bike_index} data={bikeData}/>)}
+                                </div>
+                                <input type='button'/>
+                            </div>
+                        </div>
+                        <div className='crewLine'>
+                            <h1>크루</h1>
+                        </div>
+                    </div>
                 </div>
             </section>
             <DefaultFooter/>

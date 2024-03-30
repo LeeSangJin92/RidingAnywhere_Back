@@ -57,11 +57,11 @@ public class User {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "authorityId")
-    private Authority authorityId;    // 유저 권한
+    private Authority authorityId;        // 유저 권한
 
     @ManyToOne
     @JoinColumn(name = "crewId")
-    private Crew crew;              // 소속 크루
+    private Crew crew;                    // 소속 크루
 
     @OneToOne(mappedBy = "user")
     private Crew createcrew;              // 생성한 크루
