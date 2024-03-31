@@ -1,5 +1,6 @@
 package com.lec.sping.controller;
 
+import com.lec.sping.domain.bike.BikeGarage;
 import com.lec.sping.dto.BikeAddDataDto;
 import com.lec.sping.dto.BikeAllDataDto;
 import com.lec.sping.dto.BikeSelectDataDto;
@@ -45,8 +46,16 @@ public class BikeController {
     @CrossOrigin
     @PostMapping("/SelectBike")
     public ResponseEntity<?> selectBikeData(@RequestBody BikeSelectDataDto bikeSelectData){
-        System.out.println("🛜대표 바이크 수정 작업 시작...");
+        System.out.println("🛜대표 바이크 수정 작업 시작");
         bikeService.changeSelectBike(bikeSelectData);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/DeleteBike")
+    public ResponseEntity<?> deleteBikeData(@RequestBody BikeGarage bikeData, @RequestHeader("Authorization") String authTokenHeader){
+        String token = authTokenHeader.substring(7);
+        System.out.println("️🛜바이크 제거 작업 시작");
+        return new ResponseEntity<>(bikeService.deleteBike(bikeData,tokenProvider.parseClaims(token).getSubject()), HttpStatus.OK);
     }
 }

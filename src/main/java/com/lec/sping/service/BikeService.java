@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,4 +73,14 @@ public class BikeService {
         return result;
     }
 
+    /*🛠️바이크 제거 작업*/
+    public List<BikeGarage> deleteBike(BikeGarage bikeData, String userEmail) {
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 유저입니다."));
+        System.out.println("🔎바이크 조회중...");
+        BikeGarage deleteBikeData = bikeGarageRepository.findById(bikeData.getBikegarage_id()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않은 바이크 입니다."));
+        System.out.println("🛠️바이크 제거 작업중...");
+        bikeGarageRepository.delete(deleteBikeData);
+        System.out.println("✅바이크 제거 완료");
+        return bikeGarageRepository.findAllByUser(user);
+    }
 }

@@ -265,17 +265,17 @@ const MyPage = () => {
     
     const bikeControl = (btn) => {
         let resultIndex = btn.target.id==="showBikeUp"?showBike+1:showBike-1;
-
         if(resultIndex>=0&&bikeInfo.length-1>=resultIndex) {
             setShowBike(resultIndex)
             setBikeSelectBtn(bikeInfo[resultIndex].bike_select?{backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"}:{backgroundImage:"url('/img/mypage/BikeSelectBtnOn.png')"})
+            setBikeDeleteBtn(bikeInfo[resultIndex].bike_select?{backgroundImage:"url('/img/mypage/BikeDeleteBtnOff.png')"}:{backgroundImage:"url('/img/mypage/BikeDeleteBtnOn.png')"})
         }
     }
 
     // 🛠️ 바이크 설정 관련 버튼 배경이미지
     const [bikeAddBtn, setBikeAddBtn] = useState({backgroundImage:"url('/img/mypage/BikeAddBtnOn.png')"})
     const [bikeSelectBtn, setBikeSelectBtn] = useState({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"})
-    const [bikeDeleteBtn, setBikeDeleteBtn] = useState({backgroundImage:"url('/img/mypage/BikeDeleteBtnOn.png')"})
+    const [bikeDeleteBtn, setBikeDeleteBtn] = useState({backgroundImage:"url('/img/mypage/BikeDeleteBtnOff.png')"})
 
     useEffect(()=>{
         if(!!bikeInfo){
@@ -293,27 +293,69 @@ const MyPage = () => {
 
     // 🛠️ 대표 바이크로 선택하기
     const bikeSelect = async () => {
-        let requestData = {
-            beforBikeId:bikeInfo[selectBike].bike_id,
-            afterBikeId:bikeInfo[showBike].bike_id
+        if(bikeInfo[selectBike].bike_id===bikeInfo[showBike].bike_id) alert("⚠️이미 대표로 선정된 바이크 입니다.⚠️")
+        else {
+            console.log("🛠️ 대표 바이크 수정 작업")
+            let requestData = {
+                beforBikeId:bikeInfo[selectBike].bike_id,
+                afterBikeId:bikeInfo[showBike].bike_id
+            }
+        
+            console.log("🛜 서버 작업 진행중...")
+            await fetch("/RA/SelectBike",
+            {   
+                method: "POST",
+                headers:{
+                    "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    "Content-Type": "application/json;charset=utf-8"},
+                body:JSON.stringify(requestData)
+            }).then(response=>{
+                if(response.status===200) console.log("✅ 대표 바이크 수정 완료");
+                else console.log("❌ 대표 바이크 수정 실패");
+                checkData();
+                setBikeSelectBtn({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"});
+                setBikeDeleteBtn({backgroundImage:"url('/img/mypage/BikeDeleteBtnOff.png')"});
+            })
         }
-
-        console.log("🛜 대표 바이크 수정중...")
-        await fetch("/RA/SelectBike",
-        {   
-            method: "POST",
-            headers:{
-                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
-                "Content-Type": "application/json;charset=utf-8"},
-            body:JSON.stringify(requestData)
-        }).then(response=>{
-            if(response.status==200) console.log("✅ 대표 바이크 수정 완료");
-            else console.log("❌ 대표 바이크 수정 실패");
-            checkData();
-            setBikeSelectBtn({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"});
-        })
     }
 
+    // 🗑️ 바이크 제거
+    const bikeDelete = async () => {
+        console.log("🛠️ 바이크 제거 작업 중...")
+        if(bikeInfo[showBike].bike_select) alert("⚠️ 대표 바이크는 제거가 불가능합니다.⚠️")
+        else {
+            let deleteBikeId = {bikegarage_id:bikeInfo[showBike].bike_id}
+            await fetch("/RA/DeleteBike",
+            {
+                method: "POST",
+                headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"},
+                body:JSON.stringify(deleteBikeId)
+            }).then(response=>{
+                if(response.status===200) {
+                    console.log("✅ 바이크 제거 완료");
+                    return response.json();
+                }
+            else console.log("❌ 바이크 삭제 작업 실패");    
+            }).then(data=>{
+                setbikeInfo(data.map((data,index)=>{
+                    const bikeData = {
+                        bike_index:index,
+                        bike_id:data.bikegarage_id,
+                        bike_year:data.bike_year,
+                        bike_cc:data.bikeModel.model_cc,
+                        bike_select:data.bike_select,
+                        model_name:data.bikeModel.model_name,
+                        bikebrand_logo:data.bikeModel.bikebrand_id.bikebrand_logo,
+                    }
+                    return bikeData
+                }));
+                setBikeSelectBtn({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"});
+                setBikeDeleteBtn({backgroundImage:"url('/img/mypage/BikeDeleteBtnOff.png')"});
+            })
+        }
+    }
 
 
     return (
@@ -408,9 +450,9 @@ const MyPage = () => {
                             <div className='bikeInfo_btnLine'>
                                 <input type='button' id='bikeAdd' onClick={bikeAdd}/>
                                 <label className='bikeInfoBtn' htmlFor='bikeAdd' style={bikeAddBtn}></label>
-                                <input type='button' id='bikeSelect' onClick={bikeSelect} disabled={!!bikeInfo&&bikeInfo[showBike].bike_select}/>
+                                <input type='button' id='bikeSelect' onClick={bikeSelect}/>
                                 <label className='bikeInfoBtn' htmlFor='bikeSelect' style={bikeSelectBtn}></label>
-                                <input type='button' id='bikeDelect'/>
+                                <input type='button' id='bikeDelect' onClick={bikeDelete}/>
                                 <label className='bikeInfoBtn' htmlFor='bikeDelect' style={bikeDeleteBtn}></label>
                             </div>
                         </div>
