@@ -260,6 +260,7 @@ const MyPage = () => {
     // 🛠️ 바이크 관련 정보 설정 범위
     // 보여지고 있는 바이크 index
     const [showBike,setShowBike] = useState(0)
+    const [boxtransform,setTransform] = useState({transform:'translateX(40%)'})
     // 대표 바이크의 index
     const [selectBike, setSelectBike] = useState(0)
     
@@ -284,6 +285,27 @@ const MyPage = () => {
             setSelectBike(bikeInfo.map(data=>data.bike_select).indexOf(true))
         }
     },[bikeInfo])
+
+    // 🛠️ 바이크 박스 위치 설정
+    useEffect(()=>{
+        switch(showBike){
+            case 0 :
+                setTransform({transform:'translateX(40%)'})
+                break;
+            case 1 :
+                setTransform({transform:'translateX(20%)'})
+                break;
+            case 2 :
+                setTransform({transform:'translateX(0%)'})
+                break;
+            case 3 :
+                setTransform({transform:'translateX(-20%)'})
+                break;
+            case 4 :
+                setTransform({transform:'translateX(-40%)'})
+                break;
+            default :
+        }},[showBike])
 
     // ➕ 바이크 추가하기
     const bikeAdd = () => {
@@ -442,7 +464,9 @@ const MyPage = () => {
                                 <label className='showBikeBtn' name="Down" htmlFor='showBikeDown'></label>
                                 <input type='button' id='showBikeDown' onClick={bikeControl}/>
                                 <div className='bikeInfoLine'>
+                                    <div className='bikeBoxLine' style={boxtransform}>
                                     {!!bikeInfo&&bikeInfo.map((bikeData) => <BikeInfoBox key={bikeData.bike_index} showBikeIndex={showBike} data={bikeData}/>)}
+                                    </div>
                                 </div>
                                 <label className='showBikeBtn' name="Up" htmlFor='showBikeUp'></label>
                                 <input type='button' id='showBikeUp' onClick={bikeControl}/>
