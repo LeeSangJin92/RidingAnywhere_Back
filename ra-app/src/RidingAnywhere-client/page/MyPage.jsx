@@ -258,10 +258,49 @@ const MyPage = () => {
 
     // 🛠️ 바이크 관련 정보 설정 범위
     const [showBike,setShowBike] = useState(0)
+    const [selectBike, setSelectBike] = useState(0)
     const bikeControl = (btn) => {
-        if(btn.target.id==="showBikeUp") bikeInfo.length-1>=showBike+1&&setShowBike(showBike+1);
-        else showBike-1>=0&&setShowBike(showBike-1);
+        let resultIndex = btn.target.id==="showBikeUp"?showBike+1:showBike-1;
+
+        if(resultIndex>=0&&bikeInfo.length-1>=resultIndex) {
+            setShowBike(resultIndex)
+            setBikeSelectBtn(bikeInfo[resultIndex].bike_select?{backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"}:{backgroundImage:"url('/img/mypage/BikeSelectBtnOn.png')"})
+        }
     }
+
+    // 🛠️ 바이크 설정 관련 버튼 배경이미지
+    const [bikeAddBtn, setBikeAddBtn] = useState({backgroundImage:"url('/img/mypage/BikeAddBtnOn.png')"})
+    const [bikeSelectBtn, setBikeSelectBtn] = useState({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"})
+    const [bikeDeleteBtn, setBikeDeleteBtn] = useState({backgroundImage:"url('/img/mypage/BikeDeleteBtnOn.png')"})
+
+    useEffect(()=>{
+        if(!!bikeInfo){
+            setBikeAddBtn(bikeInfo.length<5?{backgroundImage:"url('/img/mypage/BikeAddBtnOn.png')"}:{backgroundImage:"url('/img/mypage/BikeAddBtnOff.png')"})
+            setShowBike(bikeInfo.map(data=>data.bike_select).indexOf(true));
+            setSelectBike(bikeInfo.map(data=>data.bike_select).indexOf(true))
+        }
+    },[bikeInfo])
+
+    // ➕ 바이크 추가하기
+    const bikeAdd = () => {
+        if(bikeInfo.length+1<=5) navigate("/RA/Addbike");
+        else alert("⚠️신규 바이크를 추가 하실 수 없습니다.⚠️\n- 바이크는 최대 5개까지만 저장이 가능합니다. - ");
+    }
+
+    // 🛠️ 대표 바이크로 선택하기
+    const bikeSelect = async () => {
+        console.log(bikeInfo[0])
+        let requestData = {
+        }
+        // await fetch("/RA/SelectBike",
+        // {   
+        //     method: "POST",
+        //     headers:{
+        //         "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`},
+        //     body:
+        // }) 
+    }
+
 
 
     return (
@@ -354,9 +393,12 @@ const MyPage = () => {
                                 <input type='button' id='showBikeUp' onClick={bikeControl}/>
                             </div>
                             <div className='bikeInfo_btnLine'>
-                                <input type='button'/>
-                                <input type='button'/>
-                                <input type='button'/>
+                                <input type='button' id='bikeAdd' onClick={bikeAdd}/>
+                                <label className='bikeInfoBtn' htmlFor='bikeAdd' style={bikeAddBtn}></label>
+                                <input type='button' id='bikeSelect' onClick={bikeSelect} disabled={!!bikeInfo&&bikeInfo[showBike].bike_select}/>
+                                <label className='bikeInfoBtn' htmlFor='bikeSelect' style={bikeSelectBtn}></label>
+                                <input type='button' id='bikeDelect'/>
+                                <label className='bikeInfoBtn' htmlFor='bikeDelect' style={bikeDeleteBtn}></label>
                             </div>
                         </div>
                         <div className='crewLine'>

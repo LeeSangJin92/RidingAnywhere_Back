@@ -67,7 +67,7 @@
 }
 
 .bikeLine, .crewLine{
-    width: 555px;
+    width: 560px;
     height: 300px;
     text-align: center;
     border-bottom: 1px dotted orange;
@@ -109,6 +109,7 @@
 
 .InfoBox{
     background-size: 155px 155px;
+    background-position: 50% 50%;
     width: 150px;
     height: 150px;
     display: flex;
@@ -141,6 +142,7 @@
 }
 
 .InfoBox h4{
+    width: 140px;
     margin: 0;
     text-wrap: wrap;
 }
@@ -149,6 +151,32 @@
     width: 100px;
     height: 100px;
 }
+
+.bikeInfo_btnLine{
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 560px;
+    height: 70px;
+}
+
+.bikeInfo_btnLine input{
+    display: none;
+}
+
+.bikeInfoBtn{
+    width: 100px;
+    height: 45px;
+    background-size: 100px 45px;
+    
+}
+
+.bikeInfoBtn:hover{
+    cursor: pointer;
+}
+
+.bikeInfo 
 
 #profile_changeLine>img{
     margin-left: 10px;
