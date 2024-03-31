@@ -13,8 +13,7 @@ const AddBike = () => {
         bikeBrand : "",
         bikeModel : "", 
         bikeCC : "",
-        bikeYear : "",
-        bikeSelect: false
+        bikeYear : ""
     });
 
     const [accessToken,getAccessToken] = useState(sessionStorage.getItem('accessToken'));
@@ -60,8 +59,7 @@ const AddBike = () => {
                         bikeBrand:data.target.id,
                         bikeModel : "", 
                         bikeCC : "",
-                        bikeYear : "",
-                        bikeSelect: false});
+                        bikeYear : ""});
     }
 
 

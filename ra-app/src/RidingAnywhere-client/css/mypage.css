@@ -79,6 +79,26 @@
     justify-content: space-between;
 }
 
+.bikeInfo input{
+    display: none;
+}
+
+.showBikeBtn{
+    width: 25px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-image: url("/public/img/mypage/ShowBikeBtn.png");
+}
+
+.showBikeBtn:hover{
+    cursor: pointer;
+}
+
+.showBikeBtn[name='Down']{
+    transform: rotate(180deg);
+}
+
 .bikeInfoLine{
     width: 500px;
     display: flex;
@@ -88,11 +108,19 @@
 }
 
 .InfoBox{
+    background-size: 155px 155px;
     width: 150px;
     height: 150px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.infobox_Star{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    transform: translateX(240%) translateY(-40%);
 }
 
 .InfoBox div{
@@ -117,7 +145,7 @@
     text-wrap: wrap;
 }
 
-.InfoBox img{
+.InfoBox .Mypage_brandImg{
     width: 100px;
     height: 100px;
 }

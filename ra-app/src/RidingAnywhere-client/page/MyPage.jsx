@@ -3,8 +3,11 @@ import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import BikeInfoBox from '../component/mypage/BikeInfoBox';
 import "../css/mypage.css"
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+
+    const navigate = useNavigate();
 
      // 🪙 토큰 확인
      const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
@@ -21,9 +24,6 @@ const MyPage = () => {
 
     // 🤝 크루 정보
     const [crewInfo, setcrewInfo] = useState({})
-
-    // 🏍️ 오토바이 정보
-    const [bikeInfo, setbikeInfo] = useState()
 
     useEffect(()=>{
         checkData();
@@ -42,7 +42,7 @@ const MyPage = () => {
                 "Content-Type": "application/json;charset=utf-8"}})
             .then(response => {
                 if(response.status===200) return response.json();
-                else console.log("❌라이더 데이터 수집 실패!");
+                else console.log("⛔ 라이더 데이터 수집 실패!");
             }).then(data => {
                 console.log("✅라이더 데이터 수집 완료!");
                 let userData = data.userData;
@@ -56,11 +56,13 @@ const MyPage = () => {
                 });
                 setprofile('data:image/png;base64,'+userData.userProfile);
                 if(data.bikeList.length===0){
-                    console.log("⚠️입력된 바이크 정보가 없습니다.")
+                    console.log("⛔ 바이크 저장 이력 없음")
+                    alert("⚠️입력된 바이크 정보가 없습니다.⚠️\n - 바이크 추가 페이지로 이동합니다. - ")
+                    console.log("🛠️ 바이크 추가 페이지로 이동")
+                    navigate("/RA/Addbike");
                 }
                 else {
                     setbikeInfo(data.bikeList.map((data,index)=>{
-                        console.log("바이크 데이터",data)
                         const bikeData = {
                             bike_index:index,
                             bike_year:data.bike_year,
@@ -72,12 +74,15 @@ const MyPage = () => {
                         return bikeData
                     }))
                     console.log("바이크 데이터 수집 완료")}
-                
             })
-        } else console.log("⛔접속자에게 엑세스 없음")
+        } else {
+            console.log("⛔ 접속자에게 엑세스 없음");
+            alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
+            console.log("🛠️ 로그인 페이지로 이동")
+            navigate("/RA/login");
+        }
+        
     }
-
-    
 
     // 📷 프로필 이미지 관련 라인
     const [profile,setprofile] = useState(null)
@@ -125,6 +130,7 @@ const MyPage = () => {
     const [changeBtnAct, setchangeBtn] = useState("/img/mypage/ChangeBtn.png"); // 수정, 취소 버튼 설정 변수
     const [updateBtnAct, setcheckBtn] = useState({});     // 저장On, 저장Off, 불가 버튼 설정 변수
 
+     // 🛠️ 라이더 정보 리셋
     const resetBtnAct = () => {
         setcheckBtn({
             userNickname:"/img/mypage/SaveBtnOff.png",
@@ -134,9 +140,9 @@ const MyPage = () => {
             userGender:"/img/mypage/SaveBtnOff.png"
         })
     }
-        
-    const [showinput, setinput] = useState(false)       // 프로필 수정 관련 태크 출력 설정 변수
 
+    // 프로필 수정 관련 태크 출력 설정 변수
+    const [showinput, setinput] = useState(false)       
     const profileControl = () => {
         switch(changeBtnAct){
 
@@ -246,6 +252,18 @@ const MyPage = () => {
         if(data===riderInfo.userGender) setcheckBtn({...updateBtnAct,userGender:"/img/mypage/SaveBtnOff.png"});
         else setcheckBtn({...updateBtnAct,userGender:"/img/mypage/SaveBtnOn.png"});
     }
+
+    // 🏍️ 오토바이 정보
+    const [bikeInfo, setbikeInfo] = useState()
+
+    // 🛠️ 바이크 관련 정보 설정 범위
+    const [showBike,setShowBike] = useState(0)
+    const bikeControl = (btn) => {
+        if(btn.target.id==="showBikeUp") bikeInfo.length-1>=showBike+1&&setShowBike(showBike+1);
+        else showBike-1>=0&&setShowBike(showBike-1);
+    }
+
+
     return (
         <main>
             <DefaultHeader/>
@@ -327,11 +345,17 @@ const MyPage = () => {
                         <div className='bikeLine'>
                             <h1>바이크</h1>
                             <div className='bikeInfo'>
-                                <input type='button'/>
+                                <label className='showBikeBtn' name="Down" htmlFor='showBikeDown'></label>
+                                <input type='button' id='showBikeDown' onClick={bikeControl}/>
                                 <div className='bikeInfoLine'>
-                                    {console.log(bikeInfo)}
-                                    {!!bikeInfo&&bikeInfo.map((bikeData) => <BikeInfoBox key={bikeData.bike_index} data={bikeData}/>)}
+                                    {!!bikeInfo&&bikeInfo.map((bikeData) => <BikeInfoBox key={bikeData.bike_index} showBikeIndex={showBike} data={bikeData}/>)}
                                 </div>
+                                <label className='showBikeBtn' name="Up" htmlFor='showBikeUp'></label>
+                                <input type='button' id='showBikeUp' onClick={bikeControl}/>
+                            </div>
+                            <div className='bikeInfo_btnLine'>
+                                <input type='button'/>
+                                <input type='button'/>
                                 <input type='button'/>
                             </div>
                         </div>
