@@ -65,6 +65,7 @@ const MyPage = () => {
                     setbikeInfo(data.bikeList.map((data,index)=>{
                         const bikeData = {
                             bike_index:index,
+                            bike_id:data.bikegarage_id,
                             bike_year:data.bike_year,
                             bike_cc:data.bikeModel.model_cc,
                             bike_select:data.bike_select,
@@ -257,8 +258,11 @@ const MyPage = () => {
     const [bikeInfo, setbikeInfo] = useState()
 
     // 🛠️ 바이크 관련 정보 설정 범위
+    // 보여지고 있는 바이크 index
     const [showBike,setShowBike] = useState(0)
+    // 대표 바이크의 index
     const [selectBike, setSelectBike] = useState(0)
+    
     const bikeControl = (btn) => {
         let resultIndex = btn.target.id==="showBikeUp"?showBike+1:showBike-1;
 
@@ -289,16 +293,25 @@ const MyPage = () => {
 
     // 🛠️ 대표 바이크로 선택하기
     const bikeSelect = async () => {
-        console.log(bikeInfo[0])
         let requestData = {
+            beforBikeId:bikeInfo[selectBike].bike_id,
+            afterBikeId:bikeInfo[showBike].bike_id
         }
-        // await fetch("/RA/SelectBike",
-        // {   
-        //     method: "POST",
-        //     headers:{
-        //         "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`},
-        //     body:
-        // }) 
+
+        console.log("🛜 대표 바이크 수정중...")
+        await fetch("/RA/SelectBike",
+        {   
+            method: "POST",
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"},
+            body:JSON.stringify(requestData)
+        }).then(response=>{
+            if(response.status==200) console.log("✅ 대표 바이크 수정 완료");
+            else console.log("❌ 대표 바이크 수정 실패");
+            checkData();
+            setBikeSelectBtn({backgroundImage:"url('/img/mypage/BikeSelectBtnOff.png')"});
+        })
     }
 
 

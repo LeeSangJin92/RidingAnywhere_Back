@@ -2,6 +2,7 @@ package com.lec.sping.controller;
 
 import com.lec.sping.dto.BikeAddDataDto;
 import com.lec.sping.dto.BikeAllDataDto;
+import com.lec.sping.dto.BikeSelectDataDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.BikeService;
 import io.jsonwebtoken.Claims;
@@ -38,6 +39,14 @@ public class BikeController {
         System.out.println("🛜바이크 데이터 추가 시작...");
         bikeService.addBikeData(bikeAddDataDto);
         System.out.println("✅바이크 데이터 추가 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/SelectBike")
+    public ResponseEntity<?> selectBikeData(@RequestBody BikeSelectDataDto bikeSelectData){
+        System.out.println("🛜대표 바이크 수정 작업 시작...");
+        bikeService.changeSelectBike(bikeSelectData);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

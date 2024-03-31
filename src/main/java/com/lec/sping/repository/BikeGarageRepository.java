@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface BikeAddRepository extends JpaRepository<BikeGarage, Long> {
+public interface BikeGarageRepository extends JpaRepository<BikeGarage, Long> {
 
     List<BikeGarage> findAllByUser(User user);
 }
