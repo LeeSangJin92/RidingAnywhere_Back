@@ -31,10 +31,8 @@ const DefaultHeader_main = () => {
                             <div className='NavMiain'>
                                 <h1>CREW AREA</h1>
                                 <div className='NavMenu'>
-                                    <div className='NavCategory'>CREW<br/>MASTER</div>      {/*크루 설정, 생성*/}
-                                    <div className='NavCategory'>CREW<br/>MANAGER</div>     {/*크루원 관리*/}
+                                    <Link to="/CR/Manager" className='NavCategory'>CREW<br/>MANAGER</Link>     {/*크루원 관리*/}
                                     <div className='NavCategory'>CREW<br/>BOARD</div>       {/*크루 게시판*/}
-                                    <div className='NavCategory'>CREW<br/>PAGE</div>        {/*크루원 페이지*/}
                                     <div className='NavCategory'>CREW<br/>JOIN</div>        {/*크루원 모집*/}
                                 </div>
                             </div>

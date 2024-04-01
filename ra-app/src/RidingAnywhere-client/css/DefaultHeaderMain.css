@@ -77,10 +77,11 @@
     margin-bottom: 25px;
     display: flex;
     transition: height 1.5s ease;
-    .NavMenu{
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
+}
+
+.NavMenu{
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .topNav:hover{
@@ -119,6 +120,7 @@
 }
 
 .NavCategory{
+    text-decoration: none;
     width: auto;
     flex-grow: 1;
     text-align: center;
@@ -128,6 +130,7 @@
     font-family: Hobo_BT;
     text-shadow: 1px 1px whitesmoke;
     transition: all 0.5s;
+    color: black;
 }
 
 .NavCategory:hover{

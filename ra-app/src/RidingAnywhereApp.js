@@ -5,6 +5,7 @@ import HomePage from "./RidingAnywhere-client/page/HomePage";
 import LoginPage from "./RidingAnywhere-client/page/LoginPage";
 import SignupPage from "./RidingAnywhere-client/page/SignupPage";
 import MyPage from "./RidingAnywhere-client/page/MyPage";
+import CrewManager from "./RidingAnywhere-client/page/CrewManager";
 
 const RidingAnywhereApp = () => {
   document.title = "Riding AnyWhere";
@@ -19,6 +20,7 @@ const RidingAnywhereApp = () => {
         <Route path="/RA/SignUp" element={<SignupPage />}></Route>
         <Route path="/RA/AddBike" element={<AddBike />}></Route>
         <Route path="/RA/MyPage" element={<MyPage />}></Route>
+        <Route path="/CR/Manager" element={<CrewManager/>}></Route>
       </Routes>
     </Container>
   );
