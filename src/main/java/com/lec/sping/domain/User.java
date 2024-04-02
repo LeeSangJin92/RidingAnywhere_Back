@@ -109,6 +109,9 @@ public class User {
     @ToString.Exclude
     private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
 
+    @OneToOne
+    private Address address;
+
     // 계성 생성 날짜 입력
     @PrePersist
     private void set_Defalut(){
