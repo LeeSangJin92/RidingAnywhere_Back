@@ -8,10 +8,19 @@ const SignupPage = () => {
     const navigate = useNavigate();
 
     // ✏️ 지역 관련 데이터 변수
-    const [addressList, setAddressList] = useState({
-        City:"Town"
-    });
+    const [addressList, setAddressList] = useState([]);
     const [cityList, setCityList] = useState([""])
+
+    const selectCity = (btn) => {
+        console.log("✅ 도시 선택 완료")
+        document.getElementsByClassName("selectTown")
+        setUserData({...userData,userAddressCity:btn.target.value})
+    }
+
+    const selectTown = (btn) => {
+        console.log("✅ 마을 선택 완료")
+        setUserData({...userData,userAddressTown:btn.target.value})
+    }
 
     // 🛜 지역 데이터 설정
     useEffect(()=>{
@@ -24,7 +33,7 @@ const SignupPage = () => {
         }).then((data)=>{
             console.log("🛠️지역 데이터 저장중...");
             setAddressList(data);
-            console.log(...new Set(data.map(data=>data.city)));
+            console.log(data.filter(data=>data.city==="서울"))
             setCityList([...new Set(data.map(data=>data.city))]);
             console.log("✅지역 데이터 작업 완료")
         })
@@ -40,7 +49,8 @@ const SignupPage = () => {
         userEmail:"",
         userPassword:"",
         userPasswordRe:"",
-        userAddress:"",
+        userAddressCity:"",
+        userAddressTown:"",
     },[])
 
     // 입력된 정보 에러 체크 및 Display 설정 [에러문구 색상, Display 설정]
@@ -51,7 +61,8 @@ const SignupPage = () => {
         userPhone:[false,false],
         userEmail:[false,false],
         emailAuth:[false,false],
-        userAddress:[false,false],
+        userAddressCity:[false,false],
+        userAddressTown:[false,false],
         userPassword:[false,false],
         userPasswordRe:[false,false]
     },[])
@@ -203,12 +214,17 @@ const SignupPage = () => {
                 </h8>
 
                 {/* 지역 선택 라인 */}
-                {console.log(cityList)}
                 <div className='Sigup_line'><h2>지역</h2>
-                <select>
-                    <option value={""}>시 및 도 선택.</option>
-                    {cityList.map(data=>(<option value={data}>{data}</option>))}</select></div>
+                    <select className='selectCity' onChange={selectCity}>
+                    <option value={""}>도시 선택.</option>
+                    {cityList.map(data=>(<option value={data}>{data}</option>))}</select>
 
+                    <select className='selectTown' onChange={selectTown}>
+                        <option value={""}>⚠️도시 선택⚠️</option>
+                        {addressList.filter(data=>data.city===userData.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
+                    </select>
+                    
+                </div>
                 {/* 성별 선택 라인 */}
                 <div className='Gender_radio'>
                     <input id='gender1' name='userGender' type='radio' value='true' onChange={changeData}/>
