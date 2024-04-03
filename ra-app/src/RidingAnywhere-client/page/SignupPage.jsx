@@ -7,6 +7,29 @@ const SignupPage = () => {
 
     const navigate = useNavigate();
 
+    // ✏️ 지역 관련 데이터 변수
+    const [addressList, setAddressList] = useState({
+        City:"Town"
+    });
+    const [cityList, setCityList] = useState([""])
+
+    // 🛜 지역 데이터 설정
+    useEffect(()=>{
+        console.log("🛜지역 데이터 요청중...")
+        fetch("/RA/AddressData")
+        .then((response)=>{
+            console.log("✅지역 데이터 요청 완료");
+            if(response.status===200) return response.json();
+            else console.log("❌지역 데이터 호출 실패!")
+        }).then((data)=>{
+            console.log("🛠️지역 데이터 저장중...");
+            setAddressList(data);
+            console.log(...new Set(data.map(data=>data.city)));
+            setCityList([...new Set(data.map(data=>data.city))]);
+            console.log("✅지역 데이터 작업 완료")
+        })
+    },[])
+
     // 회원 데이터 초기값 설정
     const [userData,setUserData] = useState({
         userNickname:"",
@@ -16,7 +39,8 @@ const SignupPage = () => {
         userPhone:"",
         userEmail:"",
         userPassword:"",
-        userPasswordRe:""
+        userPasswordRe:"",
+        userAddress:"",
     },[])
 
     // 입력된 정보 에러 체크 및 Display 설정 [에러문구 색상, Display 설정]
@@ -27,6 +51,7 @@ const SignupPage = () => {
         userPhone:[false,false],
         userEmail:[false,false],
         emailAuth:[false,false],
+        userAddress:[false,false],
         userPassword:[false,false],
         userPasswordRe:[false,false]
     },[])
@@ -177,12 +202,19 @@ const SignupPage = () => {
                     {dataCheck.userPhone[0]?'정상적으로 입력되었습니다.':'연락처 정보가 정확하지 않습니다.'}   
                 </h8>
 
+                {/* 지역 선택 라인 */}
+                {console.log(cityList)}
+                <div className='Sigup_line'><h2>지역</h2>
+                <select>
+                    <option value={""}>시 및 도 선택.</option>
+                    {cityList.map(data=>(<option value={data}>{data}</option>))}</select></div>
+
                 {/* 성별 선택 라인 */}
                 <div className='Gender_radio'>
                     <input id='gender1' name='userGender' type='radio' value='true' onChange={changeData}/>
-                    <label for='gender1'>남자</label>
+                    <label htmlFor='gender1'>남자</label>
                     <input id='gender2' name='userGender' type='radio' value='false' onChange={changeData}/>    
-                    <label for='gender2'>여자</label>
+                    <label htmlFor='gender2'>여자</label>
                 </div>
 
                 {/* 서브밋 버튼 라인 */}

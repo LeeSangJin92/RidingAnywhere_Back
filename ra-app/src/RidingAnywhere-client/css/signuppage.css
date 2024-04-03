@@ -11,6 +11,7 @@
     flex-direction: column;
     margin-top: 10px;
     width: 500px;
+    height: 500px;
     border: 5px solid rgb(255, 192, 0);
     border-radius: 40px;
     padding: 20px 0;

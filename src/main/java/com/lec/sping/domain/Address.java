@@ -1,5 +1,6 @@
 package com.lec.sping.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Address {
     private String town;
 
     //FK 영역
+    @JsonIgnore
     @OneToOne(mappedBy = "address")
     private User user;
 

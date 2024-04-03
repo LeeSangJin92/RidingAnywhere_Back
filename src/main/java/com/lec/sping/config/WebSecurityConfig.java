@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/Signup").permitAll()
                 .requestMatchers("/RA/SignUp/Email").permitAll()
                 .requestMatchers("/RA/BikeModel").permitAll()
+                .requestMatchers("RA/AddressData").permitAll()
                 .requestMatchers("/RA/AddBike").permitAll()
                 .requestMatchers("/RA/CheckRider").permitAll()
                 .requestMatchers("/RA/MyPage").authenticated()

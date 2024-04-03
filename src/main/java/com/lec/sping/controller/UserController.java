@@ -1,9 +1,11 @@
 package com.lec.sping.controller;
 
+import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.bike.BikeGarage;
 import com.lec.sping.dto.*;
 import com.lec.sping.jwt.TokenProvider;
+import com.lec.sping.service.AddressService;
 import com.lec.sping.service.BikeService;
 import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final BikeService bikeService;
     private final TokenProvider tokenProvider;
+    private final AddressService addressService;
 
     @CrossOrigin
     @GetMapping("/CheckRider")
@@ -65,5 +68,13 @@ public class UserController {
         System.out.println("✅라이더 데이터 확인 완료");
         System.out.println("🛜라이더 이미지 수정 요청");
         return ResponseEntity.ok(userService.UpdateImage(userData, file));
+    }
+
+    @CrossOrigin
+    @GetMapping("/AddressData")
+    public ResponseEntity<?> findAll(){
+        List<Address> addressList = addressService.getfindAll();
+        System.out.println("주소 찾기 완료!");
+        return new ResponseEntity<>(addressList,HttpStatus.OK);
     }
 }
