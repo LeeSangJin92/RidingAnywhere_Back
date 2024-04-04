@@ -128,6 +128,8 @@ const MyPage = () => {
         userName : "",
         userPhone : "",
         userBirthday : "",
+        userAddressCity : "",
+        userAddressTown :"",
         userGender : false
      })
 
@@ -146,7 +148,7 @@ const MyPage = () => {
         })
     }
 
-    // 프로필 수정 관련 태크 출력 설정 변수
+    // 프로필 수정 관련 태그 출력 설정 변수
     const [showinput, setinput] = useState(false)       
     const profileControl = () => {
         switch(changeBtnAct){
@@ -169,6 +171,30 @@ const MyPage = () => {
             default :
         }
     }
+
+    // ✏️ 지역 리스트
+    const [addressList, setAddressList] = useState([]);
+    const [cityList, setCityList] = useState([""])
+
+    // 🔎 지역 데이터 호출
+    useEffect(()=>{
+        console.log("🛜지역 데이터 요청중...")
+        fetch("/RA/AddressData")
+        .then((response)=>{
+            console.log("✅지역 데이터 요청 완료");
+            if(response.status===200) return response.json();
+            else console.log("❌지역 데이터 호출 실패!")
+        }).then((data)=>{
+            console.log("🛠️지역 데이터 저장중...");
+            setAddressList(data);
+            setCityList([...new Set(data.map(data=>data.city))]);
+            console.log("✅지역 데이터 작업 완료")
+        })
+    },[])
+
+
+
+
 
     const checkUpdata = (line) => {
         console.log("✏️ 변경 내용 체크 중...");
@@ -415,7 +441,15 @@ const MyPage = () => {
                                 </div>
                                 <div className='userAddress_Line'>
                                 <h2>지역</h2>
-                                    <h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2>
+                                    <div style={showinput?{display:'none'}:{display:'block'}}><h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2></div>
+                                    <div style={showinput?{display:'flex'}:{display:'none'}}>
+                                        <select className='selectCity' value={updateRider.userAddressCity}>
+                                            {cityList.map(data=>(<option value={data}>{data}</option>))}
+                                        </select>
+                                        <select className='selectTown' value={updateRider.userAddressTown}>
+                                                {addressList.filter(data=>data.city===updateRider.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div className='riderInfo_right'>
