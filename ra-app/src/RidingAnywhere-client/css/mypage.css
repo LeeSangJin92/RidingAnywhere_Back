@@ -287,15 +287,21 @@
         height: 70px;
         align-items: center;
         gap: 20px;
-        >.selectCity, .selectTown{
+        .selectCity, .selectTown{
             border: 2px solid orange;
             border-radius: 10px;
             background-color: gray;
             text-align: center;
             font-weight: bold;
-            font-size: 20px;
-            width: 80px;
+            font-size: 19px;
+            
             height: 50px;
+        }
+        .selectCity{
+            width: 80px;
+        }
+        .selectTown{
+            width: 100px;
         }
     }
 }

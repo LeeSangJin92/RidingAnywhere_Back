@@ -193,8 +193,19 @@ const MyPage = () => {
         })
     },[])
 
+    // 🛠️ 지역 설정 범위
+    const selectCity = (props) => {
+        console.log("✅ 라이더의 도시 변경");
+        setUpdateRider({...updateRider,userAddressCity:props.target.value,userAddressTown:""});
+        setcheckBtn({...updateBtnAct,userAddress:"/img/mypage/SaveBtnOff.png"});
+    }
 
-
+    const selectTown = (props) => {
+        console.log("✅ 라이더의 마을 변경");
+        console.log(updateRider);
+        setUpdateRider({...updateRider,userAddressTown:props.target.value});
+        setcheckBtn({...updateBtnAct,userAddress:riderInfo.userAddressTown!==props.target.value?"/img/mypage/SaveBtnOn.png":"/img/mypage/SaveBtnOff.png"});
+    }
 
 
     const checkUpdata = (line) => {
@@ -224,9 +235,10 @@ const MyPage = () => {
     // ✏️ 변경된 유저데이터 서버로 전송
     const riderDataUpdate = async (update) => {
         console.log("🛜변경 내용 서버로 전달...")
-        let requsetData = {
-            ...riderInfo,[update]:updateRider[update]
-        }
+        let requsetData = update!=="userAddress"?
+        {...riderInfo,[update]:updateRider[update]}:
+        {...riderInfo,userAddressCity:updateRider.userAddressCity,
+        userAddressTown:updateRider.userAddressTown}
         console.log(requsetData);
         await fetch("/RA/UpdateUser",
             {   
@@ -244,7 +256,8 @@ const MyPage = () => {
                     console.log("✅데이터 변경 완료!");
                     console.log("🛜유저 데이터 재호출!");
                     checkData();
-                    if(update!=="userGender") document.getElementById([update]).value = "";
+                    if(update!=="userGender"&&update!=="userAddress")
+                        document.getElementById([update]).value = "";
                     setcheckBtn({...updateBtnAct,[update]:"/img/mypage/SaveBtnOff.png"});
                 })
     }
@@ -353,7 +366,6 @@ const MyPage = () => {
                 beforBikeId:bikeInfo[selectBike].bike_id,
                 afterBikeId:bikeInfo[showBike].bike_id
             }
-        
             console.log("🛜 서버 작업 진행중...")
             await fetch("/RA/SelectBike",
             {   
@@ -443,15 +455,16 @@ const MyPage = () => {
                                 <div className='userAddress_Line'>
                                     <div className='userAddress_Line_Top'>
                                         <h2>지역</h2>
-                                        <label style={showinput?{display:'block'}:{display:'none'}} htmlFor='save_userAddress'><img src={updateBtnAct.userNickname} alt=''></img></label><input id='save_userAddress' name='userAddress' type='button' onClick={checkUpdata} style={{display:'none'}}/>
+                                        <label style={showinput?{display:'block'}:{display:'none'}} htmlFor='save_userAddress'><img src={updateBtnAct.userAddress} alt=''></img></label><input id='save_userAddress' name='userAddress' type='button' onClick={checkUpdata} style={{display:'none'}}/>
                                     </div>
                                     <div className='userAddress_Line_Bottoom' style={showinput?{display:'none'}:{display:'flex'}}><h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2></div>
                                     <div className='userAddress_Line_Bottoom' style={showinput?{display:'flex'}:{display:'none'}}>
-                                        <select className='selectCity' classNamePreefix="react-select" value={updateRider.userAddressCity}>
-                                            {cityList.map(data=>(<option value={data}><h2>{data}</h2></option>))}
+                                        <select className='selectCity' value={updateRider.userAddressCity} onChange={selectCity}>
+                                            {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}
                                         </select>
-                                        <select className='selectTown' value={updateRider.userAddressTown}>
-                                                {addressList.filter(data=>data.city===updateRider.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
+                                        <select className='selectTown' value={updateRider.userAddressTown} onChange={selectTown}>
+                                                <option value={""}>선택</option>
+                                                {addressList.filter(data=>data.city===updateRider.userAddressCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                                         </select>
                                     </div>
                                 </div>

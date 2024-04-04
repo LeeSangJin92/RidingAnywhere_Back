@@ -20,5 +20,7 @@ public class ProfileUpdateDto {
     private String userBirthday;    // 유저 생년월일
     private boolean userGender;     // 유저 성별
     private MultipartFile userProfile; // 유저 프로필 이미지
+    private String userAddressCity; // 유저 지역 도시
+    private String userAddressTown; // 유저 지역 마을
     private User user;              // 변경하려는 유저 데이터
 }

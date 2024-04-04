@@ -2,9 +2,11 @@ package com.lec.sping.service;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.lec.sping.config.SecurityUtil;
+import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
 import com.lec.sping.dto.ProfileUpdateDto;
 import com.lec.sping.dto.UserResponseDto;
+import com.lec.sping.repository.AddressRepository;
 import com.lec.sping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,7 @@ import java.sql.SQLException;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
     public User findByUserEmail(String userEmail){
         return userRepository.findByUserEmail(userEmail)
@@ -38,11 +41,14 @@ public class UserService {
     public User UpdateProfile(ProfileUpdateDto updateData) {
         System.out.println("🛠️유저 데이터 수정 작업중...");
         User afterUser = updateData.getUser();
+        System.out.println(updateData);
+        Address address = addressRepository.findByCityAndTown(updateData.getUserAddressCity(), updateData.getUserAddressTown()).orElseThrow(()->new RuntimeException("❌존재하지 않은 지역입니다."));
         afterUser.setUserNickname(updateData.getUserNickname());
         afterUser.setUserName(updateData.getUserName());
         afterUser.setUserPhone(updateData.getUserPhone());
         afterUser.setUserBirthday(updateData.getUserBirthday());
         afterUser.setUserGender(updateData.isUserGender());
+        afterUser.setAddress(address);
         System.out.println("✅유저 데이터 수정 완료");
         return userRepository.save(afterUser);
     }
