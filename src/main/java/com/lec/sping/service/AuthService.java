@@ -5,6 +5,7 @@ import com.lec.sping.dto.TokenDto;
 import com.lec.sping.dto.UserRequestDto;
 import com.lec.sping.dto.UserResponseDto;
 import com.lec.sping.jwt.TokenProvider;
+import com.lec.sping.repository.AddressRepository;
 import com.lec.sping.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
     private final TokenProvider tokenProvider;
 
     public UserResponseDto sigup(UserRequestDto requestDto){
@@ -30,6 +32,7 @@ public class AuthService {
         }
         System.out.println("가입 시도 중...");
         User user = requestDto.toUser(passwordEncoder);
+        user.setAddress(addressRepository.findByCityAndTown(requestDto.getUserAddressCity(),requestDto.getUserAddressTown()).orElseThrow(()->new RuntimeException("❌해당하는 지역이 없습니다.")));
         System.out.println(user);
         return UserResponseDto.of(userRepository.save(user));
     }

@@ -1,9 +1,11 @@
 package com.lec.sping.controller;
 
+import com.lec.sping.domain.User;
 import com.lec.sping.dto.UserRequestDto;
 import com.lec.sping.dto.UserResponseDto;
 import com.lec.sping.service.AuthService;
 import com.lec.sping.service.EmailService;
+import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final EmailService emailService;
+    private final UserService userService;
 
     @CrossOrigin
     @PostMapping("/Signup")

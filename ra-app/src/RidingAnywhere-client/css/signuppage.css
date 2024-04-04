@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: max-content;
+    height: 950px;
 }
 
 .Signup_Box{
@@ -11,7 +11,7 @@
     flex-direction: column;
     margin-top: 10px;
     width: 500px;
-    height: 500px;
+    height: max-content;
     border: 5px solid rgb(255, 192, 0);
     border-radius: 40px;
     padding: 20px 0;
@@ -21,18 +21,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 300px;
+    width: 340px;
+    height: 40px;
 }
 
 .Signup_line h2{
     font-size: 17px;
     text-align: center;
     min-width: 100px;
-    margin: 10px 0 5px 0;
+    margin: 0;
 }
 
 .Signup_Box h8{
-    /* display: none; */
     font-size: 15px;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -47,6 +47,17 @@
     border: 2px solid gray;
     border-radius: 5px;
     text-shadow: 1px 1px whitesmoke;
+}
+
+.selectCity, .selectTown{
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px solid orange;
+    border-radius: 10px;
+    
 }
 
 .Gender_radio{
@@ -98,7 +109,7 @@ button:hover, .btn_submit_signup:hover{
 }
 
 .Signup_line>input, #Email_pass>input{
-    height: 40%;
+    height: 60%;
     margin-left: 10px;
 }
 

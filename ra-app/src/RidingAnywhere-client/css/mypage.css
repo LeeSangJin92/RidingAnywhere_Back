@@ -196,7 +196,7 @@
     cursor: pointer;
 }
 
-.profile_img{
+.riderInfo_left{
     margin-left: 20px;
     padding-top: 50px;
     display: flex;
@@ -204,7 +204,12 @@
     flex-direction: column;
 }
 
-#profile_img{
+.profile_img{
+    width: 200px;
+    height: 330px;
+}
+
+.profile_img_box{
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -213,14 +218,14 @@
     height: 200px;
     border-radius: 10%;
     border:3px solid orange;
+    
+    >img{
+        width: 200px;
+        height: 200px;
+    }
 }
 
-#profile_img>img{
-    width: 200px;
-    height: 200px;
-}
-
-profile_img>h4{
+.riderInfo_left>h4{
     color: gold;
     margin: 0;
 }
@@ -254,17 +259,25 @@ profile_img>h4{
     color: transparent;
 }
 
-.riderInfo, .riderInfo>table{
+.userAddress_Line{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 50px;
+    height: 100px;
+}
+
+.riderInfo_right, .riderInfo_right>table{
     margin-top: 10px;
     width: 450px;
 }
 
-.riderInfo tr{
+.riderInfo_right tr{
     height: 80px;
     align-items: center;
 }
 
-.riderInfo h2{
+.riderInfo_right h2{
     text-align: center;
     margin: 10px 0;
 }
@@ -353,7 +366,7 @@ profile_img>h4{
     color: transparent;
 }
 
-.riderInfo h2, profile>h2{
+.riderInfo_right h2, .riderInfo_left h2{
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;
@@ -362,4 +375,5 @@ profile_img>h4{
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    margin: 0;
 }

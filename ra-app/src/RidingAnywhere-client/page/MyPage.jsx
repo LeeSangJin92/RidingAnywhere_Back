@@ -20,6 +20,8 @@ const MyPage = () => {
         userBirthday : "",
         userGender : "",
         userPhone : "",
+        userAddressCity:"",
+        userAddressTown:"",
      })
 
     // 🤝 크루 정보
@@ -52,9 +54,11 @@ const MyPage = () => {
                     userNickname : userData.userNickname,
                     userBirthday : userData.userBirthday,
                     userGender : userData.userGender,
-                    userPhone : userData.userPhone
+                    userPhone : userData.userPhone,
+                    userAddressCity : userData.address.city,
+                    userAddressTown : userData.address.town,
                 });
-                setprofile('data:image/png;base64,'+userData.userProfile);
+                !!userData.userProfile&&setprofile('data:image/png;base64,'+userData.userProfile);
                 if(data.bikeList.length===0){
                     console.log("⛔ 바이크 저장 이력 없음")
                     alert("⚠️입력된 바이크 정보가 없습니다.⚠️\n - 바이크 추가 페이지로 이동합니다. - ")
@@ -400,15 +404,21 @@ const MyPage = () => {
                             </div>
                         </div>
                         <div className='profile_seccsion'>
-                            <div className='profile_img'>
-                                <div id='profile_img'>
-                                    <img src={profile===null?'/img/mypage/DefaultProfileImg.png':profile} alt=''/>
+                            <div className='riderInfo_left'>
+                                <div className='profile_img'>
+                                    <div className='profile_img_box'>
+                                        <img src={profile===null?'/img/mypage/DefaultProfileImg.png':profile} alt=''/>
+                                    </div>
+                                    <label id='prfile_btnLline' htmlFor="profilebtn" style={showinput?{display:'block'}:{display:'none'}}><h3>이미지 변경</h3></label>
+                                    <input className='profile_btn' type='file' id="profilebtn" style={{display:'none'}} accept='.jpg, .png' onChange={profileimg}/>
+                                    <h4 style={showinput?{display:'block'}:{display:'none'}}>⚠️크기 : 200px x 200px</h4>
                                 </div>
-                                <label id='prfile_btnLline' htmlFor="profilebtn" style={showinput?{display:'block'}:{display:'none'}}><h3>이미지 변경</h3></label>
-                                <input className='profile_btn' type='file' id="profilebtn" style={{display:'none'}} accept='.jpg, .png' onChange={profileimg}/>
-                                <h4 style={showinput?{display:'block'}:{display:'none'}}>⚠️크기 : 200px x 200px</h4>
+                                <div className='userAddress_Line'>
+                                <h2>지역</h2>
+                                    <h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2>
+                                </div>
                             </div>
-                            <div className='riderInfo'>
+                            <div className='riderInfo_right'>
                                 <table>
                                     <tbody>
                                     <tr>

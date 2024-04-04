@@ -14,8 +14,6 @@ import java.util.List;
 public class AddressService {
 
     private final AddressRepository addressRepository;
-
-
         public List<Address> getfindAll() {
             return addressRepository.findAll();
         }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Data
@@ -22,6 +23,7 @@ public class Address {
     //FK 영역
     @JsonIgnore
     @OneToOne(mappedBy = "address")
+    @ToString.Exclude
     private User user;
 
 }

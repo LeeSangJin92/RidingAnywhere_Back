@@ -110,7 +110,7 @@ public class User {
     private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
 
     @OneToOne
-    private Address address;
+    private Address address;    // 유저 활동 지역
 
     // 계성 생성 날짜 입력
     @PrePersist

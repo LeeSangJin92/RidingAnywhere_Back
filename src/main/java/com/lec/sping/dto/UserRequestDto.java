@@ -1,6 +1,8 @@
 package com.lec.sping.dto;
 
+import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
+import com.lec.sping.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +22,8 @@ public class UserRequestDto {
     private String userPassword;    // 유저 패스워드
     private String userNickname;    // 유저 닉네임
     private String userBirthday;    // 유저 생년월일
+    private String userAddressCity; // 유저 활동 지역 도시
+    private String userAddressTown; // 유저 활동 지역 마을
 
     public User toUser(PasswordEncoder passwordEncoder){
 

@@ -14,12 +14,14 @@ const SignupPage = () => {
     const selectCity = (btn) => {
         console.log("✅ 도시 선택 완료")
         document.getElementsByClassName("selectTown")
-        setUserData({...userData,userAddressCity:btn.target.value})
+        setUserData({...userData,userAddressCity:btn.target.value, userAddressTown:""});
+        setDataCheck({...dataCheck,userAddressTown:[false]});
     }
 
     const selectTown = (btn) => {
         console.log("✅ 마을 선택 완료")
-        setUserData({...userData,userAddressTown:btn.target.value})
+        setUserData({...userData,userAddressTown:btn.target.value});
+        setDataCheck({...dataCheck,userAddressTown:[true]})
     }
 
     // 🛜 지역 데이터 설정
@@ -33,7 +35,6 @@ const SignupPage = () => {
         }).then((data)=>{
             console.log("🛠️지역 데이터 저장중...");
             setAddressList(data);
-            console.log(data.filter(data=>data.city==="서울"))
             setCityList([...new Set(data.map(data=>data.city))]);
             console.log("✅지역 데이터 작업 완료")
         })
@@ -61,8 +62,8 @@ const SignupPage = () => {
         userPhone:[false,false],
         userEmail:[false,false],
         emailAuth:[false,false],
-        userAddressCity:[false,false],
-        userAddressTown:[false,false],
+        userGender:[false],
+        userAddressTown:[false],
         userPassword:[false,false],
         userPasswordRe:[false,false]
     },[])
@@ -78,7 +79,8 @@ const SignupPage = () => {
         setUserData({
             ...userData,
             [data.target.name]:data.target.value
-        })
+        });
+        data.target.name==="userGender"&&setDataCheck({...dataCheck,userGender:[true]});
     }
 
     // 이메일 인증 번호 입력 값
@@ -137,7 +139,7 @@ const SignupPage = () => {
     }
     const [emailAuthDisable,setEmailAuthDisabled] = useState(true);
 
-    // 이메일 인증 번호 전송
+    // 이메일 인증번호 전송 및 중복 체크
     const sendEmailAuth = () => {
         fetch("/RA/SignUp/Email",{
             method: "POST",
@@ -214,16 +216,15 @@ const SignupPage = () => {
                 </h8>
 
                 {/* 지역 선택 라인 */}
-                <div className='Sigup_line'><h2>지역</h2>
+                <div className='Signup_line'><h2>지역</h2>
                     <select className='selectCity' onChange={selectCity}>
-                    <option value={""}>도시 선택.</option>
+                    <option value={""}>도시 선택</option>
                     {cityList.map(data=>(<option value={data}>{data}</option>))}</select>
 
-                    <select className='selectTown' onChange={selectTown}>
+                    <select className='selectTown' onChange={selectTown} value={userData.userAddressTown}>
                         <option value={""}>⚠️도시 선택⚠️</option>
                         {addressList.filter(data=>data.city===userData.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
                     </select>
-                    
                 </div>
                 {/* 성별 선택 라인 */}
                 <div className='Gender_radio'>
@@ -235,6 +236,7 @@ const SignupPage = () => {
 
                 {/* 서브밋 버튼 라인 */}
                 <div className='Button_line'>
+                    {console.log(dataCheck)}
                     <button className='btn_submit_signup' id='btnSignUp' disabled={disableBtn} onClick={signUpPost}>다음</button>
                 </div>
                 </div>
