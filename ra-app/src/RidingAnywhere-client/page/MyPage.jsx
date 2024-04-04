@@ -144,7 +144,8 @@ const MyPage = () => {
             userName:"/img/mypage/SaveBtnOff.png",
             userPhone:"/img/mypage/SaveBtnOff.png",
             userBirthday:"/img/mypage/SaveBtnOff.png",
-            userGender:"/img/mypage/SaveBtnOff.png"
+            userGender:"/img/mypage/SaveBtnOff.png",
+            userAddress:"/img/mypage/SaveBtnOff.png"
         })
     }
 
@@ -440,11 +441,14 @@ const MyPage = () => {
                                     <h4 style={showinput?{display:'block'}:{display:'none'}}>⚠️크기 : 200px x 200px</h4>
                                 </div>
                                 <div className='userAddress_Line'>
-                                <h2>지역</h2>
-                                    <div style={showinput?{display:'none'}:{display:'block'}}><h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2></div>
-                                    <div style={showinput?{display:'flex'}:{display:'none'}}>
-                                        <select className='selectCity' value={updateRider.userAddressCity}>
-                                            {cityList.map(data=>(<option value={data}>{data}</option>))}
+                                    <div className='userAddress_Line_Top'>
+                                        <h2>지역</h2>
+                                        <label style={showinput?{display:'block'}:{display:'none'}} htmlFor='save_userAddress'><img src={updateBtnAct.userNickname} alt=''></img></label><input id='save_userAddress' name='userAddress' type='button' onClick={checkUpdata} style={{display:'none'}}/>
+                                    </div>
+                                    <div className='userAddress_Line_Bottoom' style={showinput?{display:'none'}:{display:'flex'}}><h2>{riderInfo.userAddressCity} / {riderInfo.userAddressTown}</h2></div>
+                                    <div className='userAddress_Line_Bottoom' style={showinput?{display:'flex'}:{display:'none'}}>
+                                        <select className='selectCity' classNamePreefix="react-select" value={updateRider.userAddressCity}>
+                                            {cityList.map(data=>(<option value={data}><h2>{data}</h2></option>))}
                                         </select>
                                         <select className='selectTown' value={updateRider.userAddressTown}>
                                                 {addressList.filter(data=>data.city===updateRider.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
