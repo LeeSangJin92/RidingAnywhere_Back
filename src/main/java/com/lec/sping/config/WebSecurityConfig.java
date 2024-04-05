@@ -43,14 +43,15 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/Signup").permitAll()
                 .requestMatchers("/RA/SignUp/Email").permitAll()
                 .requestMatchers("/RA/BikeModel").permitAll()
-                .requestMatchers("RA/AddressData").permitAll()
+                .requestMatchers("/RA/AddressData").permitAll()
                 .requestMatchers("/RA/AddBike").permitAll()
                 .requestMatchers("/RA/CheckRider").permitAll()
                 .requestMatchers("/RA/MyPage").authenticated()
                 .requestMatchers("/RA/UpdateUser").authenticated()
                 .requestMatchers("/RA/UpdataImage").authenticated()
                 .requestMatchers("/RA/SelectBike").authenticated()
-                .requestMatchers("RA/DeleteBike").authenticated()
+                .requestMatchers("/RA/DeleteBike").authenticated()
+                .requestMatchers("/CR/Create").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

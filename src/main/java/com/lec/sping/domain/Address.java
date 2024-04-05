@@ -1,6 +1,7 @@
 package com.lec.sping.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lec.sping.domain.crew.Crew;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +26,10 @@ public class Address {
     @OneToOne(mappedBy = "address")
     @ToString.Exclude
     private User user;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "crew_location")
+    @ToString.Exclude
+    private Crew crew;
 
 }

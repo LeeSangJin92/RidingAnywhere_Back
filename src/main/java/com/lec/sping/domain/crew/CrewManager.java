@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Persistent;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -24,8 +26,15 @@ public class CrewManager {
     @MapsId("crew_fk")
     private Crew crew;
 
+    // 크루 가입자
     @JoinColumn(name = "user_id")
     @OneToOne(optional = false)
     @MapsId("user_fk")
     private User user;
+
+    @PrePersist
+    private void setDefult(){
+        crew_joindate = LocalDateTime.now();
+        crew_cnt = 1L;
+    }
 }
