@@ -118,7 +118,7 @@ const CrewManager = () => {
             <DefaultHeader/>
             <section className='crewManager'>
                 {/* 🛠️ 크루 생성 창 */}
-                <CreateCrew/>
+                <CreateCrew showUp={true}/>
                 {/* 🛠️ 크루 정보 관련 라인 */}
                 <div className='crewInfoLine'>
                     <div>
