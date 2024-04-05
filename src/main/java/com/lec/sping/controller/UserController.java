@@ -42,7 +42,6 @@ public class UserController {
         UserAllDataDto userAllDataDto = new UserAllDataDto();
         userAllDataDto.setUserData(userData);
         userAllDataDto.setBikeList(bikeList);
-        System.out.println(userAllDataDto);
         return new ResponseEntity<>(userAllDataDto,HttpStatus.OK);
     }
 

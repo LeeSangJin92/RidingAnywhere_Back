@@ -53,7 +53,7 @@ const AddBike = () => {
     const selectBrand = (data) => {
         let inputData = document.getElementsByClassName("bikeImfoInput");
         inputData[0].selectedIndex = 0;  // 선택했던 연식 데이터 초기화
-        console.log("바이크 브랜드 선택");
+        console.log("✅바이크 브랜드 선택");
         setbrandlogo(data.target.value);
         setAddBikeData({...addBikeData,
                         bikeBrand:data.target.id,
@@ -65,7 +65,7 @@ const AddBike = () => {
 
     // 바이크 모델 선택
     const selectModel = (model)=>{
-        console.log("바이크 모델 변경")
+        console.log("✅바이크 모델 변경")
         let selectdModel = modelList.filter(modelData=>modelData.model_name===model.target.value)[0];
         setAddBikeData({...addBikeData,
             bikeBrand : selectdModel.brand_name,

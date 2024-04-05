@@ -4,12 +4,18 @@ show tables;
 # 🔎라이더 리스트 보기
 select * from user;
 
+UPDATE user set crew_id = null
+WHERE user_id=1;
+
 # 🔎권한 리스트 보기
 select * from authority;
 
 # 🔎크루 리스트 보기
 drop table crew;
 select * from crew;
+delete from crew;
+
+delete from crew_manager;
 
 drop table crew_attendance;
 drop table crew_schedule;

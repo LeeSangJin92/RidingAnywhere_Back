@@ -55,5 +55,6 @@ public class Crew {
         // 크루 생성 날짜 입력
         crew_regdate = LocalDateTime.now();
         crew_count = 1l;
+        user.setCrew(this);
     }
 }

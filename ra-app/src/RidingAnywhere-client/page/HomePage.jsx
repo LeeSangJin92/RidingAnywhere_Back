@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/homepage.css';
 import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
@@ -30,7 +30,11 @@ const HomePage = () => {
 
         } else console.log("⛔접속자에게 엑세스 없음")
     }
-    checkData();
+
+    useEffect(()=>{
+        checkData();
+    },[])
+    
 
     return (
         <main>

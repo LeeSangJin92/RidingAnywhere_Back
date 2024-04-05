@@ -134,7 +134,7 @@ const CrewManager = () => {
                     {/* 🛠️ 크루 생성 또는 가입 */}
                     <CheckCrew controller={showUpController} showUp={showUpControl[1]==='Check'?true:false}/>
                     {/* 🛠️ 크루 생성 창 */}
-                    <CreateCrew showUp={showUpControl[1]==='Create'?true:false}/>
+                    <CreateCrew controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
                  </div>
                 
                 {/* 🛠️ 크루 정보 관련 라인 */}
