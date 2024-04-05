@@ -5,6 +5,7 @@ import "../css/crewManager.css";
 import CrewMember from '../component/crewmanager/CrewMember';
 import { useNavigate } from 'react-router-dom';
 import CreateCrew from '../component/crewmanager/CreateCrew';
+import CheckCrew from '../component/crewmanager/CheckCrew';
 
 
 // 🛠️ 크루 관리 페이지
@@ -117,8 +118,14 @@ const CrewManager = () => {
         <main>
             <DefaultHeader/>
             <section className='crewManager'>
-                {/* 🛠️ 크루 생성 창 */}
-                <CreateCrew showUp={true}/>
+                {/* 🛠️ 백그라운드 클릭 방지용 */}
+                 <div className='LayoutBlock'>
+                    {/* 🛠️ 크루 생성 또는 가입 */}
+                    <CheckCrew showUp={true}/>
+                    {/* 🛠️ 크루 생성 창 */}
+                    <CreateCrew showUp={false}/>
+                 </div>
+                
                 {/* 🛠️ 크루 정보 관련 라인 */}
                 <div className='crewInfoLine'>
                     <div>

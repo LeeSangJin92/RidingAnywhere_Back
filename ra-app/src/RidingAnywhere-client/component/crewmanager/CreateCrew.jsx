@@ -2,9 +2,7 @@ import React from 'react';
 
 const CreateCrew = (props) => {
     return (
-        <div style={{display:"none"}}>
-            <div className='LayoutBlock'/>
-            <div className='CreateCrew'>
+            <div className='CreateCrew' style={props.showUp?{display:"flex"}:{display:"none"}}>
                 <h1>크루 생성</h1>
                 <div className='CreateInputLine'>
                     <h2>크루 명</h2>
@@ -33,7 +31,6 @@ const CreateCrew = (props) => {
                     <input id='Create_Non' type='button' style={{display:"none"}}/>
                 </div>
             </div>
-        </div>
     );
 };
 
