@@ -63,9 +63,13 @@ public class User {
     private Crew crew;                    // 소속 크루
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @ToString.Exclude
     private Crew createcrew;              // 생성한 크루
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @ToString.Exclude
     private CrewManager crewmanager;      // 크루 관리 유저
 
     @OneToOne(mappedBy = "user")
@@ -82,30 +86,37 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<CrewAttendance> attendances;   // 크루 일정 참가
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<OpenBoard> openBoardList;      // 라이더 게시판 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<OpenCommit> openCommits;       // 라이더 게시판 댓글 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<TourBoard> tourBoardList;      // 작성한 투어 게시글 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<TourAttendance> tourAttendanceList; // 참석하는 투어 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<CampingAttendance> campingAttendanceList; // 참석하는 모캠 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
+    @JsonIgnore
     private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
 
     @OneToOne

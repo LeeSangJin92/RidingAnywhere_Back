@@ -13,8 +13,6 @@ const CrewManager = () => {
 
     const navigate = useNavigate();
 
-    // 😎 라이더 정보 가져오기
-
     // 토큰 체크
     const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
 
@@ -37,6 +35,8 @@ const CrewManager = () => {
      // 🏍️ 바이크 정보
     const [bikeInfo, setbikeInfo] = useState()
 
+     // 🛠️ 창 관리용 [백그라운드 블록 on/off, "창 종류"]
+    const [showUpControl,setShowup] = useState([false,""])
 
      // ✏️ 토큰으로 라이더 정보 가져오기
      const checkData = async () => {
@@ -86,6 +86,14 @@ const CrewManager = () => {
                         return bikeData
                     }))
                     console.log("✅ 바이크 데이터 수집 완료")}
+                return data.userData;
+            }).then(userData => {
+                if(!userData.crew){
+                    console.log("⚠️ 가입된 크루가 없음.");
+                    showUpController({block:true,up:"Check"});
+                } else{
+                    console.log("✅ 가입된 크루 존재");
+                }
             })
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");
@@ -101,10 +109,13 @@ const CrewManager = () => {
         checkData();
     },[])
 
+    const showUpController = (props) => {
+        console.log("✅ 창 관리 변경")
+        setShowup([props.block,props.up])
+    }
 
 
-
-    // 크루 정보 변수
+    // 👪 크루 정보
     const [crewInfo, setCrewInfo] = useState({
         CrewName:"낭만 라이더",
         CrewMaster:"",
@@ -119,11 +130,11 @@ const CrewManager = () => {
             <DefaultHeader/>
             <section className='crewManager'>
                 {/* 🛠️ 백그라운드 클릭 방지용 */}
-                 <div className='LayoutBlock'>
+                 <div className='LayoutBlock' style={showUpControl[0]?{display:'flex'}:{display:'none'}}>
                     {/* 🛠️ 크루 생성 또는 가입 */}
-                    <CheckCrew showUp={true}/>
+                    <CheckCrew controller={showUpController} showUp={showUpControl[1]==='Check'?true:false}/>
                     {/* 🛠️ 크루 생성 창 */}
-                    <CreateCrew showUp={false}/>
+                    <CreateCrew showUp={showUpControl[1]==='Create'?true:false}/>
                  </div>
                 
                 {/* 🛠️ 크루 정보 관련 라인 */}
@@ -133,7 +144,6 @@ const CrewManager = () => {
                     </div>
                     <div className='crewInfoBox'>
                         <div className='crewInfoTable'>
-                            {console.log(riderInfo)}
                             <table>
                                 <tr>
                                     <th><h2>크루 마스터</h2></th>
