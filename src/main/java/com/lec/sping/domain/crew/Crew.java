@@ -1,5 +1,6 @@
 package com.lec.sping.domain.crew;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
 import jakarta.persistence.*;
@@ -28,16 +29,9 @@ public class Crew {
 
     // FK 영역
     @OneToOne(optional = false)
+    @ToString.Exclude
     @JoinColumn(name = "crewMaster")
     private User user;                  // 크루 마스터(크루장)
-
-    @OneToMany(mappedBy = "crew")
-    @ToString.Exclude
-    private List<CrewManager> crewManagers; // 크루 관리 리스트
-
-    @OneToMany(mappedBy = "crew")
-    @ToString.Exclude
-    private List<User> joinusers;        // 크루에 가입한 유저 리스트
 
     @OneToMany
     @ToString.Exclude

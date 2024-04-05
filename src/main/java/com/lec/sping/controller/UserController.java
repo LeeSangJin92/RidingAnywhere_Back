@@ -17,9 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +40,7 @@ public class UserController {
         UserAllDataDto userAllDataDto = new UserAllDataDto();
         userAllDataDto.setUserData(userData);
         userAllDataDto.setBikeList(bikeList);
+        if(userData.getCrew()!=null) userAllDataDto.setCrewId(userData.getCrew().getCrew_id());
         return new ResponseEntity<>(userAllDataDto,HttpStatus.OK);
     }
 

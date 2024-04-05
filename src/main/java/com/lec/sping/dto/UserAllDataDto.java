@@ -22,7 +22,5 @@ public class UserAllDataDto {
     private List<BikeGarage> bikeList = new ArrayList<>();
     private User userData = new User();
     private byte[] profile;
-    public UserAllDataDto setData(User user, List<BikeGarage> bikeGarages){
-        return UserAllDataDto.builder().bikeList(bikeGarages).userData(user).profile(profile).build();
-    }
+    private Long crewId;
 }

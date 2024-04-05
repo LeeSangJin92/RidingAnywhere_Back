@@ -15,6 +15,7 @@ drop table crew;
 select * from crew;
 delete from crew;
 
+select * from crew_manager;
 delete from crew_manager;
 
 drop table crew_attendance;

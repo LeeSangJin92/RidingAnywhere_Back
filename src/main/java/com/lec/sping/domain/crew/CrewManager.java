@@ -15,21 +15,20 @@ import java.time.LocalDateTime;
 @Entity
 public class CrewManager {
 
-    @EmbeddedId
-    private CrewKey manger_id;            // 크루 관리 ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long manger_id;              // 크루 관리 ID
     private Long crew_cnt;                  // 크루 출석 수
     private LocalDateTime crew_joindate;    // 크루 가입 날짜
 
     // FK 영역
     @ManyToOne(optional = false)
     @JoinColumn(name = "crew_id")
-    @MapsId("crew_fk")
     private Crew crew;
 
     // 크루 가입자
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     @OneToOne(optional = false)
-    @MapsId("user_fk")
     private User user;
 
     @PrePersist

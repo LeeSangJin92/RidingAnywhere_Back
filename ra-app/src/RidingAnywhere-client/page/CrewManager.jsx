@@ -10,8 +10,11 @@ import CheckCrew from '../component/crewmanager/CheckCrew';
 
 // 🛠️ 크루 관리 페이지
 const CrewManager = () => {
-
     const navigate = useNavigate();
+
+    // ✏️ 지역 관련 데이터 변수
+    const [addressList, setAddressList] = useState([]);
+    const [cityList, setCityList] = useState([""])
 
     // 토큰 체크
     const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
@@ -86,14 +89,8 @@ const CrewManager = () => {
                         return bikeData
                     }))
                     console.log("✅ 바이크 데이터 수집 완료")}
-                return data.userData;
-            }).then(userData => {
-                if(!userData.crew){
-                    console.log("⚠️ 가입된 크루가 없음.");
-                    showUpController({block:true,up:"Check"});
-                } else{
-                    console.log("✅ 가입된 크루 존재");
-                }
+                    console.log("🔎 크루 데이터 조회 중...")
+                    loadCrewData(data.crewId);
             })
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");
@@ -103,6 +100,54 @@ const CrewManager = () => {
         }
         
     }
+
+    const loadCrewData = async (props) => {
+        
+            let crewId = props;
+            if(!crewId){
+                console.log("⚠️ 가입된 크루가 없음.");
+                showUpController({block:true,up:"Check"});
+                console.log("🛜지역 데이터 요청중...")
+                await fetch("/RA/AddressData")
+                .then((response)=>{
+                    console.log("✅지역 데이터 요청 완료");
+                    if(response.status===200) return response.json();
+                    else console.log("❌지역 데이터 호출 실패!")
+                }).then((data)=>{
+                    console.log("🛠️지역 데이터 저장중...");
+                    setAddressList(data);
+                    setCityList([...new Set(data.map(data=>data.city))]);
+                    console.log("✅지역 데이터 작업 완료")
+                });
+            } else{
+                console.log("✅ 가입된 크루 존재");
+                console.log("🛜 크루 데이터 호출중...")
+                await fetch("/CR/LoadCrewData",{
+                    method:"POST",
+                    headers:{
+                    "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    "Content-Type": "application/json;charset=utf-8"},
+                    body:JSON.stringify(crewId)
+                }).then((response)=>{
+                    if(response.status===200) return response.json();
+                    else console.log("❌크루 데이터 호출 실패")
+                }).then(data=>{
+                    console.log("✅크루 데이터 호출 완료")
+                    console.log(data)
+                    setCrewInfo({...crewInfo,
+                        CrewName:data.crew_name,
+                        CrewMaster:data.user.userNickname,
+                        CrewContext:data.crew_context,
+                        CrewCity:data.crew_location.city,
+                        CrewTown:data.crew_location.town,
+                        CrewCount:data.crew_count,
+                        CrewList:data.crewmanager,
+                    })
+                })  
+            }
+        }
+
+
 
     // 🔎 랜더링때 1회 실행용
     useEffect(()=>{
@@ -120,7 +165,8 @@ const CrewManager = () => {
         CrewName:"낭만 라이더",
         CrewMaster:"",
         CrewContext:"낭만이 가득한 라이더들의 모임에 어서오세요~",
-        CrewPlaces:"",
+        CrewCity:"",
+        CrewTown:"",
         CrewCount:0,
         CrewList:[],
     });
@@ -134,7 +180,7 @@ const CrewManager = () => {
                     {/* 🛠️ 크루 생성 또는 가입 */}
                     <CheckCrew controller={showUpController} showUp={showUpControl[1]==='Check'?true:false}/>
                     {/* 🛠️ 크루 생성 창 */}
-                    <CreateCrew controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
+                    <CreateCrew addressList={addressList} cityList={cityList} controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
                  </div>
                 
                 {/* 🛠️ 크루 정보 관련 라인 */}
@@ -147,15 +193,15 @@ const CrewManager = () => {
                             <table>
                                 <tr>
                                     <th><h2>크루 마스터</h2></th>
-                                    <td><h2>마스터 닉네임</h2></td>
+                                    <td><h2>{crewInfo.CrewMaster}</h2></td>
                                 </tr>
                                 <tr>
                                     <th><h2>크루 인원</h2></th>
-                                    <td><h2>😎 100명</h2></td>
+                                    <td><h2>😎 {crewInfo.CrewCount} 명</h2></td>
                                 </tr>
                                 <tr>
                                     <th><h2>활동 지역</h2></th>
-                                    <td><h2>서울 경기</h2></td>
+                                    <td><h2>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2></td>
                                 </tr>
                             </table>
                         </div>

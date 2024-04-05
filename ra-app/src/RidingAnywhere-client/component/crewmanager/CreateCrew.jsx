@@ -10,25 +10,7 @@ const CreateCrew = (props) => {
         crew_context:""
         })
 
-    // ✏️ 지역 관련 데이터 변수
-    const [addressList, setAddressList] = useState([]);
-    const [cityList, setCityList] = useState([""])
-
-    // 🛜 지역 데이터 호출
-    useEffect(()=>{
-        console.log("🛜지역 데이터 요청중...")
-        fetch("/RA/AddressData")
-        .then((response)=>{
-            console.log("✅지역 데이터 요청 완료");
-            if(response.status===200) return response.json();
-            else console.log("❌지역 데이터 호출 실패!")
-        }).then((data)=>{
-            console.log("🛠️지역 데이터 저장중...");
-            setAddressList(data);
-            setCityList([...new Set(data.map(data=>data.city))]);
-            console.log("✅지역 데이터 작업 완료")
-        })
-    },[])
+   
 
     // ✏️ 작성되는 데이터 저장
     const setData = (props) => {
@@ -90,10 +72,10 @@ const CreateCrew = (props) => {
                     <div className='SelectLine'>
                         <select name='crew_city' className='selectCity' onChange={setData} value={crewData.crew_city}>
                     <option value={""}>도시</option>
-                    {cityList.map(data=>(<option value={data}>{data}</option>))}</select>
+                    {props.cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
                     <select name='crew_town' className='selectTown' onChange={setData} value={crewData.crew_town}>
                         <option value={""}>⚠️선택</option>
-                        {addressList.filter(data=>data.city===crewData.crew_city).map(data=>(<option value={data.town}>{data.town}</option>))}
+                        {props.addressList.filter(data=>data.city===crewData.crew_city).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                     </select>
                     </div>
                 </div>

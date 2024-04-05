@@ -59,6 +59,8 @@ public class User {
     private Authority authorityId;        // 유저 권한
 
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     @JoinColumn(name = "crewId")
     private Crew crew;                    // 소속 크루
 

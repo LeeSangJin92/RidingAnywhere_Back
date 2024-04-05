@@ -13,8 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CrewJoin  {
 
-    @EmbeddedId
-    private CrewKey join_id;        // 크루 가입 ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long join_id;               // 크루 가입 ID
     private Boolean join_state;         // 크루 가입 요청 상태
 
     // FK 영역

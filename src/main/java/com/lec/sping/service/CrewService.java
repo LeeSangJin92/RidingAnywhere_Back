@@ -3,7 +3,6 @@ package com.lec.sping.service;
 import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
-import com.lec.sping.domain.crew.CrewKey;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.CreateCrewDto;
 import com.lec.sping.repository.AddressRepository;
@@ -33,15 +32,15 @@ public class CrewService {
     }
 
     public void defaultCrewManager(Crew crew){
-        CrewKey crewMangerPK = new CrewKey();
-        crewMangerPK.setCrew_fk(crew.getCrew_id());
-        crewMangerPK.setUser_fk(crew.getUser().getUserId());
-
         CrewManager crewManager = new CrewManager();
-        crewManager.setManger_id(crewMangerPK);
         crewManager.setCrew(crew);
         crewManager.setUser(crew.getUser());
         crewManagerRepository.save(crewManager);
         System.out.println("✅크루 초기화 완료");
+    }
+
+    public Crew findById(Long crewId) {
+        System.out.println("테스트"+crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌존재 하지 않은 크루입니다.")));
+        return crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌존재 하지 않은 크루입니다."));
     }
 }

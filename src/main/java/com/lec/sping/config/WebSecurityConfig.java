@@ -52,6 +52,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/SelectBike").authenticated()
                 .requestMatchers("/RA/DeleteBike").authenticated()
                 .requestMatchers("/CR/Create").authenticated()
+                .requestMatchers("/CR/LoadCrewData").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
