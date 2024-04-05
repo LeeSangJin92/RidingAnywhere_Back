@@ -147,6 +147,7 @@ const SignupPage = () => {
                 "Content-Type": "application/json;charset=utf-8"},
             body:JSON.stringify(userData.userEmail)
             }).then(code=>{
+                console.log(code);
                 if(code.status===200) return code.json();
             }).then((data)=>{
                 console.log(data);

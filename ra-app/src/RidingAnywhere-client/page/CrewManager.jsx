@@ -1,12 +1,107 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import "../css/crewManager.css";
 import CrewMember from '../component/crewmanager/CrewMember';
+import { useNavigate } from 'react-router-dom';
+import CreateCrew from '../component/crewmanager/CreateCrew';
 
 
 // 🛠️ 크루 관리 페이지
 const CrewManager = () => {
+
+    const navigate = useNavigate();
+
+    // 😎 라이더 정보 가져오기
+
+    // 토큰 체크
+    const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
+
+     // 😎 라이더 정보
+     const [riderInfo, setriderInfo] = useState({
+        userEmail : "",
+        userName : "",
+        userNickname : "",
+        userBirthday : "",
+        userGender : "",
+        userPhone : "",
+        userAddressCity:"",
+        userAddressTown:"",
+        userAuthority:"",
+     })
+
+     // 📷 프로필 이미지 정보
+    const [profile,setprofile] = useState(null)
+
+     // 🏍️ 바이크 정보
+    const [bikeInfo, setbikeInfo] = useState()
+
+
+     // ✏️ 토큰으로 라이더 정보 가져오기
+     const checkData = async () => {
+        console.log("🛜라이더 엑세스 체크 중...")
+        if(!accessToken){
+            console.log("✅접속자에게 엑세스 있음!")
+            console.log("🛜라이더 데이터 확인 중...")
+            await fetch("/RA/CheckRider",
+            {headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"}})
+            .then(response => {
+                if(response.status===200) return response.json();
+                else console.log("⛔ 라이더 데이터 수집 실패!");
+            }).then(data => {
+                console.log("✅라이더 데이터 수집 완료!");
+                let userData = data.userData;
+                setriderInfo({...riderInfo,
+                    userEmail : userData.userEmail,
+                    userName : userData.userName,
+                    userNickname : userData.userNickname,
+                    userBirthday : userData.userBirthday,
+                    userGender : userData.userGender,
+                    userPhone : userData.userPhone,
+                    userAddressCity : userData.address.city,
+                    userAddressTown : userData.address.town,
+                    userAuthority : userData.authorityId.authority_name,
+                });
+                !!userData.userProfile&&setprofile('data:image/png;base64,'+userData.userProfile);
+                if(data.bikeList.length===0){
+                    console.log("⛔ 바이크 저장 이력 없음")
+                    alert("⚠️입력된 바이크 정보가 없습니다.⚠️\n - 바이크 추가 페이지로 이동합니다. - ")
+                    console.log("🛠️ 바이크 추가 페이지로 이동")
+                    navigate("/RA/Addbike");
+                }
+                else {
+                    setbikeInfo(data.bikeList.map((data,index)=>{
+                        const bikeData = {
+                            bike_index:index,
+                            bike_id:data.bikegarage_id,
+                            bike_year:data.bike_year,
+                            bike_cc:data.bikeModel.model_cc,
+                            bike_select:data.bike_select,
+                            model_name:data.bikeModel.model_name,
+                            bikebrand_logo:data.bikeModel.bikebrand_id.bikebrand_logo,
+                        }
+                        return bikeData
+                    }))
+                    console.log("✅ 바이크 데이터 수집 완료")}
+            })
+        } else {
+            console.log("⛔ 접속자에게 엑세스 없음");
+            alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
+            console.log("🛠️ 로그인 페이지로 이동")
+            navigate("/RA/login");
+        }
+        
+    }
+
+    // 🔎 랜더링때 1회 실행용
+    useEffect(()=>{
+        checkData();
+    },[])
+
+
+
 
     // 크루 정보 변수
     const [crewInfo, setCrewInfo] = useState({
@@ -22,6 +117,8 @@ const CrewManager = () => {
         <main>
             <DefaultHeader/>
             <section className='crewManager'>
+                {/* 🛠️ 크루 생성 창 */}
+                <CreateCrew/>
                 {/* 🛠️ 크루 정보 관련 라인 */}
                 <div className='crewInfoLine'>
                     <div>
@@ -29,6 +126,7 @@ const CrewManager = () => {
                     </div>
                     <div className='crewInfoBox'>
                         <div className='crewInfoTable'>
+                            {console.log(riderInfo)}
                             <table>
                                 <tr>
                                     <th><h2>크루 마스터</h2></th>

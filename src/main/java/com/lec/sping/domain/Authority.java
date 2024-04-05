@@ -1,5 +1,6 @@
 package com.lec.sping.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Authority {
     //FK 영역
 
     @OneToMany(mappedBy = "authorityId")
+    @JsonIgnore
     @ToString.Exclude
     private List<User> user;            // 유저
 }

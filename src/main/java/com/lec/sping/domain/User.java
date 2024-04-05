@@ -55,7 +55,6 @@ public class User {
     //FK 영역
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "authorityId")
     private Authority authorityId;        // 유저 권한
 
