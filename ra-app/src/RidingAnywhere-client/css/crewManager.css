@@ -9,10 +9,33 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    >div{
+
+    .crewInfoLine_Top{
+        width: 100%;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        .CrewBtn{
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            cursor: pointer;
+        }
+        [name='save']{
+            transform: translate(160px);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        [name='change']{
+            transform: translate(220px);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        
     }
 }
+
+
 
 .crewInfoBox{
     height: 600px;

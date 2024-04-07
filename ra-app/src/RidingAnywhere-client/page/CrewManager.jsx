@@ -43,10 +43,10 @@ const CrewManager = () => {
 
      // ✏️ 토큰으로 라이더 정보 가져오기
      const checkData = async () => {
-        console.log("🛜라이더 엑세스 체크 중...")
+        console.log("🛜 라이더 엑세스 체크 중...")
         if(!accessToken){
-            console.log("✅접속자에게 엑세스 있음!")
-            console.log("🛜라이더 데이터 확인 중...")
+            console.log("✅ 접속자에게 엑세스 있음!")
+            console.log("🛜 라이더 데이터 확인 중...")
             await fetch("/RA/CheckRider",
             {headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -55,7 +55,7 @@ const CrewManager = () => {
                 if(response.status===200) return response.json();
                 else console.log("⛔ 라이더 데이터 수집 실패!");
             }).then(data => {
-                console.log("✅라이더 데이터 수집 완료!");
+                console.log("✅ 라이더 데이터 수집 완료!");
                 let userData = data.userData;
                 setriderInfo({...riderInfo,
                     userEmail : userData.userEmail,
@@ -132,8 +132,7 @@ const CrewManager = () => {
                     if(response.status===200) return response.json();
                     else console.log("❌크루 데이터 호출 실패")
                 }).then(data=>{
-                    console.log("✅크루 데이터 호출 완료")
-                    console.log(data)
+                    console.log("✅ 크루 데이터 호출 완료")
                     setCrewInfo({...crewInfo,
                         CrewName:data.crew_name,
                         CrewMaster:data.user.userNickname,
@@ -159,17 +158,48 @@ const CrewManager = () => {
         setShowup([props.block,props.up])
     }
 
-
     // 👪 크루 정보
     const [crewInfo, setCrewInfo] = useState({
-        CrewName:"낭만 라이더",
+        CrewName:"",
         CrewMaster:"",
-        CrewContext:"낭만이 가득한 라이더들의 모임에 어서오세요~",
+        CrewContext:"",
         CrewCity:"",
         CrewTown:"",
         CrewCount:0,
         CrewList:[],
     });
+
+    // 🕹️ 크루 수정 컨트롤러
+    const [crewInfoBtn, setInfoBtn] = useState({
+        
+        SaveBtn:{backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+        ChangeBtn:[false,{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}]
+    })
+
+    const [updateCrewInfo, setUpdateCrewInfo] = useState({
+        CrewContext:"",
+        CrewCity:"",
+        CrewTown:""
+    })
+
+    const clickChangeBtn = () => {
+        if(crewInfoBtn.ChangeBtn[0]){
+            console.log("🛠️ 크루 수정 모드로 전환")
+            setInfoBtn({...crewInfoBtn,ChangeBtn:[false,{backgroundImage:"url('/img/crewmanager/CancelBtn.png')"}]})
+        } else {
+            console.log("❌ 크루 수정 데이터 리셋")
+            setInfoBtn({...crewInfoBtn,ChangeBtn:[true,{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}]})
+            setUpdateCrewInfo({
+                CrewContext:crewInfo.CrewContext,
+                CrewCity:crewInfo.CrewCity,
+                CrewTown:crewInfo.CrewTown
+            })
+        }
+        
+    }
+
+
+
 
     return (
         <main>
@@ -185,8 +215,14 @@ const CrewManager = () => {
                 
                 {/* 🛠️ 크루 정보 관련 라인 */}
                 <div className='crewInfoLine'>
-                    <div>
+                    {/* 크루 정보 탑 */}
+                    <div className='crewInfoLine_Top'>
                         <h1 className='crewName'> {crewInfo.CrewName} </h1>
+                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtn}/>
+                        <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
+                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn[1]} onClick={clickChangeBtn}/>
+                        <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
+                        
                     </div>
                     <div className='crewInfoBox'>
                         <div className='crewInfoTable'>
