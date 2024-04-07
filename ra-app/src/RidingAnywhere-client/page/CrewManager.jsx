@@ -193,7 +193,7 @@ const CrewManager = () => {
                 CrewContext:crewInfo.CrewContext,
                 CrewCity:crewInfo.CrewCity,
                 CrewTown:crewInfo.CrewTown
-            })
+            }) 
         }
         
     }
