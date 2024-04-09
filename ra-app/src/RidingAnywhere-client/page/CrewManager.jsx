@@ -133,6 +133,7 @@ const CrewManager = () => {
                 }).then(data=>{
                     console.log("✅ 크루 데이터 호출 완료")
                     setCrewInfo({...crewInfo,
+                        CrewId:data.crew_id,
                         CrewName:data.crew_name,
                         CrewMaster:data.user.userNickname,
                         CrewContext:data.crew_context,
@@ -162,6 +163,7 @@ const CrewManager = () => {
 
     // 👪 크루 정보
     const [crewInfo, setCrewInfo] = useState({
+        CrewId:"",
         CrewName:"",
         CrewMaster:"",
         CrewContext:"",
@@ -220,12 +222,8 @@ const CrewManager = () => {
         }
     }
 
-
-
     const datainsert = (props) => {
         let data = props.target;
-            
-
             switch(data.name){
                 case "CrewCity":
                     setInfoBtn({
@@ -265,40 +263,83 @@ const CrewManager = () => {
             }
         }
 
-    const saveAddressData = (btn) => {
+    const saveAddressData = async () => {
         console.log("🔎 지역 데이터 검증 중...");
         switch(crewInfoBtn.CheckAddress){
             case "Denied" :
+                console.log("❌ 지역 데이터 부족")
                 alert("⚠️크루 지역을 선택해주세요!⚠️");
                 break;
             case "Non" :
+                console.log("❌ 수정 데이터 없음")
                 alert("⚠️수정된 사항이 없습니다.⚠️")
                 break;
             case "OK":
-                console.log("✅ 지역 검중 완료")
+                console.log("✅ 지역 검중 완료");
+                console.log("🛜 지역 데이터 서버 요청");
+                let data = {
+                    CrewId:crewInfo.CrewId,
+                    CrewCity:updateCrewInfo.CrewCity,
+                    CrewTown:updateCrewInfo.CrewTown
+                };
+                await fetch("",{
+                    method:"POST",
+                    headers:{
+                        "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                        "Content-Type": "application/json;charset=utf-8"},
+                    body:JSON.stringify(data)
+                }).then(response=>{
+                    if(response.status===200) {console.log("✅서버 동작 완료"); return response.json()}
+                    else(console.log("❌ 서버 작업 실패"))
+                }).then(data=>{
+                    console.log("🛠️ 크루 데이터 최신화")
+                    loadCrewData(data.crew_id);
+                })
                 break;
             default : 
         }
     }
 
-    const saveContext = () => {
+    const saveContext = async () => {
         console.log("🔎 크루 인사말 검증 중...")
         switch(crewInfoBtn.CheckContext){
             case "Denied" :
+                console.log("❌ 인사말 데이터 Null")
                 alert("⚠️인사말은 꼭 입력해주세요!⚠️");
                 break;
             case "Non" :
+                console.log("❌ 수정 데이터 없음")
                 alert("⚠️수정된 사항이 없습니다.⚠️")
                 break;
             case "OK":
-                console.log("✅ 지역 검중 완료")
+                console.log("✅ 크루 인사말 검증 완료")
+                console.log("🛜 인사말 데이터 서버 요청");
+                let data = {
+                    CrewId:crewInfo.CrewId,
+                    CrewContext:updateCrewInfo.CrewContext
+                };
+                await fetch("",{
+                    method:"POST",
+                    headers:{
+                        "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                        "Content-Type": "application/json;charset=utf-8"},
+                    body:JSON.stringify(data)
+                }).then(response=>{
+                    if(response.status===200) {console.log("✅서버 동작 완료"); return response.json()}
+                    else(console.log("❌ 서버 작업 실패"))
+                }).then(data=>{
+                    console.log("🛠️ 크루 데이터 최신화")
+                    loadCrewData(data.crew_id);
+                })
+
+
+
+
+
                 break;
             default : 
         }
     }
-
-
-
 
     return (
         <main>
