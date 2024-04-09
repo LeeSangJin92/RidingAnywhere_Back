@@ -71,9 +71,9 @@ const CreateCrew = (props) => {
                     <h2>활동 지역</h2>
                     <div className='SelectLine'>
                         <select name='crew_city' className='selectCity' onChange={setData} value={crewData.crew_city}>
-                    <option value={""}>도시</option>
-                    {props.cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
-                    <select name='crew_town' className='selectTown' onChange={setData} value={crewData.crew_town}>
+                        <option value={""}>도시</option>
+                        {props.cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
+                        <select name='crew_town' className='selectTown' onChange={setData} value={crewData.crew_town}>
                         <option value={""}>⚠️선택</option>
                         {props.addressList.filter(data=>data.city===crewData.crew_city).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                     </select>

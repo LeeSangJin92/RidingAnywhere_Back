@@ -43,7 +43,7 @@
     flex-direction: column;
 }
 
-.crewInfoTable{
+.crewInfoBox_Line{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,15 +53,37 @@
     border: 2px solid orange;
     border-radius: 10px;
     margin-bottom: 10px;
-    th{
-        width: 150px;
+    .line{
+        width: 450px;
+        display: flex;
+        justify-content: space-between;
     }
-    td{
+    .addressSelectBox{
         width: 220px;
-        text-align: center;
+        justify-content: space-around;
+        select{
+            border: 2px solid orange;
+            border-radius: 10px;
+            background-color: black;
+            color: gold;
+            width: 100px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
     }
     h2{
+        width: 220px;
+        text-align: center;
+        justify-content: center;
         margin: 15px 0;
+        background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+        font-weight: bold;
+        -webkit-text-stroke-width: 0.1px;
+        -webkit-text-stroke-color: black;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 }
 
@@ -70,8 +92,16 @@
     height: 300px;
     display: flex;
     flex-direction: column;
-    >h1{
+     h1{
         text-align: center;
+    }
+    label{
+        transform: translate(440px, -100%);
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        background-size: 70px;
+        cursor: pointer;
     }
 
     .crewContextBox{

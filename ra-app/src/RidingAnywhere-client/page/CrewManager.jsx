@@ -89,6 +89,19 @@ const CrewManager = () => {
                         return bikeData
                     }))
                     console.log("✅ 바이크 데이터 수집 완료")}
+
+                    console.log("🛜지역 데이터 요청중...")
+                    fetch("/RA/AddressData")
+                    .then((response)=>{
+                        console.log("✅지역 데이터 요청 완료");
+                        if(response.status===200) return response.json();
+                        else console.log("❌지역 데이터 호출 실패!")
+                    }).then((data)=>{
+                        console.log("🛠️지역 데이터 저장중...");
+                        setAddressList(data);
+                        setCityList([...new Set(data.map(data=>data.city))]);
+                        console.log("✅지역 데이터 작업 완료")
+                    });
                     console.log("🔎 크루 데이터 조회 중...")
                     loadCrewData(data.crewId);
             })
@@ -98,27 +111,13 @@ const CrewManager = () => {
             console.log("🛠️ 로그인 페이지로 이동")
             navigate("/RA/login");
         }
-        
     }
 
     const loadCrewData = async (props) => {
-        
             let crewId = props;
             if(!crewId){
                 console.log("⚠️ 가입된 크루가 없음.");
                 showUpController({block:true,up:"Check"});
-                console.log("🛜지역 데이터 요청중...")
-                await fetch("/RA/AddressData")
-                .then((response)=>{
-                    console.log("✅지역 데이터 요청 완료");
-                    if(response.status===200) return response.json();
-                    else console.log("❌지역 데이터 호출 실패!")
-                }).then((data)=>{
-                    console.log("🛠️지역 데이터 저장중...");
-                    setAddressList(data);
-                    setCityList([...new Set(data.map(data=>data.city))]);
-                    console.log("✅지역 데이터 작업 완료")
-                });
             } else{
                 console.log("✅ 가입된 크루 존재");
                 console.log("🛜 크루 데이터 호출중...")
@@ -142,11 +141,14 @@ const CrewManager = () => {
                         CrewCount:data.crew_count,
                         CrewList:data.crewmanager,
                     })
+                    setUpdateCrewInfo({...updateCrewInfo,
+                        CrewContext:data.crew_context,
+                        CrewCity:data.crew_location.city,
+                        CrewTown:data.crew_location.town
+                    })
                 })  
             }
         }
-
-
 
     // 🔎 랜더링때 1회 실행용
     useEffect(()=>{
@@ -171,9 +173,10 @@ const CrewManager = () => {
 
     // 🕹️ 크루 수정 컨트롤러
     const [crewInfoBtn, setInfoBtn] = useState({
-        
-        SaveBtn:{backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
-        ChangeBtn:[false,{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}]
+        ChangeMode:false,
+        SaveBtn:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+        ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
+        AddressSelect:{display:'none'}
     })
 
     const [updateCrewInfo, setUpdateCrewInfo] = useState({
@@ -183,20 +186,30 @@ const CrewManager = () => {
     })
 
     const clickChangeBtn = () => {
-        if(crewInfoBtn.ChangeBtn[0]){
-            console.log("🛠️ 크루 수정 모드로 전환")
-            setInfoBtn({...crewInfoBtn,ChangeBtn:[false,{backgroundImage:"url('/img/crewmanager/CancelBtn.png')"}]})
-        } else {
+        if(crewInfoBtn.ChangeMode){
             console.log("❌ 크루 수정 데이터 리셋")
-            setInfoBtn({...crewInfoBtn,ChangeBtn:[true,{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}]})
-            setUpdateCrewInfo({
+            setInfoBtn({...crewInfoBtn,ChangeMode:false,
+                        ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
+                        SaveBtn:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+                        AddressSelect:{display:'none'}
+                    })
+                        setUpdateCrewInfo({
                 CrewContext:crewInfo.CrewContext,
                 CrewCity:crewInfo.CrewCity,
                 CrewTown:crewInfo.CrewTown
-            }) 
+            })
+        } else {
+                console.log("🛠️ 크루 수정 모드로 전환")
+                setInfoBtn({...crewInfoBtn,ChangeMode:true,
+                        ChangeBtn:{backgroundImage:"url('/img/crewmanager/CancelBtn.png')"},
+                        SaveBtn:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+                        AddressSelect:{display:'flex'}
+                    })
         }
-        
     }
+
+    const datainsert = (props) => {
+        }
 
 
 
@@ -220,29 +233,40 @@ const CrewManager = () => {
                         <h1 className='crewName'> {crewInfo.CrewName} </h1>
                         <label htmlFor='changeCrewInfo' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtn}/>
                         <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
-                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn[1]} onClick={clickChangeBtn}/>
+                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn} onClick={clickChangeBtn}/>
                         <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
                         
                     </div>
                     <div className='crewInfoBox'>
-                        <div className='crewInfoTable'>
-                            <table>
-                                <tr>
-                                    <th><h2>크루 마스터</h2></th>
-                                    <td><h2>{crewInfo.CrewMaster}</h2></td>
-                                </tr>
-                                <tr>
-                                    <th><h2>크루 인원</h2></th>
-                                    <td><h2>😎 {crewInfo.CrewCount} 명</h2></td>
-                                </tr>
-                                <tr>
-                                    <th><h2>활동 지역</h2></th>
-                                    <td><h2>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2></td>
-                                </tr>
-                            </table>
+                        <div className='crewInfoBox_Line'>
+                                <div className='line'>
+                                    <h2>크루 마스터</h2>
+                                    <h2>{crewInfo.CrewMaster}</h2>
+                                </div>
+                                <div className='line'>
+                                    <h2>크루 인원</h2>
+                                    <h2>😎 {crewInfo.CrewCount} 명</h2>
+                                </div>
+                                <div className='line'>
+                                    <h2>활동 지역</h2>
+                                    <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:'flex'}}>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2>
+                                    <div className='addressSelectBox' style={crewInfoBtn.AddressSelect} >
+                                        <select name='crew_city' className='selectCity' onChange={datainsert} value={updateCrewInfo.CrewCity}>
+                                            <option value={""}>도시</option>
+                                            {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
+                                        <select name='crew_town' className='selectTown' onChange={datainsert} value={updateCrewInfo.CrewTown}>
+                                            <option value={""}>⚠️선택</option>
+                                            {addressList.filter(data=>data.city===updateCrewInfo.CrewCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
                         <div className='crewContext'>
-                            <h1>크루 소개</h1>
+                            <div className='crewContext_Top'>
+                                <h1>크루 소개</h1>
+                                <label htmlFor='saveContext' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtn}/>
+                                <input id="saveContext" type='button' style={{display:'none'}}/>
+                            </div>
                             <div className='crewContextBox'>
                                 <h2>{crewInfo.CrewContext}</h2>
                             </div>
