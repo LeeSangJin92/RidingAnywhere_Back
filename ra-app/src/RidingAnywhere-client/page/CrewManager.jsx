@@ -174,6 +174,8 @@ const CrewManager = () => {
     // 🕹️ 크루 수정 컨트롤러
     const [crewInfoBtn, setInfoBtn] = useState({
         ChangeMode:false,
+        CheckAddress:"Non",
+        CheckContext:"Non",
         SaveBtnAddress:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
         SaveBtnContext:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
         ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
@@ -192,6 +194,8 @@ const CrewManager = () => {
             console.log("❌ 크루 수정 데이터 리셋")
             setInfoBtn({...crewInfoBtn,ChangeMode:false,
                         ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
+                        CheckAddress:"Non",
+                        CheckContext:"Non",
                         SaveBtnAddress:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
                         SaveBtnContext:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
                         AddressSelect:{display:'none'},
@@ -206,6 +210,8 @@ const CrewManager = () => {
                 console.log("🛠️ 크루 수정 모드로 전환")
                 setInfoBtn({...crewInfoBtn,ChangeMode:true,
                         ChangeBtn:{backgroundImage:"url('/img/crewmanager/CancelBtn.png')"},
+                        CheckAddress:"Non",
+                        CheckContext:"Non",
                         SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
                         SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
                         AddressSelect:{display:'flex'},
@@ -223,27 +229,35 @@ const CrewManager = () => {
             switch(data.name){
                 case "CrewCity":
                     setInfoBtn({
-                        ...crewInfoBtn,SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/DeniedBtn.png')"},
+                        ...crewInfoBtn,CheckAddress:"Denied",SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/DeniedBtn.png')"},
                     })
                     setUpdateCrewInfo({...updateCrewInfo,[data.name]:data.value})
                     break;
                 case "CrewTown":
-                    setInfoBtn({
-                        ...crewInfoBtn,SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOn.png')"},
-                    })
+                    if(data.value==="") setInfoBtn({
+                        ...crewInfoBtn,CheckAddress:"Denied",SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/DeniedBtn.png')"},
+                    });
+                    else if(data.value!==crewInfo.CrewTown)setInfoBtn({
+                        ...crewInfoBtn,CheckAddress:"OK",SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOn.png')"},
+                    }); else setInfoBtn({
+                        ...crewInfoBtn,CheckAddress:"Non",SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+                    }); 
                     setUpdateCrewInfo({...updateCrewInfo,[data.name]:data.value})
                     break;
                 case "CrewContext":
-                    if(updateCrewInfo.CrewContext.length+1>100){
+                    if(data.value.length>100){
                         alert("⚠️크루 인사말은 100자 이하입니다.");
                     } else {
-                        if((data.value!==""&&(data.value!==crewInfo.CrewContext)))
+                        if((data.value===""))
                         setInfoBtn({
-                            ...crewInfoBtn,SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOn.png')"},
+                            ...crewInfoBtn,CheckContext:"Denied",SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/DeniedBtn.png')"},
+                        });
+                        else if(data.value===crewInfo.CrewContext)setInfoBtn({
+                            ...crewInfoBtn,CheckContext:"Non",SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
                         }); 
-                        else setInfoBtn({
-                            ...crewInfoBtn,SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
-                        }); 
+                        else (setInfoBtn({
+                            ...crewInfoBtn,CheckContext:"OK",SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOn.png')"},
+                        }));
                         setUpdateCrewInfo({...updateCrewInfo,[data.name]:data.value});}
                     break;
                 default :
@@ -251,15 +265,36 @@ const CrewManager = () => {
             }
         }
 
-    const saveAddressData = () => {
-        console.log("🔎지역 데이터 검증 중...");
-        if(updateCrewInfo.CrewTown === "CrewTown"){
-            alert("지역 데이터 저장 불가능");
+    const saveAddressData = (btn) => {
+        console.log("🔎 지역 데이터 검증 중...");
+        switch(crewInfoBtn.CheckAddress){
+            case "Denied" :
+                alert("⚠️크루 지역을 선택해주세요!⚠️");
+                break;
+            case "Non" :
+                alert("⚠️수정된 사항이 없습니다.⚠️")
+                break;
+            case "OK":
+                console.log("✅ 지역 검중 완료")
+                break;
+            default : 
         }
     }
 
     const saveContext = () => {
-
+        console.log("🔎 크루 인사말 검증 중...")
+        switch(crewInfoBtn.CheckContext){
+            case "Denied" :
+                alert("⚠️인사말은 꼭 입력해주세요!⚠️");
+                break;
+            case "Non" :
+                alert("⚠️수정된 사항이 없습니다.⚠️")
+                break;
+            case "OK":
+                console.log("✅ 지역 검중 완료")
+                break;
+            default : 
+        }
     }
 
 
@@ -282,10 +317,10 @@ const CrewManager = () => {
                     {/* 크루 정보 탑 */}
                     <div className='crewInfoLine_Top'>
                         <h1 className='crewName'> {crewInfo.CrewName} </h1>
-                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtnAddress}/>
-                        <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
-                        <label htmlFor='changeCrewInfo' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn} onClick={clickChangeBtn}/>
-                        <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
+                        <label htmlFor='saveAddressBtn' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtnAddress} />
+                        <input id="saveAddressBtn" type='button' style={{display:'none'}} onClick={saveAddressData}/>
+                        <label htmlFor='changeModeBtn' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn}/>
+                        <input id="changeModeBtn" type='button' style={{display:'none'}} onClick={clickChangeBtn}/>
                         
                     </div>
                     <div className='crewInfoBox'>
@@ -303,7 +338,6 @@ const CrewManager = () => {
                                     <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:'flex'}}>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2>
                                     <div className='addressSelectBox' style={crewInfoBtn.AddressSelect} >
                                         <select name='CrewCity' className='selectCity' onChange={datainsert} value={updateCrewInfo.CrewCity}>
-                                            <option value={""}>도시</option>
                                             {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
                                         <select name='CrewTown' className='selectTown' onChange={datainsert} value={updateCrewInfo.CrewTown}>
                                             <option value={""}>⚠️선택</option>
@@ -316,7 +350,7 @@ const CrewManager = () => {
                             <div className='crewContext_Top'>
                                 <h1>크루 소개</h1>
                                 <label htmlFor='saveContext' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtnContext}/>
-                                <input id="saveContext" type='button' style={{display:'none'}}/>
+                                <input id="saveContext" type='button' style={{display:'none'}} onClick={saveContext}/>
                             </div>
                             <div className='crewContextBox'>
                                 <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:"flex"}}>{crewInfo.CrewContext}</h2>

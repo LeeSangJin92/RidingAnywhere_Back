@@ -89,7 +89,7 @@
 
 .crewContext{
     width: 500px;
-    height: 300px;
+    height: 310px;
     display: flex;
     flex-direction: column;
      h1{
@@ -106,7 +106,7 @@
 
     .crewContextBox{
         width: 500px;
-        height: 200px;
+        height: 230px;
         display: flex;
         border: 2px solid orange;
         border-radius: 10px;
