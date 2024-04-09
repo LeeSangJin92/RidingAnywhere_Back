@@ -51,12 +51,25 @@ public class CrewController {
     @CrossOrigin
     @PostMapping("/ChangeAddress")
     public ResponseEntity<?> changeAddressData(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ChangeCrewDto changeCrewData){
-        System.out.println("🛠️크루 지역 데이터 변경 요청 받음");
-        System.out.println("🔎수정하려는 크루 데이터 조회중...");
+        System.out.println("🛠️ 크루 지역 데이터 수정 요청 받음");
+        System.out.println("🔎 수정하려는 크루 데이터 조회중...");
         Crew crew = crewService.findById(changeCrewData.getCrew_id());
         System.out.println("✅ 크루 데이터 조회 완료");
         System.out.println("🛠️ 데이터 수정 중...");
         crew.setCrew_location(addressService.findByLocation(changeCrewData.getCrew_city(), changeCrewData.getCrew_town()));
+        System.out.println("✅ 크루 데이터 수정 완료");
+        return new ResponseEntity<>(crewService.save(crew),HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("ChangeContext")
+    public ResponseEntity<?> changeContext(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ChangeCrewDto changeCrewData){
+        System.out.println("🛠️ 크루 인사말 수정 요청 받음 ");
+        System.out.println("🔎 수정하려는 크루 데이터 조회중...");
+        Crew crew = crewService.findById(changeCrewData.getCrew_id());
+        System.out.println("✅ 크루 데이터 조회 완료");
+        System.out.println("🛠️ 데이터 수정 중...");
+        crew.setCrew_context(changeCrewData.getCrew_context());
         System.out.println("✅ 크루 데이터 수정 완료");
         return new ResponseEntity<>(crewService.save(crew),HttpStatus.OK);
     }

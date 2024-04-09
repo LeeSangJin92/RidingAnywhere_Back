@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/CR/Create").authenticated()
                 .requestMatchers("/CR/LoadCrewData").authenticated()
                 .requestMatchers("CR/ChangeAddress").authenticated()
+                .requestMatchers("CR/ChangeContext").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

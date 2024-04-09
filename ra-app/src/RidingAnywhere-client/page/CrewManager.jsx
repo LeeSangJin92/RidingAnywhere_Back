@@ -318,7 +318,7 @@ const CrewManager = () => {
                     crew_id:crewInfo.CrewId,
                     crew_context:updateCrewInfo.CrewContext
                 };
-                await fetch("",{
+                await fetch("/CR/ChangeContext",{
                     method:"POST",
                     headers:{
                         "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
