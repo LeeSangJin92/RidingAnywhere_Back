@@ -278,11 +278,11 @@ const CrewManager = () => {
                 console.log("✅ 지역 검중 완료");
                 console.log("🛜 지역 데이터 서버 요청");
                 let data = {
-                    CrewId:crewInfo.CrewId,
-                    CrewCity:updateCrewInfo.CrewCity,
-                    CrewTown:updateCrewInfo.CrewTown
+                    crew_id:crewInfo.CrewId,
+                    crew_city:updateCrewInfo.CrewCity,
+                    crew_town:updateCrewInfo.CrewTown
                 };
-                await fetch("",{
+                await fetch("/CR/ChangeAddress",{
                     method:"POST",
                     headers:{
                         "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -315,8 +315,8 @@ const CrewManager = () => {
                 console.log("✅ 크루 인사말 검증 완료")
                 console.log("🛜 인사말 데이터 서버 요청");
                 let data = {
-                    CrewId:crewInfo.CrewId,
-                    CrewContext:updateCrewInfo.CrewContext
+                    crew_id:crewInfo.CrewId,
+                    crew_context:updateCrewInfo.CrewContext
                 };
                 await fetch("",{
                     method:"POST",
@@ -331,10 +331,6 @@ const CrewManager = () => {
                     console.log("🛠️ 크루 데이터 최신화")
                     loadCrewData(data.crew_id);
                 })
-
-
-
-
 
                 break;
             default : 

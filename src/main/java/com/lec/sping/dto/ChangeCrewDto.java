@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangePasswordRequestDto {
-    private String userEmail;
-    private String exUserPassword;
-    private String newUserPassword;
+public class ChangeCrewDto {
+
+    private Long crew_id;
+    private String crew_city;
+    private String crew_town;
+    private String crew_context;
 }

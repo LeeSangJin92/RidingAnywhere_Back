@@ -40,7 +40,10 @@ public class CrewService {
     }
 
     public Crew findById(Long crewId) {
-        System.out.println("테스트"+crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌존재 하지 않은 크루입니다.")));
         return crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌존재 하지 않은 크루입니다."));
+    }
+
+    public Crew save(Crew crew){
+        return crewRepository.save(crew);
     }
 }

@@ -2,8 +2,10 @@ package com.lec.sping.controller;
 
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
+import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
 import com.lec.sping.jwt.TokenProvider;
+import com.lec.sping.service.AddressService;
 import com.lec.sping.service.CrewService;
 import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class CrewController {
     private final UserService userService;
     private final TokenProvider tokenProvider;
     private final CrewService crewService;
+    private final AddressService addressService;
 
     @CrossOrigin
     @PostMapping("/Create")
@@ -44,4 +47,20 @@ public class CrewController {
         System.out.println(crew);
         return new ResponseEntity<>(crew,HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping("/ChangeAddress")
+    public ResponseEntity<?> changeAddressData(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ChangeCrewDto changeCrewData){
+        System.out.println("🛠️크루 지역 데이터 변경 요청 받음");
+        System.out.println("🔎수정하려는 크루 데이터 조회중...");
+        Crew crew = crewService.findById(changeCrewData.getCrew_id());
+        System.out.println("✅ 크루 데이터 조회 완료");
+        System.out.println("🛠️ 데이터 수정 중...");
+        crew.setCrew_location(addressService.findByLocation(changeCrewData.getCrew_city(), changeCrewData.getCrew_town()));
+        System.out.println("✅ 크루 데이터 수정 완료");
+        return new ResponseEntity<>(crewService.save(crew),HttpStatus.OK);
+    }
+
+
+
 }

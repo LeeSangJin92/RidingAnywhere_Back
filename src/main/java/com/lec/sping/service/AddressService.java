@@ -17,4 +17,8 @@ public class AddressService {
         public List<Address> getfindAll() {
             return addressRepository.findAll();
         }
+
+        public Address findByLocation(String city, String town){
+            return addressRepository.findByCityAndTown(city,town).orElseThrow(()->new NullPointerException("❌ 찾는 지역이 없습니다."));
+        }
 }
