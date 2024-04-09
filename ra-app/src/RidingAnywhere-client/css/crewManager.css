@@ -116,6 +116,22 @@
             width: 90%;
             height: 80%;
             margin: 0;
+            background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+            font-weight: bold;
+            -webkit-text-stroke-width: 0.1px;
+            -webkit-text-stroke-color: black;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        >textarea{
+            width: 90%;
+            height: 80%;
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            font-size: 25px;
+            font-weight: bold;
+            color: gold;
         }
     }
 }

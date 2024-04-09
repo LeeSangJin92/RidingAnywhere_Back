@@ -176,7 +176,8 @@ const CrewManager = () => {
         ChangeMode:false,
         SaveBtn:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
         ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
-        AddressSelect:{display:'none'}
+        AddressSelect:{display:'none'},
+        ContextArea : {display:'none'}
     })
 
     const [updateCrewInfo, setUpdateCrewInfo] = useState({
@@ -191,7 +192,8 @@ const CrewManager = () => {
             setInfoBtn({...crewInfoBtn,ChangeMode:false,
                         ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
                         SaveBtn:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
-                        AddressSelect:{display:'none'}
+                        AddressSelect:{display:'none'},
+                        ContextArea : {display:'none'}
                     })
                         setUpdateCrewInfo({
                 CrewContext:crewInfo.CrewContext,
@@ -203,12 +205,16 @@ const CrewManager = () => {
                 setInfoBtn({...crewInfoBtn,ChangeMode:true,
                         ChangeBtn:{backgroundImage:"url('/img/crewmanager/CancelBtn.png')"},
                         SaveBtn:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
-                        AddressSelect:{display:'flex'}
+                        AddressSelect:{display:'flex'},
+                        ContextArea : {display:'flex'}
                     })
         }
     }
 
     const datainsert = (props) => {
+        let data = props.target;
+            setUpdateCrewInfo({...updateCrewInfo,[data.name]:data.value})
+
         }
 
 
@@ -231,6 +237,7 @@ const CrewManager = () => {
                     {/* 크루 정보 탑 */}
                     <div className='crewInfoLine_Top'>
                         <h1 className='crewName'> {crewInfo.CrewName} </h1>
+                        {console.log(crewInfoBtn.ChangeMode)}
                         <label htmlFor='changeCrewInfo' className='CrewBtn' name='save' style={crewInfoBtn.SaveBtn}/>
                         <input id="changeCrewInfo" type='button' style={{display:'none'}}/>
                         <label htmlFor='changeCrewInfo' className='CrewBtn' name='change' style={crewInfoBtn.ChangeBtn} onClick={clickChangeBtn}/>
@@ -251,10 +258,10 @@ const CrewManager = () => {
                                     <h2>활동 지역</h2>
                                     <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:'flex'}}>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2>
                                     <div className='addressSelectBox' style={crewInfoBtn.AddressSelect} >
-                                        <select name='crew_city' className='selectCity' onChange={datainsert} value={updateCrewInfo.CrewCity}>
+                                        <select name='CrewCity' className='selectCity' onChange={datainsert} value={updateCrewInfo.CrewCity}>
                                             <option value={""}>도시</option>
                                             {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
-                                        <select name='crew_town' className='selectTown' onChange={datainsert} value={updateCrewInfo.CrewTown}>
+                                        <select name='CrewTown' className='selectTown' onChange={datainsert} value={updateCrewInfo.CrewTown}>
                                             <option value={""}>⚠️선택</option>
                                             {addressList.filter(data=>data.city===updateCrewInfo.CrewCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                                         </select>
@@ -268,7 +275,8 @@ const CrewManager = () => {
                                 <input id="saveContext" type='button' style={{display:'none'}}/>
                             </div>
                             <div className='crewContextBox'>
-                                <h2>{crewInfo.CrewContext}</h2>
+                                <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:"flex"}}>{crewInfo.CrewContext}</h2>
+                                <textarea name='CrewContext' style={crewInfoBtn.ContextArea} className='crewContextArea' placeholder={crewInfo.CrewContext} onChange={datainsert}></textarea>
                             </div>
                         </div>
                     </div>
