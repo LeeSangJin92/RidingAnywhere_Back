@@ -36,6 +36,8 @@ public class CrewService {
         crewManager.setCrew(crew);
         crewManager.setUser(crew.getUser());
         crewManagerRepository.save(crewManager);
+        crew.setCrewmanager(crewManagerRepository.findAllByCrew(crew));
+        crewRepository.save(crew);
         System.out.println("✅크루 초기화 완료");
     }
 

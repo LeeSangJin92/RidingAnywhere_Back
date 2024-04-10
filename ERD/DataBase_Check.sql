@@ -14,6 +14,8 @@ select * from authority;
 drop table crew;
 select * from crew;
 delete from crew;
+ALTER TABLE crew AUTO_INCREMENT = 1;
+
 
 select * from crew_manager;
 delete from crew_manager;

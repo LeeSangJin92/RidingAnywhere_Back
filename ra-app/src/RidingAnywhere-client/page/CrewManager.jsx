@@ -132,6 +132,7 @@ const CrewManager = () => {
                     else console.log("❌크루 데이터 호출 실패")
                 }).then(data=>{
                     console.log("✅ 크루 데이터 호출 완료")
+                    console.log(data)
                     setCrewInfo({...crewInfo,
                         CrewId:data.crew_id,
                         CrewName:data.crew_name,
@@ -139,8 +140,7 @@ const CrewManager = () => {
                         CrewContext:data.crew_context,
                         CrewCity:data.crew_location.city,
                         CrewTown:data.crew_location.town,
-                        CrewCount:data.crew_count,
-                        CrewList:data.crewmanager,
+                        CrewCount:data.crew_count
                     })
                     setUpdateCrewInfo({...updateCrewInfo,
                         CrewContext:data.crew_context,
@@ -170,7 +170,6 @@ const CrewManager = () => {
         CrewCity:"",
         CrewTown:"",
         CrewCount:0,
-        CrewList:[],
     });
 
     // 🕹️ 크루 수정 컨트롤러
@@ -294,6 +293,9 @@ const CrewManager = () => {
                 }).then(data=>{
                     console.log("🛠️ 크루 데이터 최신화")
                     loadCrewData(data.crew_id);
+                    setInfoBtn({
+                        ...crewInfoBtn,CheckAddress:"Non",SaveBtnAddress:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+                    }); 
                 })
                 break;
             default : 
@@ -330,6 +332,10 @@ const CrewManager = () => {
                 }).then(data=>{
                     console.log("🛠️ 크루 데이터 최신화")
                     loadCrewData(data.crew_id);
+                    setInfoBtn({
+                        ...crewInfoBtn,CheckContext:"Non",SaveBtnContext:{display:'flex', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
+                    });
+
                 })
 
                 break;
@@ -401,9 +407,6 @@ const CrewManager = () => {
                 <div className='crewListLine'>
                     <h1>크루 리스트</h1>
                     <div className='crewMenberBoxLine'>
-                        <CrewMember/>
-                        <CrewMember/>
-                        <CrewMember/>
                     </div>
                 </div>
                 

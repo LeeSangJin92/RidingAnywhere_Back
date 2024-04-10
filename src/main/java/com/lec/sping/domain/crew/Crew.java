@@ -34,6 +34,7 @@ public class Crew {
     private User user;                  // 크루 마스터(크루장)
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "manager")
     private List<CrewManager> crewmanager;      // 크루 인원 관리

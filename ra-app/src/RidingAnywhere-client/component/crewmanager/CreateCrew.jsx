@@ -24,13 +24,13 @@ const CreateCrew = (props) => {
     }
 
     const clickCreate = async() => {
-        console.log("🔎입력한 데이터 체크중...")
+        console.log("🔎 입력한 데이터 체크중...")
         if(Object.values(crewData).includes("")){
             console.log("❌입력 데이터 부족")
             alert(`⚠️크루 생성을 위한 정보가 부족합니다⚠️\n- 입력한 정보를 확인해주세요! -`)
         }
         else{
-            console.log("🛜서버로 데이터 전송중...")
+            console.log("🛜 서버로 데이터 전송중...")
             await fetch("/CR/Create",{
                 method:"POST",
                 headers:{
@@ -38,8 +38,13 @@ const CreateCrew = (props) => {
                     "Content-Type": "application/json;charset=utf-8"},
                 body:JSON.stringify(crewData)
             }).then(response=>{
-                console.log("✅수신 완료");
-                console.log(response);
+                if(response.status===200){
+                    console.log("✅ 크루 생성 완료")
+                    alert("😎 크루 생성이 완료되었습니다!")
+                    props.controller({block:false,up:""})
+                }
+                else console.log("❌ 크루 생성 실패");
+                
             })
         }
     }
