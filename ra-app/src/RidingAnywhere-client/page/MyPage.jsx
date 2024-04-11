@@ -544,22 +544,22 @@ const MyPage = () => {
                         <div className='crewLine'>
                             <h1>크루</h1>
                             <div className='crewInfo'>
-                                <div>
-                                    <h2>크루명 : </h2>
+                                <div className='crewInfoLine'>
+                                    <h2>크루명</h2>
                                     <h2>낭만 라이더</h2>
                                 </div>
-                                <div>
-                                    <h2>크루장 : </h2>
+                                <div className='crewInfoLine'>
+                                    <h2>크루장</h2>
                                     <h2>낭만러</h2>
                                 </div>
-                                <div>
-                                    <h2>활동 지역 : </h2>
+                                <div className='crewInfoLine'>
+                                    <h2>활동 지역</h2>
                                     <h2>서울 / 관악</h2>
                                 </div>
-                                <div>
-                                    <h2>크루 가입일 : </h2>
+                                <div className='crewInfoLine'>
+                                    <h2>크루 가입일</h2>
                                     <h2>1992. 01. 10</h2>
-                                </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
