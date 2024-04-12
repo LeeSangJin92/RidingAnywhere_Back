@@ -558,7 +558,7 @@ const MyPage = () => {
                                 </div>
                                 <div className='crewInfoLine'>
                                     <h2>크루 가입일</h2>
-                                    <h2>1992. 01. 10</h2>
+                                    <h2>1992.01.10</h2>
                                 </div>  
                             </div>
                         </div>
