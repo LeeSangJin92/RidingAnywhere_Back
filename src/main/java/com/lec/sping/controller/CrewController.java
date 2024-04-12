@@ -41,9 +41,9 @@ public class CrewController {
     @CrossOrigin
     @PostMapping("/LoadCrewData")
     public ResponseEntity<?> loadCrewData(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
-        System.out.println("🛠️크루 데이터 호출 요청 받음");
+        System.out.println("🛠️ 크루 데이터 호출 요청 받음");
         Crew crew = crewService.findById(crewId);
-        System.out.println("✅크루 데이터 로드 완료");
+        System.out.println("✅ 크루 데이터 로드 완료");
         System.out.println(crew);
         return new ResponseEntity<>(crew,HttpStatus.OK);
     }
