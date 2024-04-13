@@ -25,7 +25,15 @@ const MyPage = () => {
      })
 
     // 🤝 크루 정보
-    const [crewInfo, setcrewInfo] = useState({})
+    const [crewInfo, setcrewInfo] = useState({
+        crew_context:"",
+        crew_count:0,
+        crew_city:"",
+        crew_town:"",
+        crew_name:"",
+        crew_master:"",
+        crew_regdata:"",
+    })
 
     useEffect(()=>{
         checkData();
@@ -79,6 +87,38 @@ const MyPage = () => {
                         return bikeData
                     }))
                     console.log("바이크 데이터 수집 완료")}
+                if(!!data.crewId) {
+                    console.log("🔎 크루 데이터 감지")
+                    return data.crewId;}
+                else console.log("❌ 가입된 크루 없음")
+            }).then(crewId=>{
+                console.log("🛜 서버로 크루 데이터 로드 요청")
+                fetch("/CR/LoadCrewData",{
+                    method:"POST",
+                    headers:{
+                        "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    body:JSON.stringify(crewId)
+                }).then(response=>{
+                    console.log("✅ 서버 수신 완료")
+                    if(response.status===200){
+                        console.log("✅ 크루 데이터 받기 완료");
+                        return response.json();
+                    } else console.log("❌ 크루 데이터 호출 실패");
+                }).then(data=>{
+                    console.log("수신 받은 데이터");
+                    console.log(data)
+                    setcrewInfo({
+                        crew_context:"",
+                        crew_count:0,
+                        crew_city:"",
+                        crew_town:"",
+                        crew_name:"",
+                        crew_master:"",
+                        crew_regdata:"",
+                    })
+                })
             })
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");

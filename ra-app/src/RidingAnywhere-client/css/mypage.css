@@ -405,7 +405,7 @@
     color: transparent;
 }
 
-.riderInfo_right h2, .riderInfo_left h2{
+.riderInfo_right h2, .riderInfo_left h2, .crewInfoLine h2{
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;
