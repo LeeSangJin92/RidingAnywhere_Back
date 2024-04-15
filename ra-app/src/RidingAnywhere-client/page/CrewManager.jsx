@@ -132,7 +132,6 @@ const CrewManager = () => {
                     else console.log("❌크루 데이터 호출 실패")
                 }).then(data=>{
                     console.log("✅ 크루 데이터 호출 완료")
-                    console.log(data)
                     setCrewInfo({...crewInfo,
                         CrewId:data.crew_id,
                         CrewName:data.crew_name,
@@ -146,6 +145,23 @@ const CrewManager = () => {
                         CrewContext:data.crew_context,
                         CrewCity:data.crew_location.city,
                         CrewTown:data.crew_location.town
+                    })
+                    return data.crew_id;
+                }).then(crewId =>  {
+                    console.log("🛜 크루 멤버 데이터 호출중...")
+                    fetch("/CR/GetCrewMember",{
+                        method:"POST",
+                        headers:{
+                        "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                        "Content-Type": "application/json;charset=utf-8"},
+                        body:JSON.stringify(crewId)
+                    }).then(response=>{
+                        console.log("✅ 크루 멤버 응답 완료")
+                        if(response.status===200) return response.json()
+                        else console.log("❌ 크루 멤버 응답 실패")
+                    }).then(data=>{
+                        console.log("🔎 크루 멤버 리스트")
+                        console.log(data)
                     })
                 })  
             }
@@ -171,6 +187,9 @@ const CrewManager = () => {
         CrewTown:"",
         CrewCount:0,
     });
+
+    // 👪 크루 멤버 정보
+    const [crewMember, setCrewMember] = useState([])
 
     // 🕹️ 크루 수정 컨트롤러
     const [crewInfoBtn, setInfoBtn] = useState({
@@ -407,6 +426,8 @@ const CrewManager = () => {
                 <div className='crewListLine'>
                     <h1>크루 리스트</h1>
                     <div className='crewMenberBoxLine'>
+                        {/* 크루 멤버 목록 */}
+                        {console.log()}
                     </div>
                 </div>
                 

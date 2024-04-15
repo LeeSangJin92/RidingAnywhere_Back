@@ -2,6 +2,7 @@ package com.lec.sping.controller;
 
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
+import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
 import com.lec.sping.jwt.TokenProvider;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,6 +75,16 @@ public class CrewController {
         crew.setCrew_context(changeCrewData.getCrew_context());
         System.out.println("✅ 크루 데이터 수정 완료");
         return new ResponseEntity<>(crewService.save(crew),HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("GetCrewMember")
+    public ResponseEntity<?> getCrewMembers(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
+        System.out.println("🛠️ 크루 멤버 호출 요청 받음");
+        System.out.println("🔎 크루 멤버 조회중...");
+        List<CrewManager> resultData = crewService.getCrewMember(crewId);
+        System.out.println("✅ 크루 멤버 조회 완료");
+        return new ResponseEntity<>(resultData,HttpStatus.OK);
     }
 
 

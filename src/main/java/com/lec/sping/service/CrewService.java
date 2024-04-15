@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -42,10 +44,17 @@ public class CrewService {
     }
 
     public Crew findById(Long crewId) {
-        return crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌존재 하지 않은 크루입니다."));
+        return crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌ 존재 하지 않은 크루입니다."));
+    }
+
+
+    public List<CrewManager> getCrewMember(Long crewId) {
+        Crew findCrew = crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 크루입니다."));
+        return crewManagerRepository.findAllByCrew(findCrew);
     }
 
     public Crew save(Crew crew){
         return crewRepository.save(crew);
     }
+
 }
