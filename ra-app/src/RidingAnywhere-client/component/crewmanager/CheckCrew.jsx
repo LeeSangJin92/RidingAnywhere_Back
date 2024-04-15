@@ -5,7 +5,7 @@ const CheckCrew = (props) => {
     const navigate = useNavigate();
     const onClickJoin = () => {
         console.log("✅ 크루 가입 클릭")
-        navigate("/RA/Home")
+        navigate("/CR/Join")
     }
 
     const onClickCreate = () => {

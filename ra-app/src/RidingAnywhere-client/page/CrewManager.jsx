@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import "../css/crewManager.css";
-import CrewMember from '../component/crewmanager/CrewMember';
 import { useNavigate } from 'react-router-dom';
 import CreateCrew from '../component/crewmanager/CreateCrew';
 import CheckCrew from '../component/crewmanager/CheckCrew';

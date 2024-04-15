@@ -33,7 +33,7 @@ const DefaultHeader_main = () => {
                                 <div className='NavMenu'>
                                     <Link to="/CR/Manager" className='NavCategory'>CREW<br/>MANAGER</Link>     {/*크루원 관리*/}
                                     <div className='NavCategory'>CREW<br/>BOARD</div>       {/*크루 게시판*/}
-                                    <div className='NavCategory'>CREW<br/>JOIN</div>        {/*크루원 모집*/}
+                                    <Link to="/CR/Join" className='NavCategory'>CREW<br/>JOIN</Link>        {/*크루원 모집*/}
                                 </div>
                             </div>
                             <div className='NavMiain'>

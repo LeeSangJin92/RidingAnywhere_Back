@@ -1,0 +1,73 @@
+.CrewJoinBoard{
+    width: 100%;
+    display: flex;
+
+    h2{
+        background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+        font-weight: bold;
+        -webkit-text-stroke-width: 0.1px;
+        -webkit-text-stroke-color: black;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+
+
+    .CrewInfoBox{
+        margin-left: 20px;
+        width: 500px;
+        height: 100%;
+        .CrewInfoBox_Top{
+            display: flex;
+            justify-content: center;
+            height: 80px;
+            margin: 20px 0;
+            .JoinBtnLabel{
+                cursor: pointer;
+                position: absolute;
+                background-image: url("/public/img/crewjoin/JoinBtnOn.png");
+                width: 80px;
+                height: 80px;
+                background-size: cover;
+                transform: translate(200px);
+            }
+        }
+        .CrewInfoBox_Main{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid orange;
+            border-radius: 20px;
+            div{
+                width: 450px;
+                display: flex;
+                justify-content: space-between;
+                text-align: center;
+                h2{
+                    width: 220px;
+                }
+            }
+        }
+
+        .CrewInfoBox_Botton{
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            h1{
+                margin-top: 20px;
+                text-align: center;
+            }
+            h2{
+                border: 2px solid orange;
+                border-radius: 20px;
+                height: 300px;
+                padding: 20px;
+            }
+        }
+
+
+    }
+}
