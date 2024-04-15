@@ -405,7 +405,7 @@
     color: transparent;
 }
 
-.riderInfo_right h2, .riderInfo_left h2, .crewInfoLine h2{
+.riderInfo_right h2, .riderInfo_left h2, .crewInfoLine h2, .crewBlockBox h2{
     text-shadow: none;
     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
     font-weight: bold;
@@ -416,6 +416,16 @@
     color: transparent;
     margin: 0;
 }
+
+.crewBlockBox{
+    display: flex;
+    width: 550px;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
 
 .crewInfo{
     display: flex;

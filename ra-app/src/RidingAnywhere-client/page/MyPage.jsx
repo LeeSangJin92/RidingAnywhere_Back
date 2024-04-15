@@ -90,8 +90,9 @@ const MyPage = () => {
                 if(!!data.crewId) {
                     console.log("🔎 크루 데이터 감지")
                     return data.crewId;}
-                else console.log("❌ 가입된 크루 없음")
+                else {console.log("❌ 가입된 크루 없음"); return;}
             }).then(crewId=>{
+                if(!crewId) return;
                 console.log("🛜 서버로 크루 데이터 로드 요청")
                 fetch("/CR/LoadCrewData",{
                     method:"POST",
@@ -110,13 +111,13 @@ const MyPage = () => {
                     console.log("수신 받은 데이터");
                     console.log(data)
                     setcrewInfo({
-                        crew_context:"",
-                        crew_count:0,
-                        crew_city:"",
-                        crew_town:"",
-                        crew_name:"",
-                        crew_master:"",
-                        crew_regdata:"",
+                        crew_context:data.crew_context,
+                        crew_count:data.crew_count,
+                        crew_city:data.crew_location.city,
+                        crew_town:data.crew_location.town,
+                        crew_name:data.crew_name,
+                        crew_master:data.user.userNickname,
+                        crew_regdata:data.crew_regdate,
                     })
                 })
             })
@@ -126,7 +127,6 @@ const MyPage = () => {
             console.log("🛠️ 로그인 페이지로 이동")
             navigate("/RA/login");
         }
-        
     }
 
     // 📷 프로필 이미지 관련 라인
@@ -583,22 +583,25 @@ const MyPage = () => {
                         </div>
                         <div className='crewLine'>
                             <h1>크루</h1>
-                            <div className='crewInfo'>
+                            <div className='crewBlockBox' style={!!crewInfo.crew_name?{display:'none'}:{display:'flex'}}>
+                                    <h2>⚠️ 가입된 크루가 없습니다 ⚠️</h2>
+                            </div>
+                            <div className='crewInfo' style={!!crewInfo.crew_name?{display:'flex'}:{display:'none'}}>
                                 <div className='crewInfoLine'>
                                     <h2>크루명</h2>
-                                    <h2>낭만 라이더</h2>
+                                    <h2>{crewInfo.crew_name}</h2>
                                 </div>
                                 <div className='crewInfoLine'>
                                     <h2>크루장</h2>
-                                    <h2>낭만러</h2>
+                                    <h2>{crewInfo.crew_master}</h2>
                                 </div>
                                 <div className='crewInfoLine'>
                                     <h2>활동 지역</h2>
-                                    <h2>서울 / 관악</h2>
+                                    <h2>{crewInfo.crew_city} / {crewInfo.crew_town}</h2>
                                 </div>
                                 <div className='crewInfoLine'>
                                     <h2>크루 가입일</h2>
-                                    <h2>1992.01.10</h2>
+                                    <h2>{crewInfo.crew_regdata}</h2>
                                 </div>  
                             </div>
                         </div>

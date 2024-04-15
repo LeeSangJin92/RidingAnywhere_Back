@@ -1,5 +1,6 @@
 package com.lec.sping.domain.crew;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
@@ -22,6 +23,7 @@ public class Crew {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long crew_id;                // 크루 ID
     private String crew_name;            // 크루 이름
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime crew_regdate;  // 크루 생성 날짜
     private String crew_context;         // 크루 설명
     private String crew_profile;         // 크루 프로필 사진 경로
