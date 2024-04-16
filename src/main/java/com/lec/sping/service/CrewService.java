@@ -4,6 +4,7 @@ import com.lec.sping.domain.Address;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
+import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
 import com.lec.sping.repository.AddressRepository;
 import com.lec.sping.repository.CrewManagerRepository;
@@ -51,6 +52,13 @@ public class CrewService {
     public List<CrewManager> getCrewMember(Long crewId) {
         Crew findCrew = crewRepository.findById(crewId).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 크루입니다."));
         return crewManagerRepository.findAllByCrew(findCrew);
+    }
+
+    public Crew updateLoction(ChangeCrewDto changeCrewDto, Address address){
+        Crew crew = crewRepository.findById(changeCrewDto.getCrew_id()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 라이더입니다."));
+        crew.setCrew_location(address);
+        System.out.println(crew);
+        return crewRepository.save(crew);
     }
 
     public Crew save(Crew crew){

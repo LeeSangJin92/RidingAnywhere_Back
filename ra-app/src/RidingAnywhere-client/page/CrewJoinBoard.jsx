@@ -44,9 +44,12 @@ const CrewJoinBoard = () => {
      })
 
     //  ✏️ 모든 크루 리스트 목록
-    const [crewList, setCrewList] = useState([])
+    const [crewList, setCrewList] = useState([]);
+     
+    // 🛠️ 페이지 로딩 후 1회 실행해야하는 사항들
+    useEffect(()=>{checkData()},[]);
 
-    // 🛠️ 라이더 정보 및 지역 데이터 가져오기
+    // 🛠️ 페이지 로드에 필요한 데이터 가져오기
     const checkData = async () => {
         console.log("🛜 라이더 엑세스 체크 중...")
         if(!accessToken){
@@ -65,7 +68,7 @@ const CrewJoinBoard = () => {
                 setCrewAddress({
                     CrewCity:userData.address.city,
                     CrewTown:userData.address.town
-                })
+                });
                 if(!data.crewId){
                         console.log("❌ 가입된 크루 없음");
                         setriderInfo({
@@ -81,6 +84,7 @@ const CrewJoinBoard = () => {
                             userAuthority : userData.authorityId.authority_name,
                             crewId:0
                         });
+                        return 0;
                     }
                 else{
                     console.log("✅ 가입된 크루 존재");
@@ -97,13 +101,17 @@ const CrewJoinBoard = () => {
                         userAuthority : userData.authorityId.authority_name,
                         crewId:data.crewId
                     });
-                    console.log("🛜 가입된 크루 데이터 호출중...")
-                    fetch("/CR/LoadCrewData",{
+                    return data.crewId;
+                }
+            }).then(async (crewId)=>{
+                if(!!crewId){
+                console.log("🛜 가입된 크루 데이터 호출중...")
+                await fetch("/CR/LoadCrewData",{
                         headers:{
                             "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                             "Content-Type": "application/json;charset=utf-8"},
                         method:"POST",
-                        body:JSON.stringify(data.crewId)
+                        body:JSON.stringify(crewId)
                     }).then((response=>{
                         console.log("✅ 서버 응답 완료")
                         if(response.status===200){
@@ -120,12 +128,40 @@ const CrewJoinBoard = () => {
                             CrewCount:data.crew_count,              // 크루 회원 인원
                             CrewContext:data.crew_context           // 크루 인사말
                         })
+                        setCrewAddress({
+                            CrewCity:data.crew_location.city,
+                            CrewTown:data.crew_location.town
+                        });
                         console.log("🛠️ 크루 데이터 저장 완료")
+                    })}
+                    return crewId;
+                }).then(async (crewId)=>{
+                    console.log("🛜 모든 크루 리스트 요청")
+                    await fetch("/CR/CrewAllData")
+                    .then((response)=>{
+                        console.log("✅ 모든 크루 데이터 응답 완료");
+                        if(response.status===200) return response.json();
+                        else console.log("❌ 크루 데이터 호출 실패");
+                    }).then((data)=>{
+                        console.log("🛠️ 크루 리스트 저장중...");
+                        let crewList = data.map(data=>{
+                            return {
+                                 CrewId:data.crew_id,
+                                 CrewName:data.crew_name,                // 크루 이름
+                                 CrewMaster:data.user.userNickname,      // 크루 마스터 닉네임
+                                 CrewCity:data.crew_location.city,       // 크루 활동 도시
+                                 CrewTown:data.crew_location.town,       // 크루 활동 지역
+                                 CrewCount:data.crew_count,              // 크루 회원 인원
+                                 CrewContext:data.crew_context           // 크루 인사말
+                             }
+                         })
+                        setCrewList(crewList);
+                        !crewId&&setCrewInfo(crewList[0])
+                        console.log("✅ 크루 리스틑 저장 완료");
                     })
-                }
-            }).then(()=>{
+                }).then(async ()=>{
                 console.log("🛜 지역 데이터 요청");
-                fetch("/RA/AddressData")
+                await fetch("/RA/AddressData")
                     .then((response)=>{
                         console.log("✅지역 데이터 응답 완료");
                         if(response.status===200) return response.json();
@@ -136,36 +172,9 @@ const CrewJoinBoard = () => {
                         setCityList([...new Set(data.map(data=>data.city))]);
                         console.log("✅지역 데이터 작업 완료");
                     });
-            }).then(()=>{
-                console.log("🛜 모든 크루 리스트 요청")
-                fetch("/CR/CrewAllData")
-                .then((response)=>{
-                    console.log("✅ 모든 크루 데이터 응답 완료");
-                    if(response.status===200) return response.json();
-                    else console.log("❌ 크루 데이터 호출 실패");
-                }).then((data)=>{
-                    console.log("🛠️ 크루 리스트 저장중...");
-                    let crewList = data.map(data=>{
-                        return {
-                             CrewId:data.crew_id,
-                             CrewName:data.crew_name,                // 크루 이름
-                             CrewMaster:data.user.userNickname,      // 크루 마스터 닉네임
-                             CrewCity:data.crew_location.city,       // 크루 활동 도시
-                             CrewTown:data.crew_location.town,       // 크루 활동 지역
-                             CrewCount:data.crew_count,              // 크루 회원 인원
-                             CrewContext:data.crew_context           // 크루 인사말
-                         }
-                     })
-                    setCrewList(crewList);
-                    !riderInfo.crewId&&setCrewInfo(crewList[0])
-                    console.log("✅ 크루 리스틑 저장 완료");
-                })
             })
         }
     }
-
-    // 🛠️ 페이지 로딩 후 1회 실행해야하는 사항들
-    useEffect(()=>{checkData()},[])
 
     // 🛠️ 크루 리스트 지역 필터용 데이터
     const [crewAddress,setCrewAddress] = useState({

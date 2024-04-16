@@ -41,14 +41,13 @@ public class Crew {
     @JoinColumn(name = "manager")
     private List<CrewManager> crewmanager;      // 크루 인원 관리
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "crew_location")
     private Address crew_location;      // 크루 활동 지역
 
     // 생성 시 기본값 설정
     @PrePersist
     private void set_Defalut() {
-
         // 크루 생성 날짜 입력
         crew_regdate = LocalDateTime.now();
         crew_count = 1l;

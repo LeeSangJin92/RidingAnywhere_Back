@@ -88,9 +88,13 @@ const CrewManager = () => {
                         return bikeData
                     }))
                     console.log("✅ 바이크 데이터 수집 완료")}
-
+                    return data.crewId;
+                }).then(async (crewId)=>{
+                    console.log("🔎 크루 데이터 조회 중...")
+                    await loadCrewData(crewId);
+                }).then(async ()=>{
                     console.log("🛜지역 데이터 요청중...")
-                    fetch("/RA/AddressData")
+                    await fetch("/RA/AddressData")
                     .then((response)=>{
                         console.log("✅지역 데이터 요청 완료");
                         if(response.status===200) return response.json();
@@ -101,9 +105,7 @@ const CrewManager = () => {
                         setCityList([...new Set(data.map(data=>data.city))]);
                         console.log("✅지역 데이터 작업 완료")
                     });
-                    console.log("🔎 크루 데이터 조회 중...")
-                    loadCrewData(data.crewId);
-            })
+                })
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");
             alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
@@ -160,7 +162,6 @@ const CrewManager = () => {
                         else console.log("❌ 크루 멤버 응답 실패")
                     }).then(data=>{
                         console.log("🔎 크루 멤버 리스트")
-                        console.log(data)
                     })
                 })  
             }
@@ -299,6 +300,7 @@ const CrewManager = () => {
                     crew_city:updateCrewInfo.CrewCity,
                     crew_town:updateCrewInfo.CrewTown
                 };
+                console.log(data)
                 await fetch("/CR/ChangeAddress",{
                     method:"POST",
                     headers:{

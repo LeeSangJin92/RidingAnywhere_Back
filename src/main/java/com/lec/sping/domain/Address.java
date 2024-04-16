@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
@@ -28,8 +30,8 @@ public class Address {
     private User user;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "crew_location")
+    @OneToMany(mappedBy = "crew_location")
     @ToString.Exclude
-    private Crew crew;
+    private List<Crew> crew;
 
 }
