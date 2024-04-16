@@ -87,6 +87,16 @@ public class CrewController {
         return new ResponseEntity<>(resultData,HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @GetMapping("CrewAllData")
+    public ResponseEntity<?> findAllCrew(){
+        System.out.println("🛠️ 모든 크루 리스트 호출 요청 받음");
+        System.out.println("🔎 크루 리스트 조회중...");
+        List<Crew> crewList = crewService.findAllCrew();
+        System.out.println("✅ 크루 리스트 조회 완료");
+        return new ResponseEntity<>(crewList,HttpStatus.OK);
+    }
+
 
 
 }

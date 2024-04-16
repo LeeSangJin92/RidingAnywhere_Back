@@ -1,6 +1,7 @@
 import React from 'react';
 
 const CrewJoiner = (props) => {
+    let crewData = props.crewData;
     return (
             <div className='CrewJoiner'>
                 <div className='Data'>
@@ -8,16 +9,16 @@ const CrewJoiner = (props) => {
                     <h2>크루 마스터</h2>
                 </div>
                 <div className='Data'>
-                    <h2>낭만 라이더</h2>
-                    <h2>낭만 보스</h2>
+                    <h2>{crewData.CrewName}</h2>
+                    <h2>{crewData.CrewMaster}</h2>
                 </div>
                 <div className='Data'>
                     <h2>활동 지역</h2>
                     <h2>크루 인원</h2>
                 </div>
                 <div className='Data'>
-                    <h2>서울 / 관악</h2>
-                    <h2>😎 100 명</h2>
+                    <h2>{crewData.CrewCity} / {crewData.CrewTown}</h2>
+                    <h2>😎 {crewData.CrewCount} 명</h2>
                 </div>
             </div>
     );

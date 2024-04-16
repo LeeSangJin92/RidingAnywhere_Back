@@ -57,4 +57,5 @@ public class CrewService {
         return crewRepository.save(crew);
     }
 
+    public List<Crew> findAllCrew() {return crewRepository.findAll();}
 }
