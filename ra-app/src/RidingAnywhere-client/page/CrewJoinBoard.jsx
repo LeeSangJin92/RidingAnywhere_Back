@@ -236,14 +236,19 @@ const CrewJoinBoard = () => {
                         <select name='CrewCity' className='selectCity' value={crewAddress.CrewCity} onChange={changeFilter}>
                             {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
                         <select name='CrewTown' className='selectTown' value={crewAddress.CrewTown} onChange={changeFilter}>
-                            <option value={""}>⚠️선택</option>
-                            {addressList.filter(data=>data.city===riderInfo.userAddressCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
+                            <option value={""}>전체</option>
+                            {addressList.filter(data=>data.city===crewAddress.CrewCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                         </select>
                     </div>
                     <div className='CrewListBox_Section'>
                         {/* ✏️ 가입되어 있는 크루가 맨위로 올라오도록 설정 */}
                         {!!riderInfo.crewId&&<CrewJoiner crewData={crewInfo}/>}
-                        {crewList.filter(crew=>crew.CrewId!==riderInfo.crewId).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
+                        {console.log()}
+                        {!crewAddress.CrewTown&&crewList.filter(crew=>{
+                            if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity))
+                                return {...crew}
+                            }).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
+                        {!!crewAddress.CrewTown&&crewList.filter(crew=>crew.CrewId!==riderInfo.crewId).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
                     </div>
                 </div>
             </section>
