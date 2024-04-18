@@ -243,12 +243,20 @@ const CrewJoinBoard = () => {
                     <div className='CrewListBox_Section'>
                         {/* ✏️ 가입되어 있는 크루가 맨위로 올라오도록 설정 */}
                         {!!riderInfo.crewId&&<CrewJoiner crewData={crewInfo}/>}
-                        {console.log()}
+
+                        {/* 활동 도시 전체 선택 시 */}
                         {!crewAddress.CrewTown&&crewList.filter(crew=>{
-                            if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity))
-                                return {...crew}
+                            if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown==="")){
+                                return crew;
+                            }
                             }).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
-                        {!!crewAddress.CrewTown&&crewList.filter(crew=>crew.CrewId!==riderInfo.crewId).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
+                        
+                        {/* 활동 도시 선택 시 */}
+                        {!!crewAddress.CrewTown&&crewList.filter(crew=>{
+                            if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown===crew.CrewTown)){
+                                return crew;
+                            }
+                            }).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
                     </div>
                 </div>
             </section>
