@@ -93,17 +93,17 @@ const CrewManager = () => {
                     console.log("🔎 크루 데이터 조회 중...")
                     await loadCrewData(crewId);
                 }).then(async ()=>{
-                    console.log("🛜지역 데이터 요청중...")
+                    console.log("🛜 지역 데이터 요청중...")
                     await fetch("/RA/AddressData")
                     .then((response)=>{
-                        console.log("✅지역 데이터 요청 완료");
+                        console.log("✅ 지역 데이터 요청 완료");
                         if(response.status===200) return response.json();
                         else console.log("❌지역 데이터 호출 실패!")
                     }).then((data)=>{
-                        console.log("🛠️지역 데이터 저장중...");
+                        console.log("🛠️ 지역 데이터 저장중...");
                         setAddressList(data);
                         setCityList([...new Set(data.map(data=>data.city))]);
-                        console.log("✅지역 데이터 작업 완료")
+                        console.log("✅ 지역 데이터 작업 완료")
                     });
                 })
         } else {

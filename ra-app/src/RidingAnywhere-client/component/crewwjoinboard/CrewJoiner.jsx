@@ -2,8 +2,14 @@ import React from 'react';
 
 const CrewJoiner = (props) => {
     let crewData = props.crewData;
+
+    const clickBtn = () => {
+        props.setCrewInfo(crewData);
+    }
+
+
     return (
-            <div className='CrewJoiner'>
+            <div className='CrewJoiner' onClick={clickBtn}>
                 <div className='Data'>
                     <h2>크루 네임</h2>
                     <h2>크루 마스터</h2>

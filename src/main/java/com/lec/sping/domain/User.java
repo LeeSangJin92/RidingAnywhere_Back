@@ -2,7 +2,6 @@ package com.lec.sping.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lec.sping.domain.bike.BikeGarage;
 import com.lec.sping.domain.camping.CampingAttendance;
 import com.lec.sping.domain.course.CourseBoard;
@@ -131,7 +130,7 @@ public class User {
         userRegdate = LocalDateTime.now();
         authorityId = new Authority();
         authorityId.setAuthority_id(1l);
-        authorityId.setAuthority_name(Auth.ROLE_RA_Member);
+        authorityId.setAuthorityName(Auth.ROLE_RA_Member);
     }
 
     @Builder

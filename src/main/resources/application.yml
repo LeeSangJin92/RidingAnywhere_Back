@@ -47,7 +47,7 @@ spring:
 
     # 테이블 생성 시 테이블 초기화 방식
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 
   # thymeleaf 설정
   thymeleaf:

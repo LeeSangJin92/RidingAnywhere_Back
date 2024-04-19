@@ -17,7 +17,7 @@ public class Authority {
     private Long authority_id;          // 권한 ID
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Auth authority_name;      // 권한명
+    private Auth authorityName;      // 권한명
 
     //FK 영역
 

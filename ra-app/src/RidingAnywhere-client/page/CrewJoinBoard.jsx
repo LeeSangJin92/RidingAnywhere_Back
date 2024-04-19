@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DefaultFooter from '../component/DefaultFooter';
 import DefaultHeader from '../component/DefaultHeader_main';
 import "../css/CrewJoinBoard.css"
-import CrewJoiner from '../component/crewmanager/CrewJoiner';
+import CrewJoiner from '../component/crewwjoinboard/CrewJoiner';
 
 
 // 크루 가입 게시판
@@ -32,7 +32,18 @@ const CrewJoinBoard = () => {
         crewId:0,
      });
 
-     // 👪 크루 데이터 정보
+     // 😎 라이더가 가입된 크루 정보
+     const [riderCrewInfo, setRiderCrewInfo] = useState({
+        CrewId:0,           // 크루 아이디
+        CrewName:"",        // 크루 이름
+        CrewMaster:"",      // 크루 마스터 닉네임
+        CrewCity:"",        // 크루 활동 도시
+        CrewTown:"",        // 크루 활동 지역
+        CrewCount:0,        // 크루 회원 인원
+        CrewContext:""      // 크루 인사말
+     })
+
+     // 👪 크루 정보 박스 데이터
      const [crewInfo,setCrewInfo] = useState({
         CrewId:0,           // 크루 아이디
         CrewName:"",        // 크루 이름
@@ -46,6 +57,13 @@ const CrewJoinBoard = () => {
     //  ✏️ 모든 크루 리스트 목록
     const [crewList, setCrewList] = useState([]);
      
+
+    // 🛠️ 크루 가입 버튼 (활성화 / 비활성화)
+    const [joinBtn, setJoinBtn] = useState({backgroundImage:"url('/img/crewjoin/JoinBtnOff.png')"});
+    const joinBtnController = (control) => {
+        control&&setJoinBtn({backgroundImage:"url('/img/crewjoin/JoinBtnOn.png')"});
+        !control&&setJoinBtn({backgroundImage:"url('/img/crewjoin/JoinBtnOff.png')"});
+    }
     // 🛠️ 페이지 로딩 후 1회 실행해야하는 사항들
     useEffect(()=>{checkData()},[]);
 
@@ -84,6 +102,7 @@ const CrewJoinBoard = () => {
                             userAuthority : userData.authorityId.authority_name,
                             crewId:0
                         });
+                        joinBtnController(true)
                         return 0;
                     }
                 else{
@@ -101,6 +120,7 @@ const CrewJoinBoard = () => {
                         userAuthority : userData.authorityId.authority_name,
                         crewId:data.crewId
                     });
+                    joinBtnController(false);
                     return data.crewId;
                 }
             }).then(async (crewId)=>{
@@ -119,7 +139,7 @@ const CrewJoinBoard = () => {
                             return response.json()
                         } else console.log("❌ 크루 데이터 호출 실패");
                     })).then(data=>{
-                        setCrewInfo({
+                        let crewInfoData = {
                             CrewId:data.crewId,                     // 크루 아이디
                             CrewName:data.crew_name,                // 크루 이름
                             CrewMaster:data.user.userNickname,      // 크루 마스터 닉네임
@@ -127,7 +147,9 @@ const CrewJoinBoard = () => {
                             CrewTown:data.crew_location.town,       // 크루 활동 지역
                             CrewCount:data.crew_count,              // 크루 회원 인원
                             CrewContext:data.crew_context           // 크루 인사말
-                        })
+                        }
+                        setRiderCrewInfo(crewInfoData);
+                        setCrewInfo(crewInfoData);
                         setCrewAddress({
                             CrewCity:data.crew_location.city,
                             CrewTown:data.crew_location.town
@@ -139,6 +161,7 @@ const CrewJoinBoard = () => {
                     console.log("🛜 모든 크루 리스트 요청")
                     await fetch("/CR/CrewAllData")
                     .then((response)=>{
+                        console.log(response);
                         console.log("✅ 모든 크루 데이터 응답 완료");
                         if(response.status===200) return response.json();
                         else console.log("❌ 크루 데이터 호출 실패");
@@ -173,6 +196,11 @@ const CrewJoinBoard = () => {
                         console.log("✅지역 데이터 작업 완료");
                     });
             })
+        } else {
+            console.log("⛔ 접속자에게 엑세스 없음");
+            alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
+            console.log("🛠️ 로그인 페이지로 이동")
+            navigate("/RA/login");
         }
     }
 
@@ -200,6 +228,19 @@ const CrewJoinBoard = () => {
         }
     }
 
+    // 🛠️ 크루 가입 신청
+    const clickJoinBtn = () =>{
+        console.log("🕹️ 가입 버튼 클릭")
+        if(!!riderInfo.crewId){
+            console.log("❌ 가입된 크루 존재");
+            alert("⚠️이미 크루에 가입되어 있습니다.");
+        } else {
+            console.log("🛠️ 크루 가입 신청");
+            
+        }
+        
+    }
+
     return (
         <main>
             <DefaultHeader/>
@@ -207,7 +248,7 @@ const CrewJoinBoard = () => {
                 <div className='CrewInfoBox'>
                     <div className='CrewInfoBox_Top'>
                         <h1>{crewInfo.CrewName}</h1>
-                        <label htmlFor='JoinBtn' className='JoinBtnLabel'/>
+                        <label htmlFor='JoinBtn' className='JoinBtnLabel' style={joinBtn} onClick={clickJoinBtn}/>
                         <input id='JoinBtn' style={{display:'none'}}/>
                     </div>
                     <div className='CrewInfoBox_Main'>
@@ -226,7 +267,7 @@ const CrewJoinBoard = () => {
                     </div>
                     <div className='CrewInfoBox_Botton'>
                         <h1>크루 인사말</h1>
-                        <h2 className='CrewContextBox'>크루 인사말 영역</h2>
+                        <h2 className='CrewContextBox'>{crewInfo.CrewContext}</h2>
                     </div>
                 </div>
                 <div className='CrewListBox'>
@@ -242,21 +283,21 @@ const CrewJoinBoard = () => {
                     </div>
                     <div className='CrewListBox_Section'>
                         {/* ✏️ 가입되어 있는 크루가 맨위로 올라오도록 설정 */}
-                        {!!riderInfo.crewId&&<CrewJoiner crewData={crewInfo}/>}
+                        {!!riderInfo.crewId&&<CrewJoiner setCrewInfo={setCrewInfo} crewData={riderCrewInfo}/>}
 
                         {/* 활동 도시 전체 선택 시 */}
                         {!crewAddress.CrewTown&&crewList.filter(crew=>{
                             if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown==="")){
                                 return crew;
                             }
-                            }).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
+                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew}/>))}
                         
                         {/* 활동 도시 선택 시 */}
                         {!!crewAddress.CrewTown&&crewList.filter(crew=>{
                             if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown===crew.CrewTown)){
                                 return crew;
                             }
-                            }).map((crew,index)=>(<CrewJoiner key={index} crewData={crew}/>))}
+                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew}/>))}
                     </div>
                 </div>
             </section>

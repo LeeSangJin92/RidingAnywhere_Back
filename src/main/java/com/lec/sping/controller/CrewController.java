@@ -1,6 +1,7 @@
 package com.lec.sping.controller;
 
 import com.lec.sping.domain.Address;
+import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
@@ -39,6 +40,7 @@ public class CrewController {
         System.out.println("✅크루 생성 완료");
         System.out.println("🛠️생성된 크루 초기화중...");
         crewService.defaultCrewManager(createdCrew);
+        userService.setUserAuthCrewMaster(userData);
         return new ResponseEntity<>(createdCrew,HttpStatus.OK);
     }
 

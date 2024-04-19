@@ -220,11 +220,11 @@ const SignupPage = () => {
                 <div className='Signup_line'><h2>지역</h2>
                     <select className='selectCity' onChange={selectCity}>
                     <option value={""}>도시 선택</option>
-                    {cityList.map(data=>(<option value={data}>{data}</option>))}</select>
+                    {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
 
                     <select className='selectTown' onChange={selectTown} value={userData.userAddressTown}>
                         <option value={""}>⚠️도시 선택⚠️</option>
-                        {addressList.filter(data=>data.city===userData.userAddressCity).map(data=>(<option value={data.town}>{data.town}</option>))}
+                        {addressList.filter(data=>data.city===userData.userAddressCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                     </select>
                 </div>
                 {/* 성별 선택 라인 */}
@@ -237,7 +237,6 @@ const SignupPage = () => {
 
                 {/* 서브밋 버튼 라인 */}
                 <div className='Button_line'>
-                    {console.log(dataCheck)}
                     <button className='btn_submit_signup' id='btnSignUp' disabled={disableBtn} onClick={signUpPost}>다음</button>
                 </div>
                 </div>

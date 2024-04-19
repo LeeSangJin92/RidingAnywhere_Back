@@ -20,6 +20,7 @@ public class CrewManager {
     private Long manger_id;              // 크루 관리 ID
     private Long crew_cnt;                  // 크루 출석 수
     private LocalDateTime crew_joindate;    // 크루 가입 날짜
+    private String crew_state;              // 크루 상태(가입 신청, 허가, 거절, 등...)
 
     // FK 영역
     @ManyToOne(optional = false)
@@ -34,6 +35,6 @@ public class CrewManager {
     @PrePersist
     private void setDefult(){
         crew_joindate = LocalDateTime.now();
-        crew_cnt = 1L;
+        crew_cnt = 0L;
     }
 }

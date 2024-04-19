@@ -31,6 +31,7 @@ public class CrewService {
         newCrew.setCrew_location(address);
         newCrew.setCrew_context(crewDto.getCrew_context());
         newCrew.setUser(crewMaster);
+        System.out.println(newCrew);
         return crewRepository.save(newCrew);
     }
 
@@ -38,6 +39,7 @@ public class CrewService {
         CrewManager crewManager = new CrewManager();
         crewManager.setCrew(crew);
         crewManager.setUser(crew.getUser());
+        crewManager.setCrew_state("CrewMaster");
         crewManagerRepository.save(crewManager);
         crew.setCrewmanager(crewManagerRepository.findAllByCrew(crew));
         crewRepository.save(crew);

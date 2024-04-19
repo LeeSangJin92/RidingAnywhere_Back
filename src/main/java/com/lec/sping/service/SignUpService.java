@@ -8,7 +8,6 @@ import com.lec.sping.repository.UserRepository;
 import jakarta.persistence.Transient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class SignUpService {
         String encodePw = passwordEncoder.encode(userPw);
         Authority userAuth = new Authority();
         userAuth.setAuthority_id(1L);
-        userAuth.setAuthority_name(Auth.ROLE_RA_Member);
+        userAuth.setAuthorityName(Auth.ROLE_RA_Member);
         user.setAuthorityId(userAuth);      // 기본 권한 추가("Rider")
         user.setUserPassword(encodePw);     // 비밀번호 인코딩 후 저장
         return user;

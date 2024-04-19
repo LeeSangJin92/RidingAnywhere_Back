@@ -1,11 +1,13 @@
 package com.lec.sping.service;
 
+import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import com.lec.sping.dto.TokenDto;
 import com.lec.sping.dto.UserRequestDto;
 import com.lec.sping.dto.UserResponseDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.repository.AddressRepository;
+import com.lec.sping.repository.AuthorityRepository;
 import com.lec.sping.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final AuthorityRepository authorityRepository;
     private final TokenProvider tokenProvider;
 
     public UserResponseDto sigup(UserRequestDto requestDto){
