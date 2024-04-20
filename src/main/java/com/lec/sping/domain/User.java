@@ -129,7 +129,7 @@ public class User {
 
         userRegdate = LocalDateTime.now();
         authorityId = new Authority();
-        authorityId.setAuthority_id(1l);
+        authorityId.setAuthorityId(1l);
         authorityId.setAuthorityName(Auth.ROLE_RA_Member);
     }
 

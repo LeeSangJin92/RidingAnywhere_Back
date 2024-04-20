@@ -10,6 +10,7 @@ WHERE user_id=1;
 # 🔎권한 리스트 보기
 select * from authority;
 drop table authority;
+DESCRIBE authority;
 
 # 🔎크루 리스트 보기
 drop table crew;

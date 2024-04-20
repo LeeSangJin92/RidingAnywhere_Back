@@ -14,7 +14,7 @@ public class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authority_id;          // 권한 ID
+    private Long authorityId;          // 권한 ID
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Auth authorityName;      // 권한명

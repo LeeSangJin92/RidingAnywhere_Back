@@ -34,7 +34,7 @@ public class SignUpService {
         String userPw = user.getUserPassword();
         String encodePw = passwordEncoder.encode(userPw);
         Authority userAuth = new Authority();
-        userAuth.setAuthority_id(1L);
+        userAuth.setAuthorityId(1L);
         userAuth.setAuthorityName(Auth.ROLE_RA_Member);
         user.setAuthorityId(userAuth);      // 기본 권한 추가("Rider")
         user.setUserPassword(encodePw);     // 비밀번호 인코딩 후 저장

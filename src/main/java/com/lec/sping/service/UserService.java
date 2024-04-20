@@ -71,8 +71,7 @@ public class UserService {
     @Transactional
     public void setUserAuthCrewMaster(User user){
         System.out.println("🛠️유저 권한 변경 작업중...");
-        System.out.println(authorityRepository.findById(1L).orElseThrow(()->new NullPointerException("에러")));
-        Authority authorityCrewMaster = authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Master);
+        Authority authorityCrewMaster = authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Master).orElseThrow(()->new NullPointerException("에러발생"));
         System.out.println("데이터유"+authorityCrewMaster);
         User changeUser = userRepository.findById(user.getUserId()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 유저입니다."));
         System.out.println("데이터1"+authorityCrewMaster);
