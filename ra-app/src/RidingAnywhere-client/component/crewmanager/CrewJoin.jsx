@@ -1,7 +1,6 @@
 import React from 'react';
 
-const CrewMemberDetail = (props) => {
-    
+const CrewJoin = () => {
     return (
         <div>
             
@@ -9,4 +8,4 @@ const CrewMemberDetail = (props) => {
     );
 };
 
-export default CrewMemberDetail;
+export default CrewJoin;

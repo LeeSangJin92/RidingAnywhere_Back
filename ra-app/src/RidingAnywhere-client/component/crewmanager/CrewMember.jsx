@@ -20,7 +20,6 @@ const CrewMember = (props) => {
         default:
     }
 
-    console.log(memberData);
     return (
         <div className='crewMemberBox'>
             <img src={!memberData.UserProfile?'/img/mypage/DefaultProfileImg.png':('data:image/png;base64,'+memberData.UserProfile)} alt=''/>

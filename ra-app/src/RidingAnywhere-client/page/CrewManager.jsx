@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import CreateCrew from '../component/crewmanager/CreateCrew';
 import CheckCrew from '../component/crewmanager/CheckCrew';
 import CrewMember from '../component/crewmanager/CrewMember';
+import CrewMemberDetail from '../component/crewmanager/CrewMemberDetail';
+import CrewJoin from '../component/crewmanager/CrewJoin';
 
 
 // 🛠️ 크루 관리 페이지
@@ -19,7 +21,7 @@ const CrewManager = () => {
     // 토큰 체크
     const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
 
-     // 😎 라이더 정보
+     // 😎 로그인 라이더 정보
      const [riderInfo, setriderInfo] = useState({
         userEmail : "",
         userName : "",
@@ -31,6 +33,24 @@ const CrewManager = () => {
         userAddressTown:"",
         userAuthority:"",
      })
+
+     // 😎 크루 멤버 라이더 정보(디테일 컴포넌트용)
+     const [crewMemberInfo, setcrewMemberInfo] = useState({
+        ListIndex : "",         // 멤버 리스트 Index
+        UserId : "",            // 멤버 라이더 ID
+        UserName : "",          // 멤버 이름
+        UserNickname : "",      // 멤버 닉네임
+        UserEmail : "",         // 멤버 이메일
+        UserBirthday : "",      // 멤버 생년월일
+        UserCity : "",          // 멤버 도시
+        UserTown : "",          // 멤버 지역
+        UserGender : "",        // 멤버 성별
+        UserState : "",         // 멤버 상태(마스터, 네임드, 멤버, 대기, 신청 등...)
+        UserJoinDate : "",      // 멤버 크루 가입 날짜
+        UserCnt : "",           // 멤버 크루 일정 참가 횟수
+        UserProfile : "",       // 멤버 라이더 프로필
+        UserBike : ""           // 멤버 대표 바이크
+    })
 
      // 📷 프로필 이미지 정보
     const [profile,setprofile] = useState(null)
@@ -168,8 +188,9 @@ const CrewManager = () => {
                         if(response.status===200) return response.json()
                         else console.log("❌ 크루 멤버 응답 실패")
                     }).then(data=>{
-                        setCrewMember(data.map(crewMemberData=>{
+                        setCrewMember(data.map((crewMemberData,index)=>{
                             return {
+                                ListIndex : index,                                  // 멤버 리스트 Index
                                 UserId : crewMemberData.user.userId,                // 멤버 라이더 ID
                                 UserName : crewMemberData.user.userName,            // 멤버 이름
                                 UserNickname : crewMemberData.user.userNickname,    // 멤버 닉네임
@@ -380,7 +401,6 @@ const CrewManager = () => {
                     });
 
                 })
-
                 break;
             default : 
         }
@@ -396,6 +416,10 @@ const CrewManager = () => {
                     <CheckCrew controller={showUpController} showUp={showUpControl[1]==='Check'?true:false}/>
                     {/* 🛠️ 크루 생성 창 */}
                     <CreateCrew addressList={addressList} cityList={cityList} controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
+                    {/* 🛠️ 크루 멤버 디테일 창 */}
+                    <CrewMemberDetail memberData={crewMemberInfo} controller={showUpControl} showUp={showUpControl[1]==='Detail'?true:false}/>
+                    {/* 🛠️ 크루 가입 신청 창 */}
+                    <CrewJoin memberData={crewMemberInfo} controller={showUpControl} showUp={showUpControl[1]==='Join'?true:false}/>
                  </div>
                 
                 {/* 🛠️ 크루 정보 관련 라인 */}
