@@ -5,6 +5,7 @@ import "../css/crewManager.css";
 import { useNavigate } from 'react-router-dom';
 import CreateCrew from '../component/crewmanager/CreateCrew';
 import CheckCrew from '../component/crewmanager/CheckCrew';
+import CrewMember from '../component/crewmanager/CrewMember';
 
 
 // 🛠️ 크루 관리 페이지
@@ -166,13 +167,13 @@ const CrewManager = () => {
                         if(response.status===200) return response.json()
                         else console.log("❌ 크루 멤버 응답 실패")
                     }).then(data=>{
-                        data.map((crewMemberData,index)=>{
-                            let memberList = crewMember;
-                            memberList.push({
+                        setCrewMember(data.map(crewMemberData=>{
+                            return {
                                 UserId : crewMemberData.user.userId,                // 멤버 라이더 ID
                                 UserName : crewMemberData.user.userName,            // 멤버 이름
                                 UserNickname : crewMemberData.user.userNickname,    // 멤버 닉네임
                                 UserEmail : crewMemberData.user.userEmail,          // 멤버 이메일
+                                UserBirthday : crewMemberData.user.userBirthday,    // 멤버 생년월일
                                 UserCity : crewMemberData.user.address.city,        // 멤버 도시
                                 UserTown : crewMemberData.user.address.town,        // 멤버 지역
                                 UserGender : crewMemberData.user.userGender,        // 멤버 성별
@@ -181,9 +182,7 @@ const CrewManager = () => {
                                 UserCnt : crewMemberData.crew_cnt,                  // 멤버 크루 일정 참가 횟수
                                 UserProfile : crewMemberData.user.userProfile,      // 멤버 라이더 프로필
                                 UserBike : crewMemberData.user.garages.filter(bikeModel=>bikeModel.bike_select===true)[0]   // 멤버 대표 바이크
-                            })
-                            setCrewMember(memberList); 
-                        });
+                            }}));
                         console.log("✅ 멤버 리스트 로드 완료")
                     })  
                 }) 
@@ -451,7 +450,7 @@ const CrewManager = () => {
                     <h1>크루 리스트</h1>
                     <div className='crewMenberBoxLine'>
                         {/* 크루 멤버 목록 */}
-                        {console.log()}
+                        {!!crewMember&&crewMember.map((memberData,index)=><CrewMember key={index} memberData={memberData}/>)}
                     </div>
                 </div>
                 
