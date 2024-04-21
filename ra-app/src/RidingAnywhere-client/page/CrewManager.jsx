@@ -60,6 +60,7 @@ const CrewManager = () => {
                     navigate('/RA/Login');
                 }
             }).then(data => {
+                if(!!data){
                 console.log("✅ 라이더 데이터 수집 완료!");
                 let userData = data.userData;
                 setriderInfo({...riderInfo,
@@ -95,7 +96,7 @@ const CrewManager = () => {
                     }))
                     console.log("✅ 바이크 데이터 수집 완료")}
                     return data.crewId;
-                }).then(async (crewId)=>{
+                }}).then(async (crewId)=>{
                     console.log("🔎 크루 데이터 조회 중...")
                     await loadCrewData(crewId);
                 }).then(async ()=>{

@@ -25,15 +25,23 @@ const CrewMember = (props) => {
         <div className='crewMemberBox'>
             <img src={!memberData.UserProfile?'/img/mypage/DefaultProfileImg.png':('data:image/png;base64,'+memberData.UserProfile)} alt=''/>
             <div className='crewMemberInfoLine'>
-                <div className='memberDataLine'>
+                <div className='memberDataLine_Top'>
                     <h2 className='memberAuthority'>{memberAuth}</h2>
-                    <h2 className='memberNickName'>{memberData.UserNickname}</h2>
-                    <h2 className='memberLocation'>{memberData.UserCity} / {memberData.UserTown}</h2>
+                    <h2 className='memberNickName'>{"닉네임 : " + memberData.UserNickname}</h2>
                 </div>
-                <div className='memberDataLine'>
-                <h2 className='memberBikeData'>{memberData.UserBike.bikeModel.bikebrand_id.bikebrand_name}<br/>{memberData.UserBike.bikeModel.model_name}</h2>
-                    <h2 className='memberAge'>{(memberData.UserBirthday+"").substring(2,4)}</h2>
-                    <input className='crewMemberDetailBtn' type='button' value='관리'/>
+                <div className='memberDataLine_Bottom'>
+                    <div className='Bottom_Title'>
+                        <h2>지역</h2>
+                        <h2>나이</h2>
+                    </div>
+                    <div className='Bottom_Data'>
+                        <h2 className='memberLocation'>{memberData.UserCity} / {memberData.UserTown}</h2>
+                        <h2 className='memberAge'>{(memberData.UserBirthday+"").substring(2,4)+" . "+(memberData.UserBirthday+"").substring(4,6)}</h2>
+                    </div>
+                    <div className='Bottom_Bike'>
+                        <h2 className='memberBikeData'>{memberData.UserBike.bikeModel.bikebrand_id.bikebrand_name}</h2>
+                        <h2 className='memberBikeData'>{memberData.UserBike.bikeModel.model_name}</h2>
+                    </div>
                 </div>
             </div>
         </div>
