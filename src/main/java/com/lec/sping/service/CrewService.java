@@ -1,14 +1,13 @@
 package com.lec.sping.service;
 
 import com.lec.sping.domain.Address;
+import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
-import com.lec.sping.repository.AddressRepository;
-import com.lec.sping.repository.CrewManagerRepository;
-import com.lec.sping.repository.CrewRepository;
+import com.lec.sping.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,8 @@ public class CrewService {
     private final CrewRepository crewRepository;
     private final AddressRepository addressRepository;
     private final CrewManagerRepository crewManagerRepository;
+    private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
 
     public Crew createCrew(User crewMaster, CreateCrewDto crewDto){
         Address address = addressRepository.findByCityAndTown(crewDto.getCrew_city(), crewDto.getCrew_town()).orElseThrow(()->new RuntimeException("❌존재 하지 않는 지역입니다."));
@@ -35,14 +36,23 @@ public class CrewService {
         return crewRepository.save(newCrew);
     }
 
-    public void defaultCrewManager(Crew crew){
+    public void defaultCrewSet(Crew crew){
+        System.out.println("🛠️ 크루 매니저 초기화 작업중...");
         CrewManager crewManager = new CrewManager();
         crewManager.setCrew(crew);
         crewManager.setUser(crew.getUser());
         crewManager.setCrew_state("CrewMaster");
         crewManagerRepository.save(crewManager);
+        System.out.println("✅ 크루 매니저 초기화 완료");
+        System.out.println("🛠️ 크루 테이블 매니저 데이터 입력 중...");
         crew.setCrewmanager(crewManagerRepository.findAllByCrew(crew));
         crewRepository.save(crew);
+        System.out.println("✅ 크루 테이블 매니저 데이터 입력 완료");
+        System.out.println("🛠️ 크루 마스터 권한 변경 중...");
+        User master = crew.getUser();
+        master.setAuthorityId(authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Master).orElseThrow(()->new NullPointerException("❌ 존재 하지 않은 권한입니다.")));
+        userRepository.save(master);
+        System.out.println("✅ 크루 마스터 권한 변경 완료");
         System.out.println("✅크루 초기화 완료");
     }
 

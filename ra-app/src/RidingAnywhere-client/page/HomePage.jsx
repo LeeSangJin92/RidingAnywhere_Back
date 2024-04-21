@@ -4,8 +4,11 @@ import '../css/index.css';
 import DefaultFooter from '../component/DefaultFooter';
 import OkBtnBox from '../component/OkBtnBox';
 import DefaultHeader from '../component/DefaultHeader_main';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+
+    const navigate = useNavigate();
 
     // 🪙토큰 확인
     const [accessToken, setAccessToken] = useState(!sessionStorage.getItem('accessToken'))
@@ -25,6 +28,8 @@ const HomePage = () => {
                 console.log("✅라이더 데이터 수집 완료!");
                 if(data.bikeList.length===0){
                     console.log("⚠️입력된 바이크 정보가 없습니다.")
+                    alert("⚠️ 등록된 바이크가 없습니다. ⚠️\n - 바이크 등록 페이지로 이동합니다 -")
+                    navigate("/RA/AddBike")
                 }
             })
 

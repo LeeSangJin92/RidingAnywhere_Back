@@ -1,7 +1,7 @@
 package com.lec.sping.controller;
 
 import com.lec.sping.domain.Address;
-import com.lec.sping.domain.Auth;
+import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
@@ -9,6 +9,7 @@ import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.AddressService;
+import com.lec.sping.service.AuthService;
 import com.lec.sping.service.CrewService;
 import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class CrewController {
     private final TokenProvider tokenProvider;
     private final CrewService crewService;
     private final AddressService addressService;
+    private final AuthService authService;
 
     @CrossOrigin
     @PostMapping("/Create")
@@ -38,9 +40,8 @@ public class CrewController {
         System.out.println("✅생성자 데이터 확인 완료");
         Crew createdCrew = crewService.createCrew(userData,crewDto);
         System.out.println("✅크루 생성 완료");
-        System.out.println("🛠️생성된 크루 초기화중...");
-        crewService.defaultCrewManager(createdCrew);
-        userService.setUserAuthCrewMaster(userData);
+        System.out.println("🛠️ 크루 생성 관련 데이터 초기화중...");
+        crewService.defaultCrewSet(createdCrew);
         return new ResponseEntity<>(createdCrew,HttpStatus.OK);
     }
 

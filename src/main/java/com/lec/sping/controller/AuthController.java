@@ -44,7 +44,7 @@ public class AuthController {
         System.out.println("로그인 시도 요청");
         System.out.println("요청 DTO 정보 : " + requestDto);
         System.out.println("토큰 정보 : " + authService.login(requestDto));
-        return new ResponseEntity<>(authService .login(requestDto),HttpStatus.OK);
+        return new ResponseEntity<>(authService.login(requestDto),HttpStatus.OK);
         } catch (NullPointerException e){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -3,6 +3,7 @@ package com.lec.sping.domain.crew;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lec.sping.domain.Address;
+import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

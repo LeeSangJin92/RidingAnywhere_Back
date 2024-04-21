@@ -133,7 +133,7 @@ const SignupPage = () => {
                 return response.json;
             }
         }).then(()=>{
-            navigate("/RA/AddBike");
+            navigate("/RA/Login");
         })
 
     }

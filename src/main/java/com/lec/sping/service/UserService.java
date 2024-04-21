@@ -1,9 +1,7 @@
 package com.lec.sping.service;
 
-import com.fasterxml.classmate.MemberResolver;
 import com.lec.sping.config.SecurityUtil;
 import com.lec.sping.domain.Address;
-import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import com.lec.sping.dto.ProfileUpdateDto;
@@ -68,15 +66,11 @@ public class UserService {
         return userRepository.save(afteruser);
     }
 
-    @Transactional
-    public void setUserAuthCrewMaster(User user){
-        System.out.println("🛠️유저 권한 변경 작업중...");
-        Authority authorityCrewMaster = authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Master).orElseThrow(()->new NullPointerException("에러발생"));
-        System.out.println("데이터유"+authorityCrewMaster);
-        User changeUser = userRepository.findById(user.getUserId()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 유저입니다."));
-        System.out.println("데이터1"+authorityCrewMaster);
-        changeUser.setAuthorityId(authorityCrewMaster);
-        System.out.println("데이터2"+changeUser);
-        userRepository.save(changeUser);
+    public void changeAuthority(User userData, Authority masterAuthority) {
+        System.out.println("🛠️ 유저 권한 변경 중...");
+        User updateAuthority = userRepository.findById(userData.getUserId()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 유저입니다."));
+        updateAuthority.setAuthorityId(masterAuthority);
+        userRepository.save(updateAuthority);
+        System.out.println("✅ 유저 권한 변경");
     }
 }

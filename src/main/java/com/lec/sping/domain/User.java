@@ -53,7 +53,7 @@ public class User {
     //----------------------------------------------
     //FK 영역
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "authorityId")
     private Authority authorityId;        // 유저 권한
 
@@ -128,9 +128,6 @@ public class User {
     private void set_Defalut(){
 
         userRegdate = LocalDateTime.now();
-        authorityId = new Authority();
-        authorityId.setAuthorityId(1l);
-        authorityId.setAuthorityName(Auth.ROLE_RA_Member);
     }
 
     @Builder
