@@ -23,7 +23,12 @@ const HomePage = () => {
                 "Content-Type": "application/json;charset=utf-8"}})
             .then(response => {
                 if(response.status===200) return response.json();
-                else console.log("❌라이더 데이터 수집 실패!");
+                else if(response.status===401){
+                    console.log("❌ 토큰 데이터 만료");
+                    alert("⚠️ 로그인 유지 시간 초과 \n - 로그인 페이지로 이동합니다. -");
+                    sessionStorage.removeItem('accessToken');
+                    navigate('/RA/Login');
+                }
             }).then(data => {
                 console.log("✅라이더 데이터 수집 완료!");
                 if(data.bikeList.length===0){

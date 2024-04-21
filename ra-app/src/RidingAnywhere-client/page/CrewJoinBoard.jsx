@@ -79,7 +79,12 @@ const CrewJoinBoard = () => {
                 "Content-Type": "application/json;charset=utf-8"}})
             .then(response => {
                 if(response.status===200) return response.json();
-                else console.log("⛔ 라이더 데이터 수집 실패!");
+                else if(response.status===401){
+                    console.log("❌ 토큰 데이터 만료");
+                    alert("⚠️ 로그인 유지 시간 초과 \n - 로그인 페이지로 이동합니다. -");
+                    sessionStorage.removeItem('accessToken');
+                    navigate('/RA/Login');
+                }
             }).then(data => {
                 console.log("✅ 라이더 데이터 수집 완료!");
                 let userData = data.userData;
@@ -214,13 +219,11 @@ const CrewJoinBoard = () => {
     const changeFilter = (prop) => {
         let filterData = prop.target
         if(filterData.name==="CrewCity"){
-            console.log("🛠️ 크루 도시 필터 변경")
             setCrewAddress({
                 CrewCity:filterData.value,
                 CrewTown:""
             })
         } else {
-            console.log("🛠️ 크루 지역 필터 변경")
             setCrewAddress({
                 ...crewAddress,
                 CrewTown:filterData.value

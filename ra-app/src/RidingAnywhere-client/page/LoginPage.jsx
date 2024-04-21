@@ -47,7 +47,6 @@ const LoginPage = () => {
         setErrorWord({...errorWord,
             errorEmail:emailRegExp.test(request.userEmail),
             errorPW:passwordRegExp.test(request.userPassword)})
-            console.log(errorWord)
     },[request]);
 
     useEffect(()=>{
@@ -82,7 +81,6 @@ const LoginPage = () => {
                 console.log("타입 : " + data.grantType);
                 console.log("유효 : " + new Date(data.tokenExpiresIn))
                 console.log("현재 : " + new Date())
-                console.log(new Date()<new Date(data.tokenExpiresIn))
 
                 // 토큰 세션에 저장
                 sessionStorage.setItem('accessToken', data.accessToken);

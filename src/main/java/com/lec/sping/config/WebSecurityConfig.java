@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/BikeModel").permitAll()
                 .requestMatchers("/RA/AddressData").permitAll()
                 .requestMatchers("/RA/AddBike").permitAll()
-                .requestMatchers("/RA/CheckRider").permitAll()
+                .requestMatchers("/RA/CheckRider").authenticated()
                 .requestMatchers("/CR/CrewAllData").permitAll()
                 .requestMatchers("/RA/MyPage").authenticated()
                 .requestMatchers("/RA/UpdateUser").authenticated()

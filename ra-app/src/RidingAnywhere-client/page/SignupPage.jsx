@@ -12,14 +12,12 @@ const SignupPage = () => {
     const [cityList, setCityList] = useState([""])
 
     const selectCity = (btn) => {
-        console.log("✅ 도시 선택 완료")
         document.getElementsByClassName("selectTown")
         setUserData({...userData,userAddressCity:btn.target.value, userAddressTown:""});
         setDataCheck({...dataCheck,userAddressTown:[false]});
     }
 
     const selectTown = (btn) => {
-        console.log("✅ 마을 선택 완료")
         setUserData({...userData,userAddressTown:btn.target.value});
         setDataCheck({...dataCheck,userAddressTown:[true]})
     }
@@ -147,7 +145,6 @@ const SignupPage = () => {
                 "Content-Type": "application/json;charset=utf-8"},
             body:JSON.stringify(userData.userEmail)
             }).then(code=>{
-                console.log(code);
                 if(code.status===200) return code.json();
             }).then((data)=>{
                 console.log(data);

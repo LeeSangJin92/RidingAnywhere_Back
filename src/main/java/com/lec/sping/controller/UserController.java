@@ -30,7 +30,7 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/CheckRider")
-    public ResponseEntity<?> getMyUserInfo(@RequestHeader("Authorization") String authTokenHeader) throws SQLException {
+    public ResponseEntity<?> getMyUserInfo(@RequestHeader("Authorization") String authTokenHeader){
         System.out.println("🛜라이더 데이터 조회중...");
         String token = authTokenHeader.substring(7);
         User userData = userService.findByUserEmail(tokenProvider.parseClaims(token).getSubject());

@@ -28,7 +28,6 @@ public class CrewController {
     private final TokenProvider tokenProvider;
     private final CrewService crewService;
     private final AddressService addressService;
-    private final AuthService authService;
 
     @CrossOrigin
     @PostMapping("/Create")

@@ -52,7 +52,12 @@ const CrewManager = () => {
                 "Content-Type": "application/json;charset=utf-8"}})
             .then(response => {
                 if(response.status===200) return response.json();
-                else console.log("⛔ 라이더 데이터 수집 실패!");
+                else if(response.status===401){
+                    console.log("❌ 토큰 데이터 만료");
+                    alert("⚠️ 로그인 유지 시간 초과 \n - 로그인 페이지로 이동합니다. -");
+                    sessionStorage.removeItem('accessToken');
+                    navigate('/RA/Login');
+                }
             }).then(data => {
                 console.log("✅ 라이더 데이터 수집 완료!");
                 let userData = data.userData;
@@ -130,7 +135,7 @@ const CrewManager = () => {
                     body:JSON.stringify(crewId)
                 }).then((response)=>{
                     if(response.status===200) return response.json();
-                    else console.log("❌크루 데이터 호출 실패")
+                    else console.log("❌ 크루 데이터 호출 실패");
                 }).then(data=>{
                     console.log("✅ 크루 데이터 호출 완료")
                     setCrewInfo({...crewInfo,
@@ -161,9 +166,27 @@ const CrewManager = () => {
                         if(response.status===200) return response.json()
                         else console.log("❌ 크루 멤버 응답 실패")
                     }).then(data=>{
-                        console.log("🔎 크루 멤버 리스트")
-                    })
-                })  
+                        data.map((crewMemberData,index)=>{
+                            let memberList = crewMember;
+                            memberList.push({
+                                UserId : crewMemberData.user.userId,                // 멤버 라이더 ID
+                                UserName : crewMemberData.user.userName,            // 멤버 이름
+                                UserNickname : crewMemberData.user.userNickname,    // 멤버 닉네임
+                                UserEmail : crewMemberData.user.userEmail,          // 멤버 이메일
+                                UserCity : crewMemberData.user.address.city,        // 멤버 도시
+                                UserTown : crewMemberData.user.address.town,        // 멤버 지역
+                                UserGender : crewMemberData.user.userGender,        // 멤버 성별
+                                UserState : crewMemberData.crew_state,              // 멤버 상태(마스터, 네임드, 멤버, 대기, 신청 등...)
+                                UserJoinDate : crewMemberData.crew_joindate,        // 멤버 크루 가입 날짜
+                                UserCnt : crewMemberData.crew_cnt,                  // 멤버 크루 일정 참가 횟수
+                                UserProfile : crewMemberData.user.userProfile,      // 멤버 라이더 프로필
+                                UserBike : crewMemberData.user.garages.filter(bikeModel=>bikeModel.bike_select===true)[0]   // 멤버 대표 바이크
+                            })
+                            setCrewMember(memberList); 
+                        });
+                        console.log("✅ 멤버 리스트 로드 완료")
+                    })  
+                }) 
             }
         }
 
