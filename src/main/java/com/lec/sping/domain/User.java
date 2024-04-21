@@ -120,7 +120,7 @@ public class User {
     @JsonIgnore
     private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
 
-    @OneToOne
+    @ManyToOne
     private Address address;    // 유저 활동 지역
 
     // 계성 생성 날짜 입력

@@ -25,9 +25,9 @@ public class Address {
 
     //FK 영역
     @JsonIgnore
-    @OneToOne(mappedBy = "address")
+    @OneToMany(mappedBy = "address")
     @ToString.Exclude
-    private User user;
+    private List<User> user;
 
     @JsonIgnore
     @OneToMany(mappedBy = "crew_location")

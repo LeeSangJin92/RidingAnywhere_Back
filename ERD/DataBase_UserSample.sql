@@ -1,0 +1,6 @@
+insert into user(user_id,user_birthday,user_cnt,user_email,user_gender,user_name,user_nickname,user_password,user_phone,user_regdate,address_address_id,authority_id)
+values  (3,"19920110",0,"yomko01@gmail.com",false,"이름명","닉네임김","$2a$10$SCXnkNwLReGpKR5mLA3jS.q0gEQbJU39lFx/B5uMnBpcYY1/cFmr2","01055616566","2024-04-21 21:16:09.470860","29",1),
+        (4,"19920110",0,"yomko02@gmail.com",false,"이름묭","닉네임이","$2a$10$SCXnkNwLReGpKR5mLA3jS.q0gEQbJU39lFx/B5uMnBpcYY1/cFmr2","01055616566","2024-04-21 21:16:09.470860","27",1),
+        (5,"19920110",0,"yomko03@gmail.com",false,"이름뭉","닉네임영","$2a$10$SCXnkNwLReGpKR5mLA3jS.q0gEQbJU39lFx/B5uMnBpcYY1/cFmr2","01055616566","2024-04-21 21:16:09.470860","25",1),
+        (6,"19920110",0,"yomko04@gmail.com",false,"이름밍","닉네임양","$2a$10$SCXnkNwLReGpKR5mLA3jS.q0gEQbJU39lFx/B5uMnBpcYY1/cFmr2","01055616566","2024-04-21 21:16:09.470860","24",1),
+        (7,"19920110",0,"yomko05@gmail.com",false,"이름먕","닉네임넹","$2a$10$SCXnkNwLReGpKR5mLA3jS.q0gEQbJU39lFx/B5uMnBpcYY1/cFmr2","01055616566","2024-04-21 21:16:09.470860","23",1);
