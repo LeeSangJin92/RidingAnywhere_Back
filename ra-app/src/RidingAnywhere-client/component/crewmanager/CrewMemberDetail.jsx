@@ -2,9 +2,10 @@ import React from 'react';
 
 const CrewMemberDetail = (props) => {
     
+    console.log(props.memberData);
     return (
-        <div>
-            
+        <div className='CrewMemberDetail'>
+            <div></div>            
         </div>
     );
 };

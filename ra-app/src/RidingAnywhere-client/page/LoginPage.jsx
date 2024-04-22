@@ -55,6 +55,7 @@ const LoginPage = () => {
 
     // Request 보내는 작업 영역
     const login_start = (e)=>{
+        console.log(request);
         e.preventDefault();
         fetch("/RA/Login",{
             method: "POST", 
