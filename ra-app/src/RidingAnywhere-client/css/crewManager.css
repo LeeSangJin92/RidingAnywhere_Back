@@ -16,6 +16,7 @@
         align-items: center;
         justify-content: center;
         .CrewBtn{
+            z-index: 0;
             width: 70px;
             height: 70px;
             position: absolute;
@@ -260,6 +261,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .CreateCrew{
@@ -338,8 +340,6 @@
     }
 }
 
-
-
 .CreateCrewBtn_Line{
     display: flex;
     margin-bottom: 10px;
@@ -409,5 +409,37 @@
         }
 
 
+    }
+}
+
+/* 크루 멤버 디테일 박스 범위 */
+.CrewMemberDetail{
+    border: 2px solid orange;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .Detail_Top{
+        margin-top: 20px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        img{
+            margin: 0px 20px;
+            width: 200px;
+            height: 200px;
+        }
+        .MemberInfoBox{
+            display: flex;
+            text-align: center;
+            gap: 10px;
+            .MemberInfoTitle{
+                width: 120px;
+            }
+            .MemberInfoData{
+                width: 200px;
+            }
+        }
     }
 }
