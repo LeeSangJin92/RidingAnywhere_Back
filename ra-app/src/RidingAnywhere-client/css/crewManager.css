@@ -442,4 +442,21 @@
             }
         }
     }
+    .Detail_Mid{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 300px;
+        .MemberInfoLine{
+            display: flex;
+        }
+        .MemberInfoLineTitle{
+            display: flex;
+        }
+        MemberInfoLineData{
+            display: flex;
+        }
+
+    }
 }
