@@ -24,24 +24,16 @@ const CrewMemberDetail = (props) => {
             </div>
             <div className='Detail_Mid'>
                 <div className='MemberInfoLine'>
-                    <div className='MemberInfLineTitle'>
                         <h2>이메일</h2>
                         <h2>출석일</h2>
-                    </div>
-                    <div className='MemberInfoLineData'>
                         <h2>yomko65@gmail.com</h2>
                         <h2>10</h2>
-                    </div>
                 </div>
                 <div className='MemberInfoLine'>
-                    <div className='MemberInfoLineTitle'>
                         <h2>연락처</h2>
                         <h2>가입일</h2>
-                    </div>
-                    <div className='MemberInfoLineData'>
                         <h2>010-5561-****</h2>
                         <h2>2024.04.02</h2>
-                    </div>
                 </div>
             </div>
             <div className='Detail_Bottom'>
