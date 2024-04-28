@@ -94,6 +94,8 @@ public class CrewService {
         addCrewManger.setUser(joinUser);
         addCrewManger.setCrew_state("CrewJoiner");
         crewManagerRepository.save(addCrewManger);
+        joinCrew.setCrew_count(joinCrew.getCrew_count()+1);
+        crewRepository.save(joinCrew);
         System.out.println("✅ 가입 신청 작업 완료");
     }
 }
