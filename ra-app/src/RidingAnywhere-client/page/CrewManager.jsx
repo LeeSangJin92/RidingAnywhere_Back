@@ -92,8 +92,11 @@ const CrewManager = () => {
                     userPhone : userData.userPhone,
                     userAddressCity : userData.address.city,
                     userAddressTown : userData.address.town,
-                    userAuthority : userData.authorityId.authority_name,
+                    userAuthority : userData.authorityId.authorityName,
                 });
+                if(userData.authorityId.authorityName==="ROLE_CREW_Master"||userData.authorityId.authority_name==="ROLE_RA_ADMIN"){
+                    setInfoBtn({...crewInfoBtn,ChangeBtn:{display:'flex', backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}})
+                }
                 !!userData.userProfile&&setprofile('data:image/png;base64,'+userData.userProfile);
                 if(data.bikeList.length===0){
                     console.log("⛔ 바이크 저장 이력 없음")
@@ -141,8 +144,7 @@ const CrewManager = () => {
         }
     }
 
-    const loadCrewData = async (props) => {
-            let crewId = props;
+    const loadCrewData = async (crewId) => {
             if(!crewId){
                 console.log("⚠️ 가입된 크루가 없음.");
                 showUpController({block:true,up:"Check"});
@@ -207,7 +209,7 @@ const CrewManager = () => {
                                 UserBike : crewMemberData.user.garages.filter(bikeModel=>bikeModel.bike_select===true)[0]   // 멤버 대표 바이크
                             }}));
                         console.log("✅ 멤버 리스트 로드 완료")
-                    })  
+                    })
                 }) 
             }
         }
@@ -216,6 +218,8 @@ const CrewManager = () => {
     useEffect(()=>{
         checkData();
     },[])
+
+   
 
     const showUpController = (props) => {
         console.log("✅ 창 관리 변경")
@@ -243,7 +247,7 @@ const CrewManager = () => {
         CheckContext:"Non",
         SaveBtnAddress:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
         SaveBtnContext:{display:'none', backgroundImage:"url('/img/crewmanager/SaveBtnOff.png')"},
-        ChangeBtn:{backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
+        ChangeBtn:{display:'none', backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"},
         AddressSelect:{display:'none'},
         ContextArea : {display:'none'}
     })

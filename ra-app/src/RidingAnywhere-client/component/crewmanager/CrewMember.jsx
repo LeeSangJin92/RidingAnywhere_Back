@@ -2,10 +2,8 @@ import React from 'react';
 import "../../css/crewManager.css"
 
 const CrewMember = (props) => {
-    
     let memberData = props.memberData;
     let memberAuth = "";
-    console.log(memberData)
     switch(memberData.UserState){
         case "CrewMaster":
             memberAuth="마스터";        // 크루 마스터
