@@ -78,4 +78,22 @@ public class CrewService {
     }
 
     public List<Crew> findAllCrew() {return crewRepository.findAll();}
+
+    public void requestJoinCrew(Long joinCrewId, String joinUserEmail) {
+        System.out.println("🔎 가입하려는 크루 조회중...");
+        Crew joinCrew = crewRepository.findById(joinCrewId).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 크루 입니다."));
+        System.out.println("✅ 크루 조회 완료");
+        System.out.println("🔎 가입하려는 라이더 조회중...");
+        User joinUser = userRepository.findByUserEmail(joinUserEmail).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 유저 입니다."));
+        System.out.println("✅ 라이더 조회 완료");
+        System.out.println("🛠️ 가입 신청 진행중...");
+        joinUser.setCrew(joinCrew);
+        userRepository.save(joinUser);
+        CrewManager addCrewManger = new CrewManager();
+        addCrewManger.setCrew(joinCrew);
+        addCrewManger.setUser(joinUser);
+        addCrewManger.setCrew_state("CrewJoiner");
+        crewManagerRepository.save(addCrewManger);
+        System.out.println("✅ 가입 신청 작업 완료");
+    }
 }

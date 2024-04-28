@@ -100,6 +100,15 @@ public class CrewController {
         return new ResponseEntity<>(crewList,HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @PostMapping("CR/RequestCrewJoin")
+    public ResponseEntity<?> requestCrewJoin(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
+        System.out.println("🛠️ 크루 가입 신청 요청 받음");
+        String token = authTokenHeader.substring(7);
+        crewService.requestJoinCrew(crewId, tokenProvider.parseClaims(token).getSubject());
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
 
 
 }

@@ -5,6 +5,7 @@ const CrewJoinOk = (data) => {
         switch(props.target.id){
             case "JoinOkBtn" :
                 console.log("🕹️ 크루 가입 요청 보내기");
+                data.requestJoin();
                 break;
             case "JoinCancelBtn" :
                 console.log("🕹️ 크루 가입 취소");

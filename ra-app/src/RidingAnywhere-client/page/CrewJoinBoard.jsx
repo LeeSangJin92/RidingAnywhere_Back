@@ -248,7 +248,24 @@ const CrewJoinBoard = () => {
             console.log("🛠️ 크루 가입 신청");
             setShowUpBox(true);
         }
-        
+    }
+
+    // 🛠️ 크루 가입 요청
+    const requestJoin = async () => {
+        console.log("🛜 크루 가입 요청중...")
+        await fetch("CR/RequestCrewJoin",{
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"},
+            method:"POST",
+            body:JSON.stringify(crewInfo.CrewId)
+        }).then(response=>{
+            if(response.status===200){
+                console.log("✅ 크루 가입 응답 성공");
+                setShowUpBox(false);
+                checkData();
+            } else console.log("❌ 크루 가입 응답 실패");
+        })    
     }
 
     return (
@@ -256,7 +273,7 @@ const CrewJoinBoard = () => {
             <DefaultHeader/>
             <section className='CrewJoinBoard'>
                 <div className='CrewJoinBoardBlock' style={showUpOkBox?{display:'flex'}:{display:'none'}}>
-                    <CrewJoinOk setShowUpBox={setShowUpBox} crewName={crewInfo.CrewName}/>
+                    <CrewJoinOk setShowUpBox={setShowUpBox} crewName={crewInfo.CrewName} requestJoin={requestJoin}/>
                 </div>
                 <div className='CrewInfoBox'>
                     <div className='CrewInfoBox_Block' style={showUpInfoBlock?{display:"flex"}:{display:"none"}}>
