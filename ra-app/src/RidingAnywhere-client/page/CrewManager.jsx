@@ -59,7 +59,7 @@ const CrewManager = () => {
     const [bikeInfo, setbikeInfo] = useState()
 
      // 🛠️ 창 관리용 [백그라운드 블록 on/off, "창 종류"]
-    const [showUpControl,setShowup] = useState([true,""])
+    const [showUpControl,setShowup] = useState([false,""])
 
      // ✏️ 토큰으로 라이더 정보 가져오기
      const checkData = async () => {
@@ -196,6 +196,7 @@ const CrewManager = () => {
                                 UserNickname : crewMemberData.user.userNickname,    // 멤버 닉네임
                                 UserEmail : crewMemberData.user.userEmail,          // 멤버 이메일
                                 UserBirthday : crewMemberData.user.userBirthday,    // 멤버 생년월일
+                                UserPhone : crewMemberData.user.userPhone,          // 멤버 연락처
                                 UserCity : crewMemberData.user.address.city,        // 멤버 도시
                                 UserTown : crewMemberData.user.address.town,        // 멤버 지역
                                 UserGender : crewMemberData.user.userGender,        // 멤버 성별
@@ -417,7 +418,7 @@ const CrewManager = () => {
                     {/* 🛠️ 크루 생성 창 */}
                     <CreateCrew addressList={addressList} cityList={cityList} controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
                     {/* 🛠️ 크루 멤버 디테일 창 */}
-                    <CrewMemberDetail memberData={crewMemberInfo} controller={showUpControl} showUp={showUpControl[1]==='Detail'?true:false}/>
+                    <CrewMemberDetail memberData={crewMemberInfo} controller={showUpController} showUp={showUpControl[1]==='Detail'?true:false}/>
                     {/* 🛠️ 크루 가입 신청 창 */}
                     <CrewJoin memberData={crewMemberInfo} controller={showUpControl} showUp={showUpControl[1]==='Join'?true:false}/>
                  </div>
@@ -475,7 +476,7 @@ const CrewManager = () => {
                     <h1>크루 리스트</h1>
                     <div className='crewMenberBoxLine'>
                         {/* 크루 멤버 목록 */}
-                        {!!crewMember&&crewMember.map((memberData,index)=><CrewMember key={index} memberData={memberData}/>)}
+                        {!!crewMember&&crewMember.map((memberData,index)=><CrewMember key={index} memberData={memberData} setcrewMemberInfo={setcrewMemberInfo} controller={showUpController}/>)}
                     </div>
                 </div>
                 
