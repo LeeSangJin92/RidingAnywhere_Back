@@ -58,7 +58,7 @@ const CrewManager = () => {
      // 🏍️ 바이크 정보
     const [bikeInfo, setbikeInfo] = useState()
 
-     // 🛠️ 창 관리용 [백그라운드 블록 on/off, "창 종류"]
+    // 🛠️ 창 관리용 [백그라운드 블록 on/off, "창 종류"]
     const [showUpControl,setShowup] = useState([false,""])
 
      // ✏️ 토큰으로 라이더 정보 가져오기

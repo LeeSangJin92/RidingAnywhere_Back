@@ -4,12 +4,20 @@ import DefaultFooter from '../component/DefaultFooter';
 import DefaultHeader from '../component/DefaultHeader_main';
 import "../css/CrewJoinBoard.css"
 import CrewJoiner from '../component/crewwjoinboard/CrewJoiner';
+import CrewJoinOk from '../component/crewwjoinboard/CrewJoinOk';
 
 
 // 크루 가입 게시판
 const CrewJoinBoard = () => {
 
     const navigate = useNavigate();
+
+    // 🛠️ 창 관리용 블록
+    const [showUpOkBox,setShowUpBox] = useState(false);
+
+    // 🛠️ 크루 정보 박스 관리용 블록
+    const [showUpInfoBlock,setShowUpInfoBlock] = useState(true);
+ 
 
     // ✏️ 지역 관련 데이터 변수
     const [addressList, setAddressList] = useState([]);
@@ -159,6 +167,7 @@ const CrewJoinBoard = () => {
                             CrewCity:data.crew_location.city,
                             CrewTown:data.crew_location.town
                         });
+                        setShowUpInfoBlock(false);
                         console.log("🛠️ 크루 데이터 저장 완료")
                     })}
                     return crewId;
@@ -166,7 +175,6 @@ const CrewJoinBoard = () => {
                     console.log("🛜 모든 크루 리스트 요청")
                     await fetch("/CR/CrewAllData")
                     .then((response)=>{
-                        console.log(response);
                         console.log("✅ 모든 크루 데이터 응답 완료");
                         if(response.status===200) return response.json();
                         else console.log("❌ 크루 데이터 호출 실패");
@@ -184,7 +192,6 @@ const CrewJoinBoard = () => {
                              }
                          })
                         setCrewList(crewList);
-                        !crewId&&setCrewInfo(crewList[0])
                         console.log("✅ 크루 리스틑 저장 완료");
                     })
                 }).then(async ()=>{
@@ -239,7 +246,7 @@ const CrewJoinBoard = () => {
             alert("⚠️이미 크루에 가입되어 있습니다.");
         } else {
             console.log("🛠️ 크루 가입 신청");
-            
+            setShowUpBox(true);
         }
         
     }
@@ -248,7 +255,13 @@ const CrewJoinBoard = () => {
         <main>
             <DefaultHeader/>
             <section className='CrewJoinBoard'>
+                <div className='CrewJoinBoardBlock' style={showUpOkBox?{display:'flex'}:{display:'none'}}>
+                    <CrewJoinOk setShowUpBox={setShowUpBox} crewName={crewInfo.CrewName}/>
+                </div>
                 <div className='CrewInfoBox'>
+                    <div className='CrewInfoBox_Block' style={showUpInfoBlock?{display:"flex"}:{display:"none"}}>
+                        <h1>크루를 선택해주세요</h1>
+                    </div>
                     <div className='CrewInfoBox_Top'>
                         <h1>{crewInfo.CrewName}</h1>
                         <label htmlFor='JoinBtn' className='JoinBtnLabel' style={joinBtn} onClick={clickJoinBtn}/>
@@ -286,21 +299,21 @@ const CrewJoinBoard = () => {
                     </div>
                     <div className='CrewListBox_Section'>
                         {/* ✏️ 가입되어 있는 크루가 맨위로 올라오도록 설정 */}
-                        {!!riderInfo.crewId&&<CrewJoiner setCrewInfo={setCrewInfo} crewData={riderCrewInfo}/>}
+                        {!!riderInfo.crewId&&<CrewJoiner setCrewInfo={setCrewInfo} crewData={riderCrewInfo} setShowUpInfoBlock={setShowUpInfoBlock}/>}
 
                         {/* 활동 도시 전체 선택 시 */}
                         {!crewAddress.CrewTown&&crewList.filter(crew=>{
                             if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown==="")){
                                 return crew;
                             }
-                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew}/>))}
+                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew} setShowUpInfoBlock={setShowUpInfoBlock}/>))}
                         
                         {/* 활동 도시 선택 시 */}
                         {!!crewAddress.CrewTown&&crewList.filter(crew=>{
                             if((crew.CrewId!==riderInfo.crewId)&&(crew.CrewCity===crewAddress.CrewCity)&&(crewAddress.CrewTown===crew.CrewTown)){
                                 return crew;
                             }
-                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew}/>))}
+                            }).map((crew,index)=>(<CrewJoiner setCrewInfo={setCrewInfo} key={index} crewData={crew} setShowUpInfoBlock={setShowUpInfoBlock}/>))}
                     </div>
                 </div>
             </section>
