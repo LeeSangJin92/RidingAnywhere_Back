@@ -32,6 +32,7 @@ const CrewManager = () => {
         userAddressCity:"",
         userAddressTown:"",
         userAuthority:"",
+        userCrewId:0,
      })
 
      // 😎 크루 멤버 라이더 정보(디테일 컴포넌트용)
@@ -82,6 +83,7 @@ const CrewManager = () => {
                 }
             }).then(data => {
                 if(!!data){
+                    console.log(data)
                 console.log("✅ 라이더 데이터 수집 완료!");
                 let userData = data.userData;
                 setriderInfo({...riderInfo,
@@ -94,6 +96,7 @@ const CrewManager = () => {
                     userAddressCity : userData.address.city,
                     userAddressTown : userData.address.town,
                     userAuthority : userData.authorityId.authorityName,
+                    userCrewId : !data.crewId?0:data.crewId
                 });
                 if(userData.authorityId.authorityName==="ROLE_CREW_Master"||userData.authorityId.authority_name==="ROLE_RA_ADMIN"){
                     setInfoBtn({...crewInfoBtn,ChangeBtn:{display:'flex', backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}})
@@ -106,37 +109,33 @@ const CrewManager = () => {
                     navigate("/RA/Addbike");
                 }
                 else {
-                    setbikeInfo(data.bikeList.map((data,index)=>{
-                        const bikeData = {
-                            bike_index:index,
-                            bike_id:data.bikegarage_id,
-                            bike_year:data.bike_year,
-                            bike_cc:data.bikeModel.model_cc,
-                            bike_select:data.bike_select,
-                            model_name:data.bikeModel.model_name,
-                            bikebrand_logo:data.bikeModel.bikebrand_id.bikebrand_logo,
-                        }
-                        return bikeData
-                    }))
+                        setbikeInfo(data.bikeList.map((data,index)=>{
+                            const bikeData = {
+                                bike_index:index,
+                                bike_id:data.bikegarage_id,
+                                bike_year:data.bike_year,
+                                bike_cc:data.bikeModel.model_cc,
+                                bike_select:data.bike_select,
+                                model_name:data.bikeModel.model_name,
+                                bikebrand_logo:data.bikeModel.bikebrand_id.bikebrand_logo,
+                            }
+                            return bikeData
+                        }));
                     console.log("✅ 바이크 데이터 수집 완료")}
-                    return data.crewId;
-                }}).then(async (crewId)=>{
-                    console.log("🔎 크루 데이터 조회 중...")
-                    await loadCrewData(crewId);
-                }).then(async ()=>{
-                    console.log("🛜 지역 데이터 요청중...")
-                    await fetch("/RA/AddressData")
-                    .then((response)=>{
-                        console.log("✅ 지역 데이터 요청 완료");
-                        if(response.status===200) return response.json();
-                        else console.log("❌지역 데이터 호출 실패!")
-                    }).then((data)=>{
-                        console.log("🛠️ 지역 데이터 저장중...");
-                        setAddressList(data);
-                        setCityList([...new Set(data.map(data=>data.city))]);
-                        console.log("✅ 지역 데이터 작업 완료")
-                    });
-                })
+                    }}).then(async ()=>{
+                        console.log("🛜 지역 데이터 요청중...")
+                        await fetch("/RA/AddressData")
+                        .then((response)=>{
+                            console.log("✅ 지역 데이터 요청 완료");
+                            if(response.status===200) return response.json();
+                            else console.log("❌지역 데이터 호출 실패!")
+                        }).then((data)=>{
+                            console.log("🛠️ 지역 데이터 저장중...");
+                            setAddressList(data);
+                            setCityList([...new Set(data.map(data=>data.city))]);
+                            console.log("✅ 지역 데이터 작업 완료")
+                        });
+                    })
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");
             alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
@@ -194,7 +193,7 @@ const CrewManager = () => {
                         setCrewMember(data.map((crewMemberData,index)=>{
 
                             // 🛠️ 멤버 리스트 비공개 블록 체크
-                            if((crewMemberData.user.userEmail===riderInfo.userEmail)){
+                            if(crewMemberData.user.userEmail+""===riderInfo.userEmail){
                                 crewMemberData.crew_state!=="CrewJoiner"&&setPrivateBlock(false)
                             }
 
@@ -225,6 +224,12 @@ const CrewManager = () => {
     useEffect(()=>{
         checkData();
     },[])
+
+    useEffect(()=>{
+        if(!!riderInfo.userEmail&&riderInfo.userCrewId>0){
+            loadCrewData(riderInfo.userCrewId);
+        }
+    },[riderInfo])
 
    
 
@@ -488,8 +493,9 @@ const CrewManager = () => {
                     <div className='crewMenberBoxLine'>
                         {/* 크루 가입 요청자 비공개용 */}
                         <div className='PrivateBlock' style={privateBlock?{display:'flex'}:{display:'none'}}>
-                            <h1>⚠️ 크루 가입 대기 ⚠️</h1>
-                            <h2>- 크루 마스터가 수락 후 이용 가능합니다 -</h2>
+                            
+                            <h1>{riderInfo.userAuthority==="ROLE_RA_Member"?"⚠️ 크루 가입 대기 ⚠️":"🛠️ 크루 멤버 로드 중.."}</h1>
+                            <h2>{riderInfo.userAuthority==="ROLE_RA_Member"?"- 크루 마스터가 수락 후 이용 가능합니다 -":""}</h2>
                         </div>
                         {/* 크루 멤버 목록 */}
                         {!!crewMember&&crewMember.map((memberInfo,index)=>
