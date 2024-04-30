@@ -58,8 +58,9 @@ const CrewManager = () => {
      // 🏍️ 바이크 정보
     const [bikeInfo, setbikeInfo] = useState()
 
-    // 🛠️ 창 관리용 [백그라운드 블록 on/off, "창 종류"]
-    const [showUpControl,setShowup] = useState([false,""])
+    // 🛠️ 페이지 블록 관리용
+    const [showUpControl,setShowup] = useState([false,""])  // 박스 사용 시 [백그라운드 블록 on/off, "창 종류"]
+    const [privateBlock,setPrivateBlock] = useState(true)   // 멤버 리스트 블록용
 
      // ✏️ 토큰으로 라이더 정보 가져오기
      const checkData = async () => {
@@ -191,6 +192,12 @@ const CrewManager = () => {
                         else console.log("❌ 크루 멤버 응답 실패")
                     }).then(data=>{
                         setCrewMember(data.map((crewMemberData,index)=>{
+
+                            // 🛠️ 멤버 리스트 비공개 블록 체크
+                            if((crewMemberData.user.userEmail===riderInfo.userEmail)){
+                                crewMemberData.crew_state!=="CrewJoiner"&&setPrivateBlock(false)
+                            }
+
                             return {
                                 ListIndex : index,                                  // 멤버 리스트 Index
                                 UserId : crewMemberData.user.userId,                // 멤버 라이더 ID
@@ -289,7 +296,7 @@ const CrewManager = () => {
         }
     }
 
-    const datainsert = (props) => {
+    const dataInsert = (props) => {
         let data = props.target;
             switch(data.name){
                 case "CrewCity":
@@ -452,9 +459,9 @@ const CrewManager = () => {
                                     <h2>활동 지역</h2>
                                     <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:'flex'}}>{crewInfo.CrewCity} / {crewInfo.CrewTown}</h2>
                                     <div className='addressSelectBox' style={crewInfoBtn.AddressSelect} >
-                                        <select name='CrewCity' className='selectCity' onChange={datainsert} value={updateCrewInfo.CrewCity}>
+                                        <select name='CrewCity' className='selectCity' onChange={dataInsert} value={updateCrewInfo.CrewCity}>
                                             {cityList.map((data,index)=>(<option key={index} value={data}>{data}</option>))}</select>
-                                        <select name='CrewTown' className='selectTown' onChange={datainsert} value={updateCrewInfo.CrewTown}>
+                                        <select name='CrewTown' className='selectTown' onChange={dataInsert} value={updateCrewInfo.CrewTown}>
                                             <option value={""}>⚠️선택</option>
                                             {addressList.filter(data=>data.city===updateCrewInfo.CrewCity).map((data,index)=>(<option key={index} value={data.town}>{data.town}</option>))}
                                         </select>
@@ -469,7 +476,7 @@ const CrewManager = () => {
                             </div>
                             <div className='crewContextBox'>
                                 <h2 style={crewInfoBtn.ChangeMode?{display:'none'}:{display:"flex"}}>{crewInfo.CrewContext}</h2>
-                                <textarea name='CrewContext' style={crewInfoBtn.ContextArea} value={updateCrewInfo.CrewContext} className='crewContextArea' placeholder={crewInfo.CrewContext} onChange={datainsert}></textarea>
+                                <textarea name='CrewContext' style={crewInfoBtn.ContextArea} value={updateCrewInfo.CrewContext} className='crewContextArea' placeholder={crewInfo.CrewContext} onChange={dataInsert}></textarea>
                             </div>
                         </div>
                     </div>
@@ -479,8 +486,14 @@ const CrewManager = () => {
                 <div className='crewListLine'>
                     <h1>크루 리스트</h1>
                     <div className='crewMenberBoxLine'>
+                        {/* 크루 가입 요청자 비공개용 */}
+                        <div className='PrivateBlock' style={privateBlock?{display:'flex'}:{display:'none'}}>
+                            <h1>⚠️ 크루 가입 대기 ⚠️</h1>
+                            <h2>- 크루 마스터가 수락 후 이용 가능합니다 -</h2>
+                        </div>
                         {/* 크루 멤버 목록 */}
-                        {!!crewMember&&crewMember.map((memberData,index)=><CrewMember key={index} memberData={memberData} setcrewMemberInfo={setcrewMemberInfo} controller={showUpController}/>)}
+                        {!!crewMember&&crewMember.map((memberInfo,index)=>
+                        <CrewMember key={index} memberInfo={memberInfo} setcrewMemberInfo={setcrewMemberInfo} controller={showUpController}/>)}
                     </div>
                 </div>
                 

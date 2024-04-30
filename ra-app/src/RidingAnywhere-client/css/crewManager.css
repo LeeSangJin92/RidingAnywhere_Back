@@ -151,9 +151,28 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow: hidden;
+        overflow-y: scroll;
+        scrollbar-width: none;
         border: 2px solid orange;
         border-radius: 10px;
+
+        .PrivateBlock{
+            display: flex;
+            flex-direction: column;
+            width: 700px;
+            height: 520px;
+            border :2px solid orange;
+            border-radius: 10px;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            z-index: 1;
+            background-color: black;
+        }
+
+
+
     }
     h2{
         margin: 0;

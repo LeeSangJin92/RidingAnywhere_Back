@@ -2,7 +2,6 @@ import React from 'react';
 
 const CrewMemberDetail = (props) => {
     let memberData = props.memberData;
-
     const clickCloseBtn = () => {
         console.log("🕹️ 멤버 상세 정보 닫음")
         props.controller({block:false,up:""})
@@ -46,7 +45,7 @@ const CrewMemberDetail = (props) => {
                             <h2>{memberData.UserPhone.slice(0,3)+"-"+memberData.UserPhone.slice(3,7)+"-****"}</h2>
                         </div>
                         <div className='MemberInfoJoin'>
-                            <h2>가입일</h2>
+                            <h2>{memberData.UserState==="CrewJoiner"?"요청일":"가입일"}</h2>
                             <h2>{memberData.UserJoinDate.slice(0,10)}</h2>
                         </div>
                     </div>
