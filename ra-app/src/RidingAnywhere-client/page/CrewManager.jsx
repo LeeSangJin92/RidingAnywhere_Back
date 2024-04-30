@@ -502,7 +502,6 @@ const CrewManager = () => {
                         <CrewMember key={index} memberInfo={memberInfo} setcrewMemberInfo={setcrewMemberInfo} controller={showUpController}/>)}
                     </div>
                 </div>
-                
             </section>
             <DefaultFooter/>
         </main>

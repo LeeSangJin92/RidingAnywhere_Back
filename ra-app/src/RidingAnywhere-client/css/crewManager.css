@@ -491,8 +491,44 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        border-top: 2px solid orange;
         width: 100%;
         height: 160px;
+
+        /* 멤버 크루 참여 수락 라인 */
+        .JoinAcceptLine{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            >div{
+                display: flex;
+                gap: 100px;
+            }
+            input{
+                cursor: pointer;
+                width: 120px;
+                height: 60px;
+                background-color: rgba(0, 0, 0, 0);
+                background-size: 100% 100%;
+                border: none;
+            }
+            /* 크루 가입 승인 버튼 */
+            .JoinAcceptBtn{
+                background-image: url("/public/img/crewmanager/AcceptBtnOff.png");
+            }
+            .JoinAcceptBtn:hover{
+                background-image: url("/public/img/crewmanager/AcceptBtnOn.png");
+            }
+            .JoinRefuseBtn{
+                background-image: url("/public/img/crewmanager/CancelBtnOff.png");
+            }
+            .JoinRefuseBtn:hover{
+                background-image: url("/public/img/crewmanager/CancelBtnOn.png");
+            }
+        }
+
+        /* 멤버 개인 정보 라인 */
         .MemberInfoLine{
             display: flex;
             gap: 30px;
@@ -509,13 +545,50 @@
             .MemberInfoCnt{
                 width: 140px;
             }
+            /* 연락처 */
             .MemberInfoPhone{
                 width: 280px;
                 margin-left: 20px;
             }
+            /* 가입일자 */
             .MemberInfoJoin{
                 width: 250px;
             }
         }
     }
+    /* 멤버 바이크 정보 라인 */
+    .Detail_Bottom{
+        display: flex;
+        align-items: center;
+        border-top: 2px solid orange;
+        width: 100%;
+        height: 200px;
+        gap: 20px;
+        >img{
+            margin-left: 10px;
+            width: 180px;
+            height: 180px;
+        }
+        .MemberBikeInfoLine{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 370px;
+            div{
+                display: flex;
+                gap: 15px
+            }
+            .MemberBikeModelData{
+                width: 300px;
+                text-align: center;
+            }
+            .MemberBikeCC{
+                text-align: center;
+                width: 60px;
+                margin-right: 10px;
+            }
+
+        }
+    }
+
 }
