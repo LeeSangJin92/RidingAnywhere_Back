@@ -7,6 +7,7 @@ import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
+import com.lec.sping.dto.JoinAcceptDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.AddressService;
 import com.lec.sping.service.AuthService;
@@ -107,8 +108,13 @@ public class CrewController {
         String token = authTokenHeader.substring(7);
         crewService.requestJoinCrew(crewId, tokenProvider.parseClaims(token).getSubject());
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
-
+    @CrossOrigin
+    @PostMapping("CR/RequestJoinAccept")
+    public ResponseEntity<?> requestJoinAccept(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceptDto){
+        System.out.println("🛠️ 크루 가입 신청 수락 요청 받음");
+        crewService.requestJoinAccept(joinAcceptDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

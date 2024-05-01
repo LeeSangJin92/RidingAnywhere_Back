@@ -7,6 +7,7 @@ import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
+import com.lec.sping.dto.JoinAcceptDto;
 import com.lec.sping.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -97,5 +98,18 @@ public class CrewService {
         joinCrew.setCrew_count(joinCrew.getCrew_count()+1);
         crewRepository.save(joinCrew);
         System.out.println("✅ 가입 신청 작업 완료");
+    }
+
+    public void requestJoinAccept(JoinAcceptDto joinAcceptDto) {
+        System.out.println("🛠️ 크루 가입 수락 작업 중...");
+        System.out.println(joinAcceptDto);
+        User joinMember = userRepository.findById(joinAcceptDto.getJoinUserId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 라이더입니다."));
+        Crew crew = crewRepository.findById(joinAcceptDto.getCrewId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 크루입니다."));
+        joinMember.setAuthorityId(authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Member).orElseThrow(()->new NullPointerException("❌ 존재 하지 않은 권한입니다.")));
+        userRepository.save(joinMember);
+        CrewManager crewManager = crewManagerRepository.findByCrewAndAndUser(crew,joinMember);
+        crewManager.setCrew_state("CrewMember");
+        crewManagerRepository.save(crewManager);
+        System.out.println("✅ 크루 가입 수락 완료");
     }
 }

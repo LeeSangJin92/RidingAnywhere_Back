@@ -8,8 +8,23 @@ const CrewMemberDetail = (props) => {
         console.log("🕹️ 멤버 상세 정보 닫음")
         props.controller({block:false,up:""})
     }
+    const onClickOkay = (btn) => {
+            if(btn.target.className==="JoinAcceptBtn"){
+                console.log("🕹️ 크루 참여 수락 클릭");
+                props.requestJoinAccept({
+                    ...memberData,
+                    JoinAccept:true
+                })
+            } else {
+                console.log("🕹️ 크루 참여 거절 클릭");
+                props.requestJoinAccept({
+                    ...memberData,
+                    JoinAccept:false
+                })
+            }
+    }
 
-    
+
 
     return (
         <div className='CrewMemberDetail'>
@@ -17,7 +32,7 @@ const CrewMemberDetail = (props) => {
                 <>
                     <input type='button' className='CloseDetailBtn' onClick={clickCloseBtn}></input>
                     <div className='Detail_Top'>
-                    <img src='/img/mypage/DefaultProfileImg.png' alt=''></img>
+                    <img src={!memberData.UserProfile?'/img/mypage/DefaultProfileImg.png':('data:image/png;base64,'+memberData.UserProfile)} alt=''></img>
                     <div className='MemberInfoBox'>
                         <div className='MemberInfoTitle'>
                             <h2>닉네임</h2>
@@ -37,8 +52,8 @@ const CrewMemberDetail = (props) => {
                     <div className='JoinAcceptLine' style={memberData.UserState==="CrewJoiner"?{display:'flex'}:{display:'none'}}>
                         <h2>🤔 크루 참여 요청을 수락하시겠습니까?</h2>
                         <div>
-                            <input type='button' className='JoinAcceptBtn'/>
-                            <input type='button' className='JoinRefuseBtn'/>
+                            <input type='button' className='JoinAcceptBtn' onClick={onClickOkay}/>
+                            <input type='button' className='JoinRefuseBtn' onClick={onClickOkay}/>
                         </div>
                     </div>
                     <div className='MemberInfoLine' style={memberData.UserState!=="CrewJoiner"?{display:'flex'}:{display:'none'}}>

@@ -383,6 +383,31 @@ const CrewManager = () => {
         }
     }
 
+    const requestJoinAccept = async (joinMemberData) => {
+        console.log(joinMemberData);
+        if(joinMemberData.JoinAccept){
+            console.log("🛠️ 크루 가입 요청 수락 작업 중...")
+            let dataJoinAccept = {
+                joinUserId : joinMemberData.UserId,
+                crewId : crewInfo.CrewId
+            }
+            console.log(dataJoinAccept);
+            await fetch("CR/RequestJoinAccept",{method:"POST",
+                    headers:{
+                    "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    "Content-Type": "application/json;charset=utf-8"},
+                    body:JSON.stringify(dataJoinAccept)
+            }).then(response=>{
+                if(response.status===200) {
+                    console.log("✅ 크루 가입 요청 수락 완료");
+                    alert("😁 가입을 수락하셨습니다")
+                } else console.log("❌ 크루 가입 요청 수락 실패")
+            })
+        } else{
+
+        }
+    }
+
     const saveContext = async () => {
         console.log("🔎 크루 인사말 검증 중...")
         switch(crewInfoBtn.CheckContext){
@@ -434,7 +459,7 @@ const CrewManager = () => {
                     {/* 🛠️ 크루 생성 창 */}
                     <CreateCrew addressList={addressList} cityList={cityList} controller={showUpController} showUp={showUpControl[1]==='Create'?true:false}/>
                     {/* 🛠️ 크루 멤버 디테일 창 */}
-                    <CrewMemberDetail memberData={crewMemberInfo} controller={showUpController} showUp={showUpControl[1]==='Detail'?true:false}/>
+                    <CrewMemberDetail memberData={crewMemberInfo} controller={showUpController} showUp={showUpControl[1]==='Detail'?true:false} requestJoinAccept={requestJoinAccept}/>
                     {/* 🛠️ 크루 가입 신청 창 */}
                     <CrewJoin memberData={crewMemberInfo} controller={showUpControl} showUp={showUpControl[1]==='Join'?true:false}/>
                  </div>

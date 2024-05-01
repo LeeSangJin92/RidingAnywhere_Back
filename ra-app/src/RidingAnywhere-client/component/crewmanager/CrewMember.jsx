@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import "../../css/crewManager.css"
 
 const CrewMember = (props) => { 
-    let memberInfo = useRef(props.memberInfo).current;
+    let memberInfo = props.memberInfo;
     let memberAuth = "";
     switch(memberInfo.UserState){
         case "CrewMaster":

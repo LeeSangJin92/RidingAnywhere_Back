@@ -29,6 +29,12 @@ public class UserService {
     private final AddressRepository addressRepository;
     private final AuthorityRepository authorityRepository;
 
+
+    public User findByUser(Long joinUserId) {
+        return userRepository.findById(joinUserId)
+                .orElseThrow(()->new NullPointerException("❌ 존재하지 않은 라이더입니다."));
+    }
+
     public User findByUserEmail(String userEmail){
         return userRepository.findByUserEmail(userEmail)
                 .orElseThrow(()->new RuntimeException("❌정보 요청에 오류가 발생되었습니다"));
@@ -73,4 +79,5 @@ public class UserService {
         userRepository.save(updateAuthority);
         System.out.println("✅ 유저 권한 변경");
     }
+
 }
