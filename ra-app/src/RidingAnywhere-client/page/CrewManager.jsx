@@ -98,6 +98,7 @@ const CrewManager = () => {
                     userAuthority : userData.authorityId.authorityName,
                     userCrewId : !data.crewId?0:data.crewId
                 });
+                loadCrewData(!data.crewId?null:data.crewId);
                 if(userData.authorityId.authorityName==="ROLE_CREW_Master"||userData.authorityId.authority_name==="ROLE_RA_ADMIN"){
                     setInfoBtn({...crewInfoBtn,ChangeBtn:{display:'flex', backgroundImage:"url('/img/crewmanager/ChangeBtn.png')"}})
                 }
@@ -136,6 +137,8 @@ const CrewManager = () => {
                             console.log("✅ 지역 데이터 작업 완료")
                         });
                     })
+
+
         } else {
             console.log("⛔ 접속자에게 엑세스 없음");
             alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
@@ -384,14 +387,12 @@ const CrewManager = () => {
     }
 
     const requestJoinAccept = async (joinMemberData) => {
-        console.log(joinMemberData);
+        let dataJoinAccept = {
+            joinUserId : joinMemberData.UserId,
+            crewId : crewInfo.CrewId
+        }
         if(joinMemberData.JoinAccept){
-            console.log("🛠️ 크루 가입 요청 수락 작업 중...")
-            let dataJoinAccept = {
-                joinUserId : joinMemberData.UserId,
-                crewId : crewInfo.CrewId
-            }
-            console.log(dataJoinAccept);
+            console.log("🛠️ 크루 가입 요청 수락 작업 중...");
             await fetch("CR/RequestJoinAccept",{method:"POST",
                     headers:{
                     "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -401,11 +402,25 @@ const CrewManager = () => {
                 if(response.status===200) {
                     console.log("✅ 크루 가입 요청 수락 완료");
                     alert("😁 가입을 수락하셨습니다")
-                } else console.log("❌ 크루 가입 요청 수락 실패")
+                } else console.log("❌ 크루 가입 요청 수락 실패");
             })
         } else{
-
+            await fetch("CR/RequestJoinRefuse",{
+                method:"POST",
+                headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"},
+                body:JSON.stringify(dataJoinAccept)
+            }).then(response=>{
+                if(response.status===200){
+                    console.log("✅ 크르 가입 요청 거절 완료");
+                    alert("😓 가입을 거절하셨습니다.");
+                } else console.log("❌ 크루 가입 요청 거절 실패");
+            });
         }
+        setShowup([false,""]);
+        setPrivateBlock(true);
+        loadCrewData(dataJoinAccept.crewId);
     }
 
     const saveContext = async () => {

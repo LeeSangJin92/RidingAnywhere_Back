@@ -27,7 +27,7 @@ const CrewMemberDetail = (props) => {
 
 
     return (
-        <div className='CrewMemberDetail'>
+        <div className='CrewMemberDetail' style={props.showUp?{display:'flex'}:{display:'none'}}>
             {props.memberData.ListIndex!==""&&
                 <>
                     <input type='button' className='CloseDetailBtn' onClick={clickCloseBtn}></input>
