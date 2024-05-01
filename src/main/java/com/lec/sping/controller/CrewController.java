@@ -117,4 +117,12 @@ public class CrewController {
         crewService.requestJoinAccept(joinAcceptDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping("CR/RequestJoinRefuse")
+    public ResponseEntity<?> requestJoinRefuse(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceotDto){
+        System.out.println("🛠️ 크루 가입 신청 거절 요청 받음");
+        crewService.requestJoinRefuse(joinAcceotDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

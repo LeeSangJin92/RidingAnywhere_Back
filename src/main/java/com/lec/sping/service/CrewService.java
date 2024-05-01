@@ -101,8 +101,7 @@ public class CrewService {
     }
 
     public void requestJoinAccept(JoinAcceptDto joinAcceptDto) {
-        System.out.println("🛠️ 크루 가입 수락 작업 중...");
-        System.out.println(joinAcceptDto);
+        System.out.println("🛠️ 크루 가입 수락 작업중...");
         User joinMember = userRepository.findById(joinAcceptDto.getJoinUserId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 라이더입니다."));
         Crew crew = crewRepository.findById(joinAcceptDto.getCrewId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 크루입니다."));
         joinMember.setAuthorityId(authorityRepository.findByAuthorityName(Auth.ROLE_CREW_Member).orElseThrow(()->new NullPointerException("❌ 존재 하지 않은 권한입니다.")));
@@ -111,5 +110,18 @@ public class CrewService {
         crewManager.setCrew_state("CrewMember");
         crewManagerRepository.save(crewManager);
         System.out.println("✅ 크루 가입 수락 완료");
+    }
+
+    public void requestJoinRefuse(JoinAcceptDto joinAcceptDto) {
+        System.out.println("🛠️ 크루 가입 거절 작업중...");
+        User joinMember = userRepository.findById(joinAcceptDto.getJoinUserId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 라이더입니다."));
+        Crew crew = crewRepository.findById(joinAcceptDto.getCrewId()).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 크루입니다."));
+        CrewManager crewManager = crewManagerRepository.findByCrewAndAndUser(crew,joinMember);
+        joinMember.setCrew(null);
+        userRepository.save(joinMember);
+        crewManagerRepository.delete(crewManager);
+        crew.setCrew_count(crew.getCrew_count()-1);
+        crewRepository.save(crew);
+        System.out.println("✅ 크루 가입 거절 완료");
     }
 }

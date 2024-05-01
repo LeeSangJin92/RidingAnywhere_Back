@@ -1,7 +1,7 @@
 
 /* 로그아웃 메인 박스 */
 .logoutBox{
-    z-index: 1;
+    z-index: 10;
     display: flex;
     position: fixed;
     background-color: black;
