@@ -32,7 +32,7 @@ const DefaultHeader_main = () => {
                                 <h1>CREW AREA</h1>
                                 <div className='NavMenu'>
                                     <Link to="/CR/Manager" className='NavCategory'>CREW<br/>MANAGER</Link>     {/*크루원 관리*/}
-                                    <div className='NavCategory'>CREW<br/>BOARD</div>       {/*크루 게시판*/}
+                                    <Link to="/CR/Board" className='NavCategory'>CREW<br/>BOARD</Link>       {/*크루 게시판*/}
                                     <Link to="/CR/Join" className='NavCategory'>CREW<br/>JOIN</Link>        {/*크루원 모집*/}
                                 </div>
                             </div>

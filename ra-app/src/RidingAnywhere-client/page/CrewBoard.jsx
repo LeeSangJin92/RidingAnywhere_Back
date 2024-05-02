@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoard.css';
+import { Link } from 'react-router-dom';
 const CrewBoard = () => {
     return (
         <main>
@@ -59,7 +60,7 @@ const CrewBoard = () => {
                     </div>
                 </div>
                 <div className='boardPageLine'>
-
+                    
                 </div>
             </section>
             <DefaultFooter/>
