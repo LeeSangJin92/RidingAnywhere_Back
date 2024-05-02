@@ -41,7 +41,22 @@ const CrewBoard = () => {
                 </div>
                 
                 <div className='boardListLine'>
-
+                    <div className='boardListHeadLine'>
+                        <h2 className='boardNo'>No</h2>
+                        <h2 className='boardType'>말머리</h2>
+                        <h2 className='boardTitle'>제목</h2>
+                        <h2 className='boardWriter'>작성자</h2>
+                        <h2 className='boardLevel'>등급</h2>
+                        <h2 className='boardCount'>조회수</h2>
+                    </div>
+                    <div className='boardListBodyLine'>
+                        <h2 className='boardNo'>1</h2>
+                        <h2 className='boardType'>공지</h2>
+                        <h2 className='boardTitle'>크루 안전기원 공지 사항</h2>
+                        <h2 className='boardWriter'>닉네임</h2>
+                        <h2 className='boardLevel'>마스터</h2>
+                        <h2 className='boardCount'>5</h2>
+                    </div>
                 </div>
                 <div className='boardPageLine'>
 

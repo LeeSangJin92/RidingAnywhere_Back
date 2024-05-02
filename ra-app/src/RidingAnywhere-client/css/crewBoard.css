@@ -5,6 +5,7 @@
     border: 2px solid orange;
     display: flex;
     flex-direction: column;
+    align-items: center;
     .boardTopLine{
         display: flex;
         width: 100%;
@@ -108,6 +109,54 @@
         }
         .boardWriteBtn:hover{
             cursor: pointer;
+        }
+    }
+    .boardListLine{
+        width: 80%;
+        height: 350px;
+        margin-top: 15px;
+        border: 2px solid orange;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+        scrollbar-width: none;
+        .boardListHeadLine,.boardListBodyLine{
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            h2{
+                margin: 0px;
+                text-align: center;
+            }
+            .boardNo{
+                width: 80px;
+            }
+            .boardType{
+                width: 120px;
+            }
+            .boardTitle{
+                width: 380px;
+            }
+            .boardWriter{
+                width: 180px;
+            }
+            .boardLevel{
+                width: 100px;
+            }
+            .boardCount{
+                width: 100px;
+            }
+        }
+        .boardListHeadLine{
+            border-bottom: 2px solid orange;
+        }
+        .boardListBodyLine{
+            height: 70px;
+            border-bottom: 1px dashed gray;
         }
     }
 }
