@@ -8,6 +8,7 @@ import MyPage from "./RidingAnywhere-client/page/MyPage";
 import CrewManager from "./RidingAnywhere-client/page/CrewManager";
 import CrewJoinBoard from "./RidingAnywhere-client/page/CrewJoinBoard";
 import CrewBoard from "./RidingAnywhere-client/page/CrewBoard";
+import CrewBoardWrite from "./RidingAnywhere-client/page/CrewBoardWrite";
 
 const RidingAnywhereApp = () => {
   document.title = "Riding AnyWhere";
@@ -25,7 +26,7 @@ const RidingAnywhereApp = () => {
         <Route path="/CR/Manager" element={<CrewManager/>}></Route>
         <Route path="/CR/Join" element={<CrewJoinBoard/>}></Route>
         <Route path="/CR/Board" element={<CrewBoard/>}></Route>
-      </Routes>
+        <Route path="/CR/Board/Write" element={<CrewBoardWrite/>}/></Routes>
     </Container>
   );
 };

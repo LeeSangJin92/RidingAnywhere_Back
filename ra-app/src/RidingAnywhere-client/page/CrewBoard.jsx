@@ -2,8 +2,10 @@ import React from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoard.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const CrewBoard = () => {
+    const navigate = useNavigate();
+
     return (
         <main>
             <DefaultHeader/>
@@ -38,7 +40,7 @@ const CrewBoard = () => {
                         </div>
                     </div>
                     <label htmlFor='writeBtn' className='boardWriteBtn'><span>게시글<br/>작성</span></label>
-                    <input id='writeBtn' type='button' hidden/>
+                    <input id='writeBtn' type='button' onClick={navigate("/CR/BoardWrite")} hidden/>
                 </div>
                 
                 <div className='boardListLine'>
@@ -60,7 +62,11 @@ const CrewBoard = () => {
                     </div>
                 </div>
                 <div className='boardPageLine'>
-                    
+                    <input type='button' className='pageNumberBtn' value={1}/>
+                    <input type='button' className='pageNumberBtn' value={2}/>
+                    <input type='button' className='pageNumberBtn' value={3}/>
+                    <input type='button' className='pageNumberBtn' value={4}/>
+                    <input type='button' className='pageNumberBtn' value={5}/>
                 </div>
             </section>
             <DefaultFooter/>

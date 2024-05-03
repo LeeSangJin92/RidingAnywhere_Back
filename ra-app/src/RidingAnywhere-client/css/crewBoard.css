@@ -159,4 +159,8 @@
             border-bottom: 1px dashed gray;
         }
     }
+    .boardPageLine{
+        display: flex;
+        gap: 10px;
+    }
 }
