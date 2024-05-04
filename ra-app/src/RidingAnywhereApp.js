@@ -14,19 +14,20 @@ const RidingAnywhereApp = () => {
   document.title = "Riding AnyWhere";
 
   return (
-    <Container>
-      <Routes>
-        <Route path="/" element={<Navigate to="/RA/Home" />}></Route>
-        <Route path="/RA/Home" element={<HomePage />}></Route>
-        <Route path="/RA/Login" element={<LoginPage />}></Route>
-        <Route path="/RA/AddBike" element={<AddBike />}></Route>
-        <Route path="/RA/SignUp" element={<SignupPage />}></Route>
-        <Route path="/RA/AddBike" element={<AddBike />}></Route>
-        <Route path="/RA/MyPage" element={<MyPage/>}></Route>
-        <Route path="/CR/Manager" element={<CrewManager/>}></Route>
-        <Route path="/CR/Join" element={<CrewJoinBoard/>}></Route>
-        <Route path="/CR/Board" element={<CrewBoard/>}></Route>
-        <Route path="/CR/Board/Write" element={<CrewBoardWrite/>}/></Routes>
+      <Container>
+        <Routes>
+              <Route path="/" element={<Navigate to="/RA/Home" />}></Route>
+              <Route path="/RA/Home" element={<HomePage />}></Route>
+              <Route path="/RA/Login" element={<LoginPage />}></Route>
+              <Route path="/RA/AddBike" element={<AddBike />}></Route>
+              <Route path="/RA/SignUp" element={<SignupPage />}></Route>
+              <Route path="/RA/AddBike" element={<AddBike />}></Route>
+              <Route path="/RA/MyPage" element={<MyPage/>}></Route>
+              <Route path="/CR/Manager" element={<CrewManager/>}></Route>
+              <Route path="/CR/Join" element={<CrewJoinBoard/>}></Route>
+              <Route path="/CR/Board" element={<CrewBoard/>}></Route>
+              <Route path="/CR/Board/Write" element={<CrewBoardWrite/>}></Route>
+        </Routes>
     </Container>
   );
 };

@@ -1,0 +1,26 @@
+.CrewBoardWrite{
+    height: 500px;
+    background-color: black;
+    border: 2px solid orange;
+    display: flex;
+    justify-content: center;
+    h2{
+        background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+        font-weight: bold;
+        -webkit-text-stroke-width: 0.1px;
+        -webkit-text-stroke-color: black;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .WriteTop{
+        width: 80%;
+        display: flex;
+        
+    }
+    .WriteOptionLine{
+        display: flex;
+    }
+
+
+}
