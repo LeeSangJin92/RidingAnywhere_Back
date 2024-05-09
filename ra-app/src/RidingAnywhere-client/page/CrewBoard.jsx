@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const CrewBoard = () => {
     const navigate = useNavigate();
 
+    const onClickWriteBtn = () => {
+        navigate("/CR/Board/Write")
+    }
     return (
         <main>
             <DefaultHeader/>
@@ -40,7 +43,7 @@ const CrewBoard = () => {
                         </div>
                     </div>
                     <label htmlFor='writeBtn' className='boardWriteBtn'><span>게시글<br/>작성</span></label>
-                    <input id='writeBtn' type='button' onClick={navigate("/CR/BoardWrite")} hidden/>
+                    <input id='writeBtn' type='button' onClick={onClickWriteBtn} hidden/>
                 </div>
                 
                 <div className='boardListLine'>

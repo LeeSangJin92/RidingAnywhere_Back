@@ -12,6 +12,7 @@
     "jsonwebtoken": "^9.0.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
+    "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.3",
@@ -45,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/" 
+  "proxy": "http://localhost:8080/"
 }
