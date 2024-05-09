@@ -6,10 +6,70 @@ import '../css/crewBoardWrite.css';
 
 const CrewBoardWrite = () => {
 
+    // ✏️ 게시판 종류 변수
     const [optionControl, setOptionControl] = useState("Note");
 
+    // 🛠️ 게시판 내용 변수
+    const [boardData, setBoardData] = useState({
+        emergencyNote : false,
+        boardTitle : "",
+        boardContext : "",
+        startDate : "",
+        endDate : "",
+        memberCount : 2,
+        address : ""
+    });
+
+    // 🛠️ 게시판 종류 설정 반응
     const changeType = (data) => {
-        setOptionControl(data.target.value)
+        setOptionControl(data.target.value);
+        setBoardData({      // 데이터 초기화
+            ...boardData,
+            emergencyNote : false,
+            startDate : "",
+            endDate : "",
+            memberCount : 2,
+            address : ""
+        });
+        setDatePickerDisable({
+            NoteEndDate : false,
+            TourEndDate : false
+        })
+    }
+
+    // 🕹️ 게시판 데이터 입력
+    const insertBoardData = (data) => {
+            switch(data.target.className){
+                case "WriteTitle":
+                    setBoardData({...boardData,boardTitle:data.target.value});
+                    break;
+                case "WriteContext":
+                    setBoardData({...boardData,boardContext:data.target.value});
+                    break;
+                case "":
+                    
+                    break;
+                case "":
+                    
+                    break;
+                default:
+            }
+            console.log(boardData);
+    }
+
+    // 🕹️ 게시판 시작일자와 종료일자 설정
+    const [datePickerDisable, setDatePickerDisable] = useState({
+        NoteEndDate : false,
+        TourEndDate : false
+    })
+
+    const setDateEqual = (data) => {
+        let dateEqualBtn = data.target;
+        setDatePickerDisable(dateEqualBtn.id==="NoteDateEqualBtn"?
+        {...datePickerDisable,NoteEndDate:(dateEqualBtn.checked)}:
+        {...datePickerDisable,TourEndDate:(dateEqualBtn.checked)});
+        dateEqualBtn.checked&&setBoardData({...boardData,endDate:boardData.startDate});
+        !dateEqualBtn.checked&&setBoardData({...boardData,endDate:""});
     }
 
     return (
@@ -30,26 +90,26 @@ const CrewBoardWrite = () => {
                         </div>
                         <div className='WriteBody'>
                             <div className='BoardWriteBox'>
-                                <input type='text' className='WriteTitle' placeholder='제목을 입력하세요'></input>
-                                <input type='text' className='WriteContext' placeholder='내용을 입력하세요'>
+                                <input type='text' className='WriteTitle' placeholder='제목을 입력하세요' value={boardData.boardTitle} onChange={insertBoardData}/>
+                                <input type='text' className='WriteContext' placeholder='내용을 입력하세요' value={boardData.boardContext} onChange={insertBoardData}>
                                 </input>
                             </div>
                             <div className='WriteOptionBox'>
                                 <div className='Option' id='Note' style={optionControl==='Note'?{display:'flex'}:{display:'none'}}>
-                                    <label htmlFor='EmergencyNoteBtn' className='EmergencyNoteLabel'>
-                                    <h2>긴급 공지</h2>
+                                    <input type='checkbox' id='emergencyNoteBtn' hidden/>
+                                    <label htmlFor='emergencyNoteBtn' className='EmergencyNoteLabel'>
+                                    <span>긴급 공지</span>
                                     </label>
-                                    <input type='checkbox' id='EmergencyNoteBtn' hidden/>
                                     <div className='TimeLine'>
                                         <h2>공지 기간</h2>
-                                        <label htmlFor='NoteDateEqualBtn'>
-                                        <h2>날짜 동일</h2>
+                                        <input type='checkbox' id='NoteDateEqualBtn' onClick={setDateEqual} hidden/>
+                                        <label htmlFor='NoteDateEqualBtn' className='NoteDateEqualLabel'>
+                                        <span>날짜 동일</span>
                                     </label>
-                                    <input type='checkbox' id='NoteDateEqualBtn' hidden/>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜'/>
-                                        <DatePicker placeholderText='종료 날짜'/>
+                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} setStartDate={setBoardData}/>
+                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} disable={datePickerDisable.NoteEndDate} setEndDate={setBoardData}/>
                                     </div>
                                 </div>
                                 <div className='Option' id='Tour' style={optionControl==='Tour'?{display:'flex'}:{display:'none'}}>
@@ -58,11 +118,11 @@ const CrewBoardWrite = () => {
                                         <label htmlFor='TourDateEqualBtn' className='TourOptionInput'>
                                             <h2>날짜 동일</h2>
                                         </label>
-                                        <input type='checkbox' id='TourDateEqualBtn' hidden/>
+                                        <input type='checkbox' id='TourDateEqualBtn' onClick={setDateEqual} hidden/>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜'/>
-                                        <DatePicker placeholderText='종료 날짜'/>
+                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} setStartDate={setBoardData}/>
+                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} disable={datePickerDisable.TourEndDate} setEndDate={setBoardData}/>
                                     </div>
                                     <div className='CountMemberLine'>
                                         <h2>참석 인원</h2>
