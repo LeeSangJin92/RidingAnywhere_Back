@@ -126,7 +126,7 @@
                 label{
                     cursor: pointer;
                 }
-                .EmergencyNoteLabel, .NoteDateEqualLabel{
+                .EmergencyNoteLabel, .NoteDateEqualLabel, .TourDateEqualLabel{
                     width: 140px;
                     height: 40px;
                     display: flex;
@@ -139,7 +139,7 @@
                     border: 4px solid rgb(84, 84, 84);
                     border-radius: 10px;
                 }
-                #emergencyNoteBtn:checked + label, #NoteDateEqualBtn:checked + label{
+                #emergencyNoteBtn:checked + label, #NoteDateEqualBtn:checked + label, #TourDateEqualBtn:checked + label{
                     border: 4px solid gold;
                     background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
                     font-weight: bold;

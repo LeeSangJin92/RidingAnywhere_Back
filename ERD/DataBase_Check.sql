@@ -41,3 +41,9 @@ select * from crew_manager;
 drop table crew_manager;
 
 select * from address;
+
+# 🔎 크루 게시판 보기
+show tables ;
+select * from crew_board;
+delete from crew_board;
+ALTER TABLE crew_board AUTO_INCREMENT = 1;

@@ -253,7 +253,7 @@ const CrewJoinBoard = () => {
     // 🛠️ 크루 가입 요청
     const requestJoin = async () => {
         console.log("🛜 크루 가입 요청중...")
-        await fetch("CR/RequestCrewJoin",{
+        await fetch("/CR/RequestCrewJoin",{
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                 "Content-Type": "application/json;charset=utf-8"},

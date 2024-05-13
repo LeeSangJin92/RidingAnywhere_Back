@@ -4,9 +4,11 @@ import com.lec.sping.domain.Address;
 import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
+import com.lec.sping.domain.crew.CrewBoard;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
+import com.lec.sping.dto.CrewBoardDto;
 import com.lec.sping.dto.JoinAcceptDto;
 import com.lec.sping.repository.*;
 import jakarta.transaction.Transactional;
@@ -25,6 +27,7 @@ public class CrewService {
     private final CrewManagerRepository crewManagerRepository;
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
+    private final CrewBoardRepository crewBoardRepository;
 
     public Crew createCrew(User crewMaster, CreateCrewDto crewDto){
         Address address = addressRepository.findByCityAndTown(crewDto.getCrew_city(), crewDto.getCrew_town()).orElseThrow(()->new RuntimeException("❌존재 하지 않는 지역입니다."));
@@ -123,5 +126,21 @@ public class CrewService {
         crew.setCrew_count(crew.getCrew_count()-1);
         crewRepository.save(crew);
         System.out.println("✅ 크루 가입 거절 완료");
+    }
+
+    public void writeBoard(CrewBoardDto crewBoardDto,String boardWriterEmail ) {
+        System.out.println("🛠️ 크루 게시판 작성 작업중...");
+        User writer = userRepository.findByUserEmail(boardWriterEmail).orElseThrow(()->new NullPointerException("존재하지 않은 유저입니다."));
+        CrewBoard crewBoard = new CrewBoard();
+        crewBoard.setWriter(writer);
+        crewBoard.setBoardContext(crewBoardDto.getBoardContext());
+        crewBoard.setBoardTitle(crewBoardDto.getBoardTitle());
+        crewBoard.setAddress(crewBoardDto.getAddress());
+        crewBoard.setStartDate(crewBoardDto.getStartDate());
+        crewBoard.setEndDate(crewBoardDto.getEndDate());
+        crewBoard.setEmergencyNote(crewBoardDto.getEmergencyNote());
+        crewBoard.setMemberCount(crewBoardDto.getMemberCount());
+        crewBoard.setBoardType(crewBoardDto.getBoardType());
+        crewBoardRepository.save(crewBoard);
     }
 }

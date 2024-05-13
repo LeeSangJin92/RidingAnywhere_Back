@@ -7,6 +7,7 @@ import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
+import com.lec.sping.dto.CrewBoardDto;
 import com.lec.sping.dto.JoinAcceptDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.AddressService;
@@ -102,7 +103,7 @@ public class CrewController {
     }
 
     @CrossOrigin
-    @PostMapping("CR/RequestCrewJoin")
+    @PostMapping("RequestCrewJoin")
     public ResponseEntity<?> requestCrewJoin(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
         System.out.println("🛠️ 크루 가입 신청 요청 받음");
         String token = authTokenHeader.substring(7);
@@ -111,7 +112,7 @@ public class CrewController {
     }
 
     @CrossOrigin
-    @PostMapping("CR/RequestJoinAccept")
+    @PostMapping("RequestJoinAccept")
     public ResponseEntity<?> requestJoinAccept(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceptDto){
         System.out.println("🛠️ 크루 가입 신청 수락 요청 받음");
         crewService.requestJoinAccept(joinAcceptDto);
@@ -119,10 +120,20 @@ public class CrewController {
     }
 
     @CrossOrigin
-    @PostMapping("CR/RequestJoinRefuse")
+    @PostMapping("RequestJoinRefuse")
     public ResponseEntity<?> requestJoinRefuse(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceotDto){
         System.out.println("🛠️ 크루 가입 신청 거절 요청 받음");
         crewService.requestJoinRefuse(joinAcceotDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("RequestWriteBoard")
+    public ResponseEntity<?> responseEntity(@RequestHeader("Authorization") String authTokenHeader, @RequestBody CrewBoardDto crewBoardDto){
+        System.out.println("🛠️ 크루 게시판 작성 요청 받음");
+        String token = authTokenHeader.substring(7);
+        crewService.writeBoard(crewBoardDto,tokenProvider.parseClaims(token).getSubject());
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

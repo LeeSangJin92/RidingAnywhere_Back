@@ -393,7 +393,7 @@ const CrewManager = () => {
         }
         if(joinMemberData.JoinAccept){
             console.log("🛠️ 크루 가입 요청 수락 작업 중...");
-            await fetch("CR/RequestJoinAccept",{method:"POST",
+            await fetch("/CR/RequestJoinAccept",{method:"POST",
                     headers:{
                     "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                     "Content-Type": "application/json;charset=utf-8"},
@@ -405,7 +405,7 @@ const CrewManager = () => {
                 } else console.log("❌ 크루 가입 요청 수락 실패");
             })
         } else{
-            await fetch("CR/RequestJoinRefuse",{
+            await fetch("/CR/RequestJoinRefuse",{
                 method:"POST",
                 headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
