@@ -31,10 +31,7 @@ const CrewBoardWrite = () => {
             memberCount : 2,
             address : ""
         });
-        setDatePickerDisable({
-            NoteEndDate : false,
-            TourEndDate : false
-        })
+        setDateEqual(false);
     }
 
     // 🕹️ 게시판 데이터 입력
@@ -46,31 +43,56 @@ const CrewBoardWrite = () => {
                 case "WriteContext":
                     setBoardData({...boardData,boardContext:data.target.value});
                     break;
-                case "":
-                    
-                    break;
-                case "":
-                    
-                    break;
                 default:
             }
             console.log(boardData);
     }
 
-    // 🕹️ 게시판 시작일자와 종료일자 설정
-    const [datePickerDisable, setDatePickerDisable] = useState({
-        NoteEndDate : false,
-        TourEndDate : false
-    })
-
-    const setDateEqual = (data) => {
+    // 🛠️ 시작 날짜, 종료 날짜 동일 버튼
+    const [dateEqual, setDateEqual] = useState(false)
+    const clickDateEqualBtn = (data) => {
         let dateEqualBtn = data.target;
-        setDatePickerDisable(dateEqualBtn.id==="NoteDateEqualBtn"?
-        {...datePickerDisable,NoteEndDate:(dateEqualBtn.checked)}:
-        {...datePickerDisable,TourEndDate:(dateEqualBtn.checked)});
+        setDateEqual(dateEqualBtn.checked)
         dateEqualBtn.checked&&setBoardData({...boardData,endDate:boardData.startDate});
         !dateEqualBtn.checked&&setBoardData({...boardData,endDate:""});
     }
+
+    // ✏️ 데이터 검증에 필요한 정규표현식 데이터
+    const boardRegExp = {
+        "boardTitle" : new RegExp('^(\\S).+'),
+        "boardContext" : new RegExp('^(\\S).+'),
+        "address" : new RegExp('^(\\S).+')
+    };
+
+    // 🛠️ 서버 요청 전 데이터 검증
+    const clickOkayBtn = () => {
+        console.log("🕹️ 등록 버튼 클릭")
+        console.log("🔎 데이터 검증 중...")
+        Object.keys(boardData).map(boardDataKey => {
+            
+            // 🛠️ 게시판 종류에 따른 검증 절차 우선 진행
+            switch(optionControl){
+                case "Note" : 
+                    console.log("🔎 공지글 검증")
+                    switch(boardDataKey){
+                        case "endDate" :
+                        case "startDate" :
+                            if(!boardData[boardDataKey]){
+                                alert("⚠️ 공지 날짜를 확인해주세요!")
+                            }
+                        default:
+                    }
+                        break;
+
+                case "Tour" :
+                    console.log("🔎 모임글 검증")
+                        break;
+                default :
+            }
+        })
+
+    }
+
 
     return (
         <main>
@@ -102,14 +124,14 @@ const CrewBoardWrite = () => {
                                     </label>
                                     <div className='TimeLine'>
                                         <h2>공지 기간</h2>
-                                        <input type='checkbox' id='NoteDateEqualBtn' onClick={setDateEqual} hidden/>
+                                        <input type='checkbox' id='NoteDateEqualBtn' onClick={clickDateEqualBtn} hidden/>
                                         <label htmlFor='NoteDateEqualBtn' className='NoteDateEqualLabel'>
                                         <span>날짜 동일</span>
                                     </label>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} setStartDate={setBoardData}/>
-                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} disable={datePickerDisable.NoteEndDate} setEndDate={setBoardData}/>
+                                    <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
+                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} isStartDate={false} setBoardData={setBoardData} dateEqual={dateEqual}/>
                                     </div>
                                 </div>
                                 <div className='Option' id='Tour' style={optionControl==='Tour'?{display:'flex'}:{display:'none'}}>
@@ -118,11 +140,11 @@ const CrewBoardWrite = () => {
                                         <label htmlFor='TourDateEqualBtn' className='TourOptionInput'>
                                             <h2>날짜 동일</h2>
                                         </label>
-                                        <input type='checkbox' id='TourDateEqualBtn' onClick={setDateEqual} hidden/>
+                                        <input type='checkbox' id='TourDateEqualBtn' onClick={clickDateEqualBtn} hidden/>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} setStartDate={setBoardData}/>
-                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} disable={datePickerDisable.TourEndDate} setEndDate={setBoardData}/>
+                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
+                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} isStartDate={false} setBoardData={setBoardData} dateEqual={dateEqual}/>
                                     </div>
                                     <div className='CountMemberLine'>
                                         <h2>참석 인원</h2>
@@ -140,7 +162,7 @@ const CrewBoardWrite = () => {
                                 </div> 
                                 <div className='OkayBtnLine'>
                                     <label htmlFor='BoardUploadBtn'><h2>등록</h2></label>
-                                    <input type='button' id='BoardUploadBtn' hidden/>
+                                    <input type='button' id='BoardUploadBtn' onClick={clickOkayBtn} hidden/>
                                     <label htmlFor='BoardCancelBtn'><h2>취소</h2></label>
                                     <input type='button' id='BoardCancelBtn' hidden/>
                                 </div> 

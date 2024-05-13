@@ -8,20 +8,25 @@ const DatePicker = (props) => {
     setDefaultLocale('ko'); // 기본 로케일 설정
 
     const changedDate = (data) => {
-        !!props.setStartDate&&props.setStartDate({...props.boardData,startDate:data});
-        !!props.setEndDate&&props.setEndDate({...props.boardData,endDate:data});
+        if(props.isStartDate){
+            props.setBoardData(props.dateEqual?
+                {...props.boardData,startDate:data,endDate:data}:
+                {...props.boardData,startDate:data});
+        }
+        !props.isStartDate&&props.setBoardData({...props.boardData,endDate:data});
     }
 
     return (
         <div>
             <ReactDatePicker
+                id='DatePicker'
                 placeholderText={props.placeholderText}
                 className='DatePicker'
-                selected={!props.setStartDate?props.boardData.endDate:props.boardData.startDate}
+                selected={props.isStartDate?props.boardData.startDate:props.boardData.endDate}
                 onChange={changedDate}
                 dateFormat="yyyy .MM .dd (EEEE)"
-                value={!props.setStartDate?props.disable?"":props.boardData.endDate:props.boardData.startDate}
-                disabled={props.disable}
+                value={props.isStartDate?props.boardData.startDate:props.dateEqual?props.boardData.startDate:props.boardData.endDate}
+                disabled={props.dateEqual&&!props.isStartDate}
             />
         </div>
     );
