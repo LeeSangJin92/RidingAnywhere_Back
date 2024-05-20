@@ -44,7 +44,7 @@ const CrewBoardBox = (props) => {
             <label htmlFor={boardData.boardId} className='CrewBoardBoxLabel'>
                 <h2 className='boardNo'>{boardData.boardId}</h2>
                 <h2 className='boardType' id={boardData.writer.authorityId.authorityName}>{boardType}</h2>
-                <h2 className='boardTitle'>{boardData.boardTitle}{boardData.emergencyNote?<span> [긴급]</span>:""}</h2>
+                <h2 className='boardTitle'>{boardData.boardTitle}{boardData.emergencyNote?<span id='emergency'> *</span>:""}</h2>
                 <h2 className='boardWriter' id={boardData.writer.userId===userId?"MyBoard":""}>{boardData.writer.userNickname}</h2>
                 <h2 className='boardLevel'>{writerLevel}</h2>
                 <h2 className='boardCount'>{boardData.boardCnt}</h2>

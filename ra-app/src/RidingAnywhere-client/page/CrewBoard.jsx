@@ -26,8 +26,23 @@ const CrewBoard = () => {
         Note:true,
         Tour:true,
         Free:true,
-        Greetings:true
+        Greetings:true,
+        SearchText:new RegExp(''),
+        SearchType:'all'
     });
+
+    // 검색 데이터
+    const [searchData,setSearchData] = useState({
+        Text:"",
+        Type:"all"
+    })
+
+    // ✏️ 검색 데이터 작성
+    const changeSearchData = (inputData) => {
+        let key = inputData.target.className==="boardTextBox"?"Text":"Type";
+        let changeData = inputData.target.value;
+        setSearchData({...searchData,[key]:changeData})
+    }
 
     // 화면 컨트롤
      const [viewBlock,setViewBlock] = useState(true);
@@ -93,13 +108,12 @@ const CrewBoard = () => {
             }
         }).then(data=>{
             if(!!data){
-                console.log("✅ 게시글 목록 로드 완료")
+                console.log("✅ 게시글 목록 로드 완료");
                 setCrewBoardList(data);
                 setViewBlock(false);
             };
         })
     }
-
 
     // 🕹️ 게시글 작성버튼 클릭
     const onClickWriteBtn = () => {
@@ -114,6 +128,23 @@ const CrewBoard = () => {
             })
         }
 
+    // 🕹️ 게시글 검색 버튼 클릭
+    const onClickSearchBtn = () => {
+        if(!searchData.Text){
+            alert("⚠️검색어가 비어 있습니다.");
+            setFilterList({
+                ...filterList,SearchText:new RegExp('')
+            });
+        } else {
+            let filterText = new RegExp(searchData.Text);
+            setFilterList({
+                ...filterList,
+                SearchText:filterText,
+                SearchType:searchData.Type
+            });
+        }
+    }
+
     return (
         <main>
             <DefaultHeader/>
@@ -122,9 +153,9 @@ const CrewBoard = () => {
                     <div className='boardFilterLine'>
                         <div className='filterTop'>
                             <h1>크루 게시판</h1>
-                            <input type='text' className='boardTextBox' placeholder='찾고 싶은 키워드를 입력하세요!' />
-                            <input type='button' className='boardSearchBtn'/>
-                            <select className='boardSearchType'>
+                            <input type='text' className='boardTextBox' value={searchData.Text} placeholder='찾고 싶은 키워드를 입력하세요!' onChange={changeSearchData} disabled={viewBlock}/>
+                            <input type='button' className='boardSearchBtn' disabled={viewBlock} onClick={onClickSearchBtn}/>
+                            <select className='boardSearchType' value={searchData.Type} onChange={changeSearchData}  disabled={viewBlock}>
                                 <option value={"all"}>제목 + 내용</option>
                                 <option value={"title"}>제목</option>
                                 <option value={"context"}>내용</option>
@@ -143,7 +174,7 @@ const CrewBoard = () => {
                         </div>
                     </div>
                     <label htmlFor='writeBtn' className='boardWriteBtn'><span>게시글<br/>작성</span></label>
-                    <input id='writeBtn' type='button' onClick={onClickWriteBtn} hidden/>
+                    <input id='writeBtn' type='button' onClick={onClickWriteBtn} disabled={viewBlock} hidden/>
                 </div>
                 
                 <div className='boardListLine'>
@@ -161,8 +192,23 @@ const CrewBoard = () => {
                             <h1>데이터 불러오는 중...</h1>
                         </div>
                         {crewBoardList.map((boardData,index)=>{
-                            if(filterList[boardData.boardType])
-                            return <CrewBoardBox key={index} boardData={boardData} userId={riderInfo.userId}/>;
+                            if(filterList[boardData.boardType]){
+                                let checkRegExp = false;
+                                switch(filterList.SearchType){
+                                    case "all":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardTitle)||filterList.SearchText.test(boardData.boardContext));
+                                        break;
+                                    case "title":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardTitle))
+                                         break;
+                                    case "context":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardContext))
+                                        break;
+                                    default :
+                                }
+                                if(checkRegExp)return <CrewBoardBox key={index} boardData={boardData} userId={riderInfo.userId}/>;
+                                else return null;
+                            }
                             else return null;
                         })}
                     </div>
