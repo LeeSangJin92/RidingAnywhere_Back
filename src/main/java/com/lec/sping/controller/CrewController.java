@@ -4,6 +4,7 @@ import com.lec.sping.domain.Address;
 import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
+import com.lec.sping.domain.crew.CrewBoard;
 import com.lec.sping.domain.crew.CrewManager;
 import com.lec.sping.dto.ChangeCrewDto;
 import com.lec.sping.dto.CreateCrewDto;
@@ -129,11 +130,20 @@ public class CrewController {
 
     @CrossOrigin
     @PostMapping("RequestWriteBoard")
-    public ResponseEntity<?> responseEntity(@RequestHeader("Authorization") String authTokenHeader, @RequestBody CrewBoardDto crewBoardDto){
+    public ResponseEntity<?> createWriteCrewBoard(@RequestHeader("Authorization") String authTokenHeader, @RequestBody CrewBoardDto crewBoardDto){
         System.out.println("🛠️ 크루 게시판 작성 요청 받음");
         String token = authTokenHeader.substring(7);
         crewService.writeBoard(crewBoardDto,tokenProvider.parseClaims(token).getSubject());
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("LoadCrewBoard")
+    public ResponseEntity<?> responseEntity(@RequestHeader("Authorization") String authTokenHeader){
+        System.out.println("🛠️ 크루 게시글 목록 요청 받음");
+        String token = authTokenHeader.substring(7);
+        List<CrewBoard> crewBoardList = crewService.getCrewBoard(tokenProvider.parseClaims(token).getSubject());
+        return new ResponseEntity<>(crewBoardList,HttpStatus.OK);
     }
 }

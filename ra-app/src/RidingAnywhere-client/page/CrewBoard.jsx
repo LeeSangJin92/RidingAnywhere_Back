@@ -1,14 +1,119 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoard.css';
 import { useNavigate } from 'react-router-dom';
+import CrewBoardBox from '../component/crewboard/CrewBoardBox';
 const CrewBoard = () => {
     const navigate = useNavigate();
 
+    // 토큰 체크
+    const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
+
+    // 접속한 유저 정보
+    const [riderInfo, setriderInfo] = useState({
+        userId : 0,
+        userCrewId : 0,
+     });
+
+    useEffect(()=>{checkData()},[]);
+
+    // 게시글 목록
+    const [crewBoardList,setCrewBoardList] = useState([]);
+    
+    // 필터 리스트
+    const [filterList, setFilterList] = useState({
+        Note:true,
+        Tour:true,
+        Free:true,
+        Greetings:true
+    });
+
+    // 화면 컨트롤
+     const [viewBlock,setViewBlock] = useState(true);
+
+    // 접속한 유저 정보 가져오기
+     const checkData = async () => {
+        console.log("🛜 라이더 엑세스 체크 중...")
+        if(!accessToken){
+            console.log("✅ 접속자에게 엑세스 있음!")
+            console.log("🛜 라이더 데이터 확인 중...")
+            await fetch("/RA/CheckRider",
+            {headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"}})
+            .then(response => {
+                if(response.status===200) return response.json();
+                else if(response.status===401){
+                    console.log("❌ 토큰 데이터 만료");
+                    alert("⚠️ 로그인 유지 시간 초과 \n - 로그인 페이지로 이동합니다. -");
+                    sessionStorage.removeItem('accessToken');
+                    navigate('/RA/Login');
+                }
+            }).then(data => {
+                if(!!data){
+                    if(!data.crewId){
+                    console.log("❌ 가입된 크루 없음")
+                    alert("⚠️가입된 크루가 없습니다.\n - 가입 또는 생성 후 이용해주세요! -");
+                    navigate("/RA/Home");
+                    }
+
+                    console.log("✅ 라이더 데이터 수집 완료!");
+                    setriderInfo({
+                        userId : data.userData.userId,
+                        userCrewId : data.crewId,
+                    });
+                    loadCrewBoard();
+                }
+            })
+            }else {
+                console.log("⛔ 접속자에게 엑세스 없음");
+                alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
+                console.log("🛠️ 로그인 페이지로 이동")
+                navigate("/RA/login");
+            }
+        };
+
+    // 🛜 게시글 데이터 로드
+    const loadCrewBoard = async () => {
+        console.log("🛜 서버 게시글 목록 요청");
+        await fetch("/CR/LoadCrewBoard",
+            {
+                headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then(response => {
+            if(response.status===200){
+                console.log("✅ 게시글 응답 완료");
+                return response.json();
+            } else {
+                console.log("❌ 서버 응답 실패");
+                console.log("응답 상태 : " + response.status);
+            }
+        }).then(data=>{
+            if(!!data){
+                console.log("✅ 게시글 목록 로드 완료")
+                setCrewBoardList(data);
+                setViewBlock(false);
+            };
+        })
+    }
+
+
+    // 🕹️ 게시글 작성버튼 클릭
     const onClickWriteBtn = () => {
         navigate("/CR/Board/Write")
     }
+
+    // 🕹️ 게시글 필터 버튼 클릭
+    const onClickFilterBtn = (filterData) => {
+            setFilterList({
+                ...filterList,
+                [filterData.target.id]:!filterList[filterData.target.id]
+            })
+        }
+
     return (
         <main>
             <DefaultHeader/>
@@ -27,19 +132,14 @@ const CrewBoard = () => {
                         </div>
                         <div className='filterBottom'>
                             <h1>필터</h1>
-                            <input type='checkbox' id='filterNote' className='filterInput' hidden/>
-                            <label htmlFor='filterNote' className='filterCheckBox'><span>공지글</span></label>
-                            <input type='checkbox' id='filterTour' className='filterInput' hidden/>
-                            <label htmlFor='filterTour' className='filterCheckBox'><span>스케줄</span></label>
-                            <input type='checkbox' id='filterFree' className='filterInput' hidden/>
-                            <label htmlFor='filterFree' className='filterCheckBox'><span>자유글</span></label>
-                            <input type='checkbox' id='filterGreetings' className='filterInput' hidden/>
-                            <label htmlFor='filterGreetings' className='filterCheckBox'><span>인사말</span></label>
-                            <select className='PageSelect'>
-                                <option value={5}>5개</option>
-                                <option value={10}>10개</option>
-                                <option value={20}>20개</option>
-                            </select>
+                            <input type='checkbox' id='Note' className='filterInput' checked={filterList.Note} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <label htmlFor='Note' className='filterCheckBox'><span>공지글</span></label>
+                            <input type='checkbox' id='Tour' className='filterInput' checked={filterList.Tour} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <label htmlFor='Tour' className='filterCheckBox'><span>스케줄</span></label>
+                            <input type='checkbox' id='Free' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <label htmlFor='Free' className='filterCheckBox'><span>자유글</span></label>
+                            <input type='checkbox' id='Greetings' className='filterInput' checked={filterList.Greetings} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <label htmlFor='Greetings' className='filterCheckBox'><span>인사말</span></label>
                         </div>
                     </div>
                     <label htmlFor='writeBtn' className='boardWriteBtn'><span>게시글<br/>작성</span></label>
@@ -47,6 +147,7 @@ const CrewBoard = () => {
                 </div>
                 
                 <div className='boardListLine'>
+                    {/* 게시글 목록 헤더 라인 */}
                     <div className='boardListHeadLine'>
                         <h2 className='boardNo'>No</h2>
                         <h2 className='boardType'>말머리</h2>
@@ -56,20 +157,15 @@ const CrewBoard = () => {
                         <h2 className='boardCount'>조회수</h2>
                     </div>
                     <div className='boardListBodyLine'>
-                        <h2 className='boardNo'>1</h2>
-                        <h2 className='boardType'>공지</h2>
-                        <h2 className='boardTitle'>크루 안전기원 공지 사항</h2>
-                        <h2 className='boardWriter'>닉네임</h2>
-                        <h2 className='boardLevel'>마스터</h2>
-                        <h2 className='boardCount'>5</h2>
+                        <div className='viewBlock' style={viewBlock?{display:'flex'}:{display:'none'}}>
+                            <h1>데이터 불러오는 중...</h1>
+                        </div>
+                        {crewBoardList.map((boardData,index)=>{
+                            if(filterList[boardData.boardType])
+                            return <CrewBoardBox key={index} boardData={boardData} userId={riderInfo.userId}/>;
+                            else return null;
+                        })}
                     </div>
-                </div>
-                <div className='boardPageLine'>
-                    <input type='button' className='pageNumberBtn' value={1}/>
-                    <input type='button' className='pageNumberBtn' value={2}/>
-                    <input type='button' className='pageNumberBtn' value={3}/>
-                    <input type='button' className='pageNumberBtn' value={4}/>
-                    <input type='button' className='pageNumberBtn' value={5}/>
                 </div>
             </section>
             <DefaultFooter/>

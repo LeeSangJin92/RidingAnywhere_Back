@@ -133,6 +133,7 @@ public class CrewService {
         User writer = userRepository.findByUserEmail(boardWriterEmail).orElseThrow(()->new NullPointerException("존재하지 않은 유저입니다."));
         CrewBoard crewBoard = new CrewBoard();
         crewBoard.setWriter(writer);
+        crewBoard.setCrew(writer.getCrew());
         crewBoard.setBoardContext(crewBoardDto.getBoardContext());
         crewBoard.setBoardTitle(crewBoardDto.getBoardTitle());
         crewBoard.setAddress(crewBoardDto.getAddress());
@@ -142,5 +143,16 @@ public class CrewService {
         crewBoard.setMemberCount(crewBoardDto.getMemberCount());
         crewBoard.setBoardType(crewBoardDto.getBoardType());
         crewBoardRepository.save(crewBoard);
+    }
+
+    public List<CrewBoard> getCrewBoard(String loginRiderEmail) {
+        System.out.println("🔎 로그인 유저 조회중...");
+        User user = userRepository.findByUserEmail(loginRiderEmail).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 유저입니다."));
+        if(user.getCrew()==null) {
+            System.out.println("❌ 유저가 가입한 크루 없음");
+            throw new NullPointerException("❌ 가입된 크루가 없습니다.");
+        } else {
+            return crewBoardRepository.findAllByCrew(user.getCrew());
+        }
     }
 }

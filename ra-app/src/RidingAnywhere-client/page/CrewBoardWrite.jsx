@@ -43,15 +43,19 @@ const CrewBoardWrite = () => {
     // 🕹️ 게시판 데이터 입력
     const insertBoardData = (data) => {
             switch(data.target.className){
-                case "WriteTitle":
+                case "WriteTitle":          // ✏️ 게시글 제목
                     setBoardData({...boardData,boardTitle:data.target.value});
                     break;
-                case "WriteContext":
+                case "WriteContext":        // ✏️ 게시글 내용
                     setBoardData({...boardData,boardContext:data.target.value});
                     break;
+                case "TourAddress":         // ✏️ 모임 주소
+                    setBoardData({...boardData,address:data.target.value});
+                    break;
+                case "emergencyNoteBtn":    // ✏️ 공지 긴급 사항
+                    setBoardData({...boardData,emergencyNote:data.target.checked});
                 default:
             }
-            console.log(boardData);
     }
 
     // 🛠️ 시작 날짜, 종료 날짜 동일 버튼
@@ -127,9 +131,7 @@ const CrewBoardWrite = () => {
             method:"POST",
             body:JSON.stringify(boardData)
         }).then(response=>{
-            console.log(response);
             if(response.status===200){
-                console.log(optionControl);
                 switch(optionControl){
                     case "Note":
                         alert("😁 공지글이 등록되었습니다")
@@ -176,7 +178,7 @@ const CrewBoardWrite = () => {
                             </div>
                             <div className='WriteOptionBox'>
                                 <div className='Option' id='Note' style={optionControl==='Note'?{display:'flex'}:{display:'none'}}>
-                                    <input type='checkbox' id='emergencyNoteBtn' hidden/>
+                                    <input type='checkbox' id='emergencyNoteBtn' className='emergencyNoteBtn' onClick={insertBoardData} hidden/>
                                     <label htmlFor='emergencyNoteBtn' className='EmergencyNoteLabel'>
                                     <span>긴급 공지</span>
                                     </label>
@@ -210,7 +212,7 @@ const CrewBoardWrite = () => {
                                         <h2>명</h2>
                                     </div>
                                     <h2>모임 장소</h2>
-                                    <input type='text' className='TourAddress' id='TourAddress' placeholder='모임 장소를 입력해주세요!'/>
+                                    <input type='text' className='TourAddress' id='TourAddress' value={boardData.address} placeholder='모임 장소를 입력해주세요!' onChange={insertBoardData}/>
                                 </div>
                                 <div className='Option' id='Free' style={optionControl==='Free'?{display:'flex'}:{display:'none'}}>
                                     <h2>설정 가능 옵션 없음</h2>
