@@ -155,4 +155,10 @@ public class CrewService {
             return crewBoardRepository.findAllByCrew(user.getCrew());
         }
     }
+
+    // 🛠️ 크루 게시판 디테일 정보 가져오기
+    public CrewBoard getCrewBoardDetail(Long boardId) {
+        System.out.println("🔎 크루 게시글 조회중...");
+        return crewBoardRepository.findById(boardId).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 게시글입니다."));
+    }
 }

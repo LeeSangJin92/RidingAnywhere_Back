@@ -146,4 +146,13 @@ public class CrewController {
         List<CrewBoard> crewBoardList = crewService.getCrewBoard(tokenProvider.parseClaims(token).getSubject());
         return new ResponseEntity<>(crewBoardList,HttpStatus.OK);
     }
+
+    // 🔎 크루 게시글 조회
+    @CrossOrigin
+    @GetMapping("BoardDetail/board")
+    public ResponseEntity<?> loadBoardDetail(@RequestParam Long boardId){
+        System.out.println("🛠️ 크루 게시글 조회 요청 받음");
+        CrewBoard resultBoard = crewService.getCrewBoardDetail(boardId);
+        return new ResponseEntity<>(resultBoard,HttpStatus.OK);
+    }
 }

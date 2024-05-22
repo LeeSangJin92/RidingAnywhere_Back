@@ -10,6 +10,11 @@ const CrewBoardBox = (props) => {
     let boardType = "";
     let writerLevel = "";
 
+    const onClickBox = () => {
+        console.log("🕹️ 크루 게시판 디테일 이동");
+        navigate("/CR/Board/Detail/"+boardData.boardId)
+    }
+
     switch(boardData.boardType){
         case "Note" :
             boardType="공지글";
@@ -49,7 +54,7 @@ const CrewBoardBox = (props) => {
                 <h2 className='boardLevel'>{writerLevel}</h2>
                 <h2 className='boardCount'>{boardData.boardCnt}</h2>
             </label>
-            <input id={boardData.boardId} hidden/>
+            <input id={boardData.boardId} onClick={onClickBox} hidden/>
         </div>
     );
 };

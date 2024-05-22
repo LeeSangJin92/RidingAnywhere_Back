@@ -109,6 +109,7 @@ const CrewBoard = () => {
         }).then(data=>{
             if(!!data){
                 console.log("✅ 게시글 목록 로드 완료");
+                console.log(data);
                 setCrewBoardList(data);
                 setViewBlock(false);
             };
