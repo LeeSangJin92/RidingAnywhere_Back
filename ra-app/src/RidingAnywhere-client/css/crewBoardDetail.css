@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 600px;
+    height: 800px;
 
     h2, h3{
         background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
@@ -59,7 +59,7 @@
                     justify-content: center;
                     align-items: center;
                     width: 90px;
-                    height: 50px;
+                    height: 60px;
                     border: 3px solid orange;
                     border-radius: 20px;
                     h2{
@@ -85,113 +85,127 @@
     .BoardBottomLine{
         display: flex;
         width: 100%;
-        height: 500px;
-        margin-left: 10px;
-        h2{
-            margin: 0;
-        }
+        height: 620px;
+        box-sizing: border-box;
+            h2{
+                margin: 0;
+            }
 
-        .TourBtnLine{
-            width: 100%;
-            display: flex;
+        /* 모임글 관련 정보 박스 영역 */
+        .TourInfo{
+            margin-left: 10px;
+            position: absolute;
+            height: 400px;
+            z-index: 10;
+            .TourBtnLine{
+                width: 100%;
+                display: flex;
 
-            input:checked + label, label:hover{
-                border: 4px solid gold;
-                cursor: pointer;
-                h2{
-                    background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
-                    -webkit-text-stroke-width: 0.1px;
-                    -webkit-text-stroke-color: black;
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    color: transparent;
+                input:checked + label, label:hover{
+                    border: 4px solid gold;
+                    cursor: pointer;
+                    h2{
+                        background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+                        -webkit-text-stroke-width: 0.1px;
+                        -webkit-text-stroke-color: black;
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
+                    }
+                }
+
+                label{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 80px;
+                    height: 50px;
+                    background-color: rgb(18, 18, 18);
+                    border: 4px solid rgb(84, 84, 84);
+                    border-radius: 10px;
+                    h2{
+                        color: rgb(138, 138, 138);
+                    }
                 }
             }
 
-            label{
-                display: flex;
+            #On{
                 justify-content: center;
                 align-items: center;
-                width: 80px;
-                height: 50px;
-                background-color: rgb(18, 18, 18);
-                border: 4px solid rgb(84, 84, 84);
-                border-radius: 10px;
-                h2{
-                    color: rgb(138, 138, 138);
-                }
+                gap: 30px;
             }
-        }
 
-        #On{
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-        }
+            #Off{
+                justify-content: center;
+                margin-top: 20px;
+                gap: 10px;
+            }
 
-        .TourInfoSlideOff{
-            display: none;
-            flex-direction: column;
-            width: 200px;
-            height: 220px;
-            border: 2px solid orange;
-            border-radius: 20px 0px 0px 20px;
-            .AttendanceCnt{
-                display: flex;
+            .TourInfoSlideOff{
+                display: none;
                 flex-direction: column;
-                gap: 5px;
-                justify-content: center;
-                align-items: center;
-                margin-top: 30px;
-            }
-        }
-
-        .TourInfoSideOn{
-            display: flex;
-            width: 450px;
-            flex-direction: column;
-            border: 2px solid orange;
-            border-radius: 20px 0px 20px 20px;
-            .AttendanceListTop{
-                height: 150px;
-                display: flex;
+                width: 200px;
+                height: 220px;
+                margin-top: 10px;
+                background-color: black;
+                border: 2px solid orange;
+                border-radius: 20px 0px 0px 20px;
                 .AttendanceCnt{
-                    width: 260px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 30px;
+                }
+            }
+
+            .TourInfoSideOn{
+                display: flex;
+                width: 450px;
+                height: 560px;
+                margin-top: 10px;
+                flex-direction: column;
+                border: 2px solid orange;
+                border-radius: 20px 0px 20px 20px;
+                background-color: rgb(0, 0, 0);
+                .AttendanceListTop{
+                    height: 150px;
+                    display: flex;
+                    .AttendanceCnt{
+                        width: 260px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+                .AttendanceListBottom{
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
-                    justify-content: center;
-                    align-items: center;
+                    .CrewAttendanceBox label{
+                        display: flex;
+                        width: 100%;
+                        height: 60px;
+                        justify-content: space-around;
+                        align-items: center;
+                        border: 2px solid orange;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                    }
                 }
-            }
-            .AttendanceListBottom{
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                .CrewAttendanceBox label{
-                    display: flex;
-                    width: 100%;
-                    height: 60px;
-                    justify-content: space-around;
-                    align-items: center;
-                    border: 2px solid orange;
-                    box-sizing: border-box;
-                    cursor: pointer;
-                }
-            }
-
-
-
-
-
         }
 
         .TourSlideBtn{
             width: 40px;
             height: 220px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: black;
             border-top: 2px solid orange;
             border-bottom: 2px solid orange;
             border-right: 2px solid orange;
@@ -200,12 +214,164 @@
         .TourSlideBtn:hover label{
             cursor: pointer;
         }
+        }
 
+        .boardContextBox{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 985px;
+            height: 600px;
+            margin-left: 280px;
+            textarea{
+                width: 100%;
+                height: 250px;
+                resize: none;
+                font-size: 25px;
+                font-weight: bold;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                border-radius: 20px;
+                color: black;
+                background-color: rgb(211, 211, 211);
+                padding: 10px;
+                border: 2px solid orange;
+                box-sizing: border-box;
+            }
 
+            /* 댓글 영역 */
+            .commentLine{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                /* 댓글 박스 */
+                .commentList{
+                    height: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding-top: 10px;
+                    border: 2px solid orange;
+                    border-radius: 20px;
+                    overflow-y: scroll;
+                    scrollbar-width: none;
+                    .commentBox{
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        width: 950px;
+                        height: 120px;
+                        border: 2px solid orange;
+                        border-radius: 20px;
+                        box-sizing: border-box;
+                        
+                        /* 댓글 작성자 프로필 이미지 */
+                        .profileImg{
+                            width: 100px;
+                            height: 100px;
+                            margin-left: 20px;
+                        }
 
+                        /* 댓글 정보 라인 */
+                        >div{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            width: 800px;
+                            height: 120px;
+                            .TopLine{
+                                display: flex;
+                                align-items: center;
+                                height: 50px;
+                                .commentNickName{
+                                    width: max-content;
+                                    margin-right: 20px;
+                                }
+                                span{
+                                    width: 100px;
+                                    height: 40px;
+                                    border: 2px solid orange;
+                                    border-radius: 10px;
+                                    box-sizing: border-box;
+                                    text-align: center;
+                                }
+                                .commentDateLine{
+                                    display: flex;
+                                    gap: 10px;
+                                    margin-left: auto;
+                                    margin-right: 10px;
+                                }
+                                .commentBtnLine{
+                                    display: flex;
+                                    height: 40px;
+                                    .commentChangeBtn,.commentDeleteBtn{
+                                        width: 40px;
+                                        text-align: center;
+                                        background-color: rgba(0, 0, 0, 0);
+                                        border: none;
+                                        cursor: pointer;
+                                        background-size: cover;
+                                    }
+                                    .commentChangeBtn{
+                                        background-image: url('/public/img/ChangeBtnImg.png');
+                                    }
+                                    .commentDeleteBtn{
+                                        background-image: url('/public/img/DeleteImg.png');
+                                    }
 
+                                }
+    
+                            }
+                            .BottomLine{
+                                display: flex;
+                                align-items: center;
+                                height: 50px;
+
+                                .commentReplyBtn + label{
+                                    margin-left: auto;
+                                    margin-right: 10px;
+                                }
+                                .commentReplyBtn + label:hover{
+                                    cursor: pointer;
+                                }
+
+                            }
+                        }
+                    }
+                }
+                
+
+                    /* 댓글 등록 라인 */
+                    .commentInputLine{
+                        display: flex;
+                        height: 60px;
+                        align-items: center;
+                        border: 2px solid orange;
+                        border-radius: 20px;
+                        box-sizing: border-box;
+                        padding-left: 10px;
+                        .commentTextBox{
+                            height: 40px;
+                            width: 700px;
+                            margin-left: 10px;
+                            border-radius: 10px;
+                            box-sizing: border-box;
+                            padding-left: 10px;
+                            font-size: 20px;
+                        }
+                        .commentUploadBtn + label{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 120px;
+                            height: 50px;
+                            margin-left: auto;
+                            margin-right: 10px;
+                            cursor: pointer;
+                        }
+
+                    }
+            }
+        }
     }
-
-
-
 }

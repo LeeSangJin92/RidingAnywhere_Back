@@ -167,7 +167,7 @@ const CrewBoard = () => {
                             <input type='checkbox' id='Note' className='filterInput' checked={filterList.Note} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Note' className='filterCheckBox'><span>공지글</span></label>
                             <input type='checkbox' id='Tour' className='filterInput' checked={filterList.Tour} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
-                            <label htmlFor='Tour' className='filterCheckBox'><span>스케줄</span></label>
+                            <label htmlFor='Tour' className='filterCheckBox'><span>모임글</span></label>
                             <input type='checkbox' id='Free' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Free' className='filterCheckBox'><span>자유글</span></label>
                             <input type='checkbox' id='Greetings' className='filterInput' checked={filterList.Greetings} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>

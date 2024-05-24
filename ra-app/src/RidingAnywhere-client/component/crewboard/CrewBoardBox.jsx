@@ -17,16 +17,16 @@ const CrewBoardBox = (props) => {
 
     switch(boardData.boardType){
         case "Note" :
-            boardType="공지글";
+            boardType="📢공지글";
             break;
         case "Tour" :
-            boardType="모임글";
+            boardType="🚩모임글";
             break;
         case "Free" :
-            boardType="자유글";
+            boardType="🆓자유글";
             break;
         case "Greetings" :
-            boardType="인사글";
+            boardType="😁인사글";
             break;
         default:
     }
@@ -49,7 +49,7 @@ const CrewBoardBox = (props) => {
             <label htmlFor={boardData.boardId} className='CrewBoardBoxLabel'>
                 <h2 className='boardNo'>{boardData.boardId}</h2>
                 <h2 className='boardType' id={boardData.writer.authorityId.authorityName}>{boardType}</h2>
-                <h2 className='boardTitle'>{boardData.boardTitle}{boardData.emergencyNote?<span id='emergency'> *</span>:""}</h2>
+                <h2 className='boardTitle'>{boardData.boardTitle}{boardData.emergencyNote?<span id='emergency'>🚨!</span>:""}</h2>
                 <h2 className='boardWriter' id={boardData.writer.userId===userId?"MyBoard":""}>{boardData.writer.userNickname}</h2>
                 <h2 className='boardLevel'>{writerLevel}</h2>
                 <h2 className='boardCount'>{boardData.boardCnt}</h2>

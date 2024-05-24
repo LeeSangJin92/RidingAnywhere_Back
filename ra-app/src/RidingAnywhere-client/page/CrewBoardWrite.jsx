@@ -42,6 +42,7 @@ const CrewBoardWrite = () => {
 
     // 🕹️ 게시판 데이터 입력
     const insertBoardData = (data) => {
+        console.log(boardData);
             switch(data.target.className){
                 case "WriteTitle":          // ✏️ 게시글 제목
                     setBoardData({...boardData,boardTitle:data.target.value});
@@ -153,6 +154,10 @@ const CrewBoardWrite = () => {
         });
     }
 
+    const onClickCancelBtn = () => {
+        navigate('/CR/Board');
+    }
+
 
     return (
         <main>
@@ -173,8 +178,8 @@ const CrewBoardWrite = () => {
                         <div className='WriteBody'>
                             <div className='BoardWriteBox'>
                                 <input type='text' className='WriteTitle' placeholder='제목을 입력하세요' value={boardData.boardTitle} onChange={insertBoardData}/>
-                                <input type='text' className='WriteContext' placeholder='내용을 입력하세요' value={boardData.boardContext} onChange={insertBoardData}>
-                                </input>
+                                <textarea className='WriteContext' placeholder='내용을 입력하세요' value={boardData.boardContext} onChange={insertBoardData}>
+                                </textarea>
                             </div>
                             <div className='WriteOptionBox'>
                                 <div className='Option' id='Note' style={optionControl==='Note'?{display:'flex'}:{display:'none'}}>
@@ -224,7 +229,7 @@ const CrewBoardWrite = () => {
                                     <label htmlFor='BoardUploadBtn'><h2>등록</h2></label>
                                     <input type='button' id='BoardUploadBtn' onClick={clickOkayBtn} hidden/>
                                     <label htmlFor='BoardCancelBtn'><h2>취소</h2></label>
-                                    <input type='button' id='BoardCancelBtn' hidden/>
+                                    <input type='button' id='BoardCancelBtn' onClick={onClickCancelBtn} hidden/>
                                 </div> 
                             </div>
                         </div>
