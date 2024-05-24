@@ -10,6 +10,7 @@ import CrewJoinBoard from "./RidingAnywhere-client/page/CrewJoinBoard";
 import CrewBoard from "./RidingAnywhere-client/page/CrewBoard";
 import CrewBoardWrite from "./RidingAnywhere-client/page/CrewBoardWrite";
 import CrewBoardDetail from "./RidingAnywhere-client/page/CrewBoardDetail";
+import "../src/RidingAnywhere-client/css/Default.css"
 
 const RidingAnywhereApp = () => {
   document.title = "Riding AnyWhere";

@@ -88,8 +88,12 @@
         .CrewInfoBox_Top{
             display: flex;
             justify-content: center;
+            align-items: center;
             height: 80px;
             margin: 20px 0;
+            h1{
+                height: max-content;
+            }
             .JoinBtnLabel{
                 cursor: pointer;
                 position: absolute;
