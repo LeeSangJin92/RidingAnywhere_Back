@@ -25,12 +25,14 @@ const CrewBoardDetail = () => {
         tourAddress : "",           // 게시글 모임 장소
     });
 
+    // ✏️ 댓글 데이터
+    const [commentData, setCommentData] = useState([])
+
     // ✏️ 모임 참여 인원 정보창 컨트롤
     const [showAttendanceList, setShowAttendanceList] = useState(true);
     const onClickAttendanceListBtn = () => {
         setShowAttendanceList(!showAttendanceList);
     }
-
 
     // 🛜 게시글 데이터 조회 요청
     const loadBoardData = async () => {
@@ -195,7 +197,10 @@ const CrewBoardDetail = () => {
                             {/* 댓글 영역 */}
                             <div className='commentLine'>                                
                                 <div className='commentList'>
-                                    <div className='commentBox'>
+                                    <div className='commentEmptyNote'>
+                                        <h1>⚠️ 등록된 댓글이 없습니다.</h1>
+                                    </div>
+                                    <div className='commentBox' style={{display:'none'}}>
                                         <img className='profileImg' src='/img/mypage/DefaultProfileImg.png' alt=''/>
                                         <div>
                                             <div className='TopLine'>

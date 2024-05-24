@@ -83,15 +83,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
-    private List<CrewSchedule> schedules;       // 크루 일정 작성자
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @JsonIgnore
-    private List<CrewAttendance> attendances;   // 크루 일정 참가
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
     @JsonIgnore
     private List<OpenBoard> openBoardList;      // 라이더 게시판 리스트
 
