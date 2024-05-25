@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                 .requestMatchers("CR/RequestWriteBoard").authenticated()
                 .requestMatchers("CR/LoadCrewBoard").authenticated()
                 .requestMatchers("CR/BoardDetail/board").authenticated()
+                .requestMatchers("CR/BoardDetail/comment").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

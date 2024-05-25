@@ -5,11 +5,9 @@ import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewBoard;
+import com.lec.sping.domain.crew.CrewBoardComment;
 import com.lec.sping.domain.crew.CrewManager;
-import com.lec.sping.dto.ChangeCrewDto;
-import com.lec.sping.dto.CreateCrewDto;
-import com.lec.sping.dto.CrewBoardDto;
-import com.lec.sping.dto.JoinAcceptDto;
+import com.lec.sping.dto.*;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.AddressService;
 import com.lec.sping.service.AuthService;
@@ -154,5 +152,27 @@ public class CrewController {
         System.out.println("🛠️ 크루 게시글 조회 요청 받음");
         CrewBoard resultBoard = crewService.getCrewBoardDetail(boardId);
         return new ResponseEntity<>(resultBoard,HttpStatus.OK);
+    }
+
+    // ✏️ 크루 게시글 댓글 작성
+    @CrossOrigin
+    @PostMapping("BoardDetail/comment")
+    public ResponseEntity<?> createCrewBoardComment(@RequestHeader ("Authorization") String authTokenHeader,@RequestBody CrewBoardCommentDto crewBoardCommentDto){
+        System.out.println("🛠️ 크루 게시글 댓글 작성 요청 받음");
+        String token = authTokenHeader.substring(7);
+        crewBoardCommentDto.setWriter_email(tokenProvider.parseClaims(token).getSubject());
+        crewService.createCrewBoardComment(crewBoardCommentDto);
+        System.out.println("✅ 댓글 저장 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 🔎 크루 게시글 댓글 로드
+    @CrossOrigin
+    @GetMapping("BoardDetail/comment")
+    public ResponseEntity<?> getCrewBoardComments(@RequestHeader ("Authorization") String authTokenHeader,@RequestParam Long boardId){
+        System.out.println("🔎 크루 게시글 댓글 리스트 요청 받음");
+        List<CrewBoardComment> resultList = crewService.getCrewBoardComments(boardId);
+        System.out.println("✅ 크루 게시글 조회 완료");
+        return new ResponseEntity<>(resultList,HttpStatus.OK);
     }
 }

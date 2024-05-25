@@ -5,11 +5,9 @@ import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.crew.Crew;
 import com.lec.sping.domain.crew.CrewBoard;
+import com.lec.sping.domain.crew.CrewBoardComment;
 import com.lec.sping.domain.crew.CrewManager;
-import com.lec.sping.dto.ChangeCrewDto;
-import com.lec.sping.dto.CreateCrewDto;
-import com.lec.sping.dto.CrewBoardDto;
-import com.lec.sping.dto.JoinAcceptDto;
+import com.lec.sping.dto.*;
 import com.lec.sping.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +26,7 @@ public class CrewService {
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final CrewBoardRepository crewBoardRepository;
+    private final CrewBoardCommentRepository crewBoardCommentRepository;
 
     public Crew createCrew(User crewMaster, CreateCrewDto crewDto){
         Address address = addressRepository.findByCityAndTown(crewDto.getCrew_city(), crewDto.getCrew_town()).orElseThrow(()->new RuntimeException("❌존재 하지 않는 지역입니다."));
@@ -163,5 +162,21 @@ public class CrewService {
         resultCrewBoard.setBoardCnt(resultCrewBoard.getBoardCnt()+1);
         crewBoardRepository.save(resultCrewBoard);
         return resultCrewBoard;
+    }
+
+    public void createCrewBoardComment(CrewBoardCommentDto crewBoardCommentDto) {
+        User writer = userRepository.findByUserEmail(crewBoardCommentDto.getWriter_email()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 유저입니다."));
+        CrewBoard board = crewBoardRepository.findById(crewBoardCommentDto.getBoard_id()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 게시글 입니다."));
+        CrewBoardComment saveComment = new CrewBoardComment();
+        saveComment.setCommentContext(crewBoardCommentDto.getComment_context());
+        saveComment.setCommentBoard(board);
+        saveComment.setCommentWriter(writer);
+        crewBoardCommentRepository.save(saveComment);
+    }
+
+    public List<CrewBoardComment> getCrewBoardComments(Long boardId) {
+        System.out.println("🔎 게시글 댓글 조회 중...");
+        CrewBoard crewBoard = crewBoardRepository.findById(boardId).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 게시글 입니다."));
+        return crewBoardCommentRepository.findAllByCommentBoard(crewBoard);
     }
 }

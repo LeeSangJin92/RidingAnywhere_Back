@@ -1,13 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoardDetail.css';
+import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
 
 
 const CrewBoardDetail = () => {
 
     const {boardId} = useParams();
+    const navigate = useNavigate();
+    // 토큰 체크
+    const [accessToken] = useState(!sessionStorage.getItem('accessToken'));
+
+    // 접속한 유저 정보
+    const [userId, setUserId] = useState(0);
+
+     // 접속한 유저 정보 가져오기
+     const checkData = async () => {
+        console.log("🛜 라이더 엑세스 체크 중...")
+        if(!accessToken){
+            console.log("✅ 접속자에게 엑세스 있음!")
+            console.log("🛜 라이더 데이터 확인 중...")
+            await fetch("/RA/CheckRider",
+            {headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"}})
+            .then(response => {
+                if(response.status===200) return response.json();
+                else if(response.status===401){
+                    console.log("❌ 토큰 데이터 만료");
+                    alert("⚠️ 로그인 유지 시간 초과 \n - 로그인 페이지로 이동합니다. -");
+                    sessionStorage.removeItem('accessToken');
+                    navigate('/RA/Login');
+                }
+            }).then(data => {
+                if(!!data){
+                    if(!data.crewId){
+                    console.log("❌ 가입된 크루 없음")
+                    alert("⚠️가입된 크루가 없습니다.\n - 가입 또는 생성 후 이용해주세요! -");
+                    navigate("/RA/Home");
+                    }
+                    console.log("✅ 라이더 데이터 수집 완료!");
+                    setUserId(data.userData.userId);
+                }
+            })
+            }else {
+                console.log("⛔ 접속자에게 엑세스 없음");
+                alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
+                console.log("🛠️ 로그인 페이지로 이동")
+                navigate("/RA/login");
+            }
+        };
 
     // ✏️ 게시글 데이터
     const [crewBoardData, setCrewBoardData] = useState({
@@ -25,8 +69,6 @@ const CrewBoardDetail = () => {
         tourAddress : "",           // 게시글 모임 장소
     });
 
-    // ✏️ 댓글 데이터
-    const [commentData, setCommentData] = useState([])
 
     // ✏️ 모임 참여 인원 정보창 컨트롤
     const [showAttendanceList, setShowAttendanceList] = useState(true);
@@ -101,16 +143,77 @@ const CrewBoardDetail = () => {
                     tourAddress : boardData.address
                 }
                 setCrewBoardData(resultBoardData);
-                console.log(resultBoardData);
             }
         })
     }
 
     useEffect(()=>{
+        checkData();
         loadBoardData();
+        loadCommentList();
     },[])
 
+    // ✏️ 댓글 작성 영역
+    const onClickCommentUpload = async () => {
+        if(!commentData.comment_context){
+            alert("⚠️ 입력된 댓글이 없습니다.");
+        }else{
+            console.log("✏️ 댓글 등록 요청");
+            await fetch("/CR/BoardDetail/comment",{
+                method:'POST',
+                headers:{
+                    "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                body:JSON.stringify(commentData)
+            }).then(response => {
+                if(response.status===200){
+                    alert("✅ 등록이 완료 되었습니다..");
+                    setCommentData({
+                        ...commentData, comment_context:''
+                    });
+                    loadCommentList();
+                } else response.status!==200&&alert("❌ 등록을 실패 했습니다..");
+            })
+        } 
+    }
 
+    // ✏️ 댓글 작성 데이터
+    const [commentData,setCommentData] = useState({
+        board_id:0,         // 게시글 ID
+        comment_id:0,       // 상위 댓글 ID
+        comment_context:''  // 댓글 내용
+    })
+
+    // ✏️ 댓글 데이터 입력
+    const onChangeContext = (props) => {
+        setCommentData({
+            ...commentData,
+            board_id:crewBoardData.boardId,
+            comment_context:props.target.value
+        });
+    }
+
+    const loadCommentList = async () => {
+        console.log("🛜 댓글 리스트 호출");
+        await fetch(`/CR/BoardDetail/comment?boardId=${boardId}`,{
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then(response=>{
+            if(response.status===200){
+                console.log("✅ 댓글 리스트 로드 완료");
+                return response.json();
+            }
+        }).then(commentListData=>{
+            !!commentListData&&console.log(commentListData);
+            !!commentListData&&setCommentList(commentListData);
+        })
+    }
+
+    // ✏️ 댓글 리스트 데이터
+    const [commentList, setCommentList] = useState([])
 
 
     return (
@@ -152,10 +255,10 @@ const CrewBoardDetail = () => {
                                     <h2>(100/100)</h2>
                                 </div>
                                 <div className='TourBtnLine' id='Off'>
-                                    <input type='checkbox' id='attachOkay' hidden/>
-                                    <label htmlFor='attachOkay'><h2>참여</h2></label>
-                                    <input type='checkbox' id='attachNon' hidden/>
-                                    <label htmlFor='attachNon'><h2>불참여</h2></label>
+                                    <input type='radio' name='attachBtn' id='attachOkayOff' value={true} hidden/>
+                                    <label htmlFor='attachOkayOff'><h2>참여</h2></label>
+                                    <input type='radio' name='attachBtn' id='attachNonOff' value={false} hidden/>
+                                    <label htmlFor='attachNonOff'><h2>불참여</h2></label>
                                 </div>
                             </div>
                             <div className='TourInfoSideOn' style={showAttendanceList?{display:'none'}:{display:'flex'}}>
@@ -165,10 +268,10 @@ const CrewBoardDetail = () => {
                                         <h2>(100/100)</h2>
                                     </div>
                                     <div className='TourBtnLine' id='On'>
-                                        <input type='checkbox' id='attachOkay' hidden/>
-                                        <label htmlFor='attachOkay'><h2>참여</h2></label>
-                                        <input type='checkbox' id='attachNon' hidden/>
-                                        <label htmlFor='attachNon'><h2>불참여</h2></label>
+                                        <input type='radio' name='attachBtn' value={true} id='attachOkayOn' hidden/>
+                                        <label htmlFor='attachOkayOn'><h2>참여</h2></label>
+                                        <input type='radio' name='attachBtn' value={false} id='attachNonOn' hidden/>
+                                        <label htmlFor='attachNonOn'><h2>불참여</h2></label>
                                     </div>
                                 </div>
                                 <div className='AttendanceListBottom'>
@@ -195,38 +298,22 @@ const CrewBoardDetail = () => {
                             <textarea disabled value={crewBoardData.boardContext}/>
                             
                             {/* 댓글 영역 */}
-                            <div className='commentLine'>                                
-                                <div className='commentList'>
-                                    <div className='commentEmptyNote'>
+                            <div className='commentLine'>
+                                <div className='commentList'> {/* 댓글 목록 */}
+                                    <div className='commentEmptyNote' style={commentList.length===0?{display:'flex'}:{display:'none'}}>
                                         <h1>⚠️ 등록된 댓글이 없습니다.</h1>
                                     </div>
-                                    <div className='commentBox' style={{display:'none'}}>
-                                        <img className='profileImg' src='/img/mypage/DefaultProfileImg.png' alt=''/>
-                                        <div>
-                                            <div className='TopLine'>
-                                                <h2 className='commentNickName'>작성자닉</h2>
-                                                <span><h2 className='commentLevel'>마스터</h2></span>
-                                                <div className='commentDateLine'>
-                                                    <h2 className='commentRegDate'>2024. 04. 01</h2>
-                                                    <h2 className='commentRegTime'>00:00</h2>
-                                                </div>
-                                                <div className='commentBtnLine'>
-                                                    <input className='commentChangeBtn' type='button'/>
-                                                    <input className='commentDeleteBtn' type='button'/>
-                                                </div>
-                                            </div>
-                                            <div className='BottomLine'>
-                                                <h2 className='commentContext'>댓글 내용</h2>
-                                                <input id='commentReplyBtn' type='button' className='commentReplyBtn' hidden/>
-                                                <label htmlFor='commentReplyBtn'><h2>댓글 작성</h2></label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                {commentList.map((commentData,index) => {
+                                    if(!commentData.commentReply) return <CrewBoardCommentBox key={index} commentData={commentData} commentList={commentList} userId={userId}/>;
+                                    else return null;
+                                })}
+
+
                                 </div>
                                 <div className='commentInputLine'>
                                         <h2>댓글 내용 : </h2>
-                                        <input type='text' className='commentTextBox'/>
-                                        <input id='commentUploadBtn' type='button' className='commentUploadBtn' hidden/>
+                                        <input type='text' className='commentTextBox' onChange={onChangeContext} value={commentData.comment_context}/>
+                                        <input id='commentUploadBtn' type='button' className='commentUploadBtn' onClick={onClickCommentUpload} hidden/>
                                         <label htmlFor='commentUploadBtn'><h2>댓글 등록</h2></label>
                                     </div>
                             </div>

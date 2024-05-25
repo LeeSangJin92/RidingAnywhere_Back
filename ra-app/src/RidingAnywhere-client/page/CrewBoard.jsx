@@ -8,7 +8,7 @@ const CrewBoard = () => {
     const navigate = useNavigate();
 
     // 토큰 체크
-    const [accessToken] = useState(!sessionStorage.getItem('accessToken'))
+    const [accessToken] = useState(!sessionStorage.getItem('accessToken'));
 
     // 접속한 유저 정보
     const [riderInfo, setriderInfo] = useState({
@@ -72,7 +72,6 @@ const CrewBoard = () => {
                     alert("⚠️가입된 크루가 없습니다.\n - 가입 또는 생성 후 이용해주세요! -");
                     navigate("/RA/Home");
                     }
-
                     console.log("✅ 라이더 데이터 수집 완료!");
                     setriderInfo({
                         userId : data.userData.userId,
