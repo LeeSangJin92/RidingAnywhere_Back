@@ -199,4 +199,14 @@ public class CrewService {
         reply.setCommentReply(comment);         // 대댓글 상위 댓글
         crewBoardCommentRepository.save(reply);
     }
+
+    public void deleteComment(Long commentId) {
+        System.out.println("🛠️ 댓글 삭제 작업 중...");
+        CrewBoardComment deleteComment = crewBoardCommentRepository.findById(commentId).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 댓글입니다."));
+        crewBoardCommentRepository.deleteAllByCommentReply(deleteComment);
+        if(crewBoardCommentRepository.findAllByCommentReply(deleteComment).isEmpty()){
+            System.out.println("🛠️ 대댓글 모두 제거 후 댓글 제거 중...");
+            crewBoardCommentRepository.delete(deleteComment);
+        } else System.out.println("❌ 대댓글이 모두 삭제하는데 실패했습니다.");
+    }
 }

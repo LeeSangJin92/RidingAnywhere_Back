@@ -65,6 +65,7 @@ public class WebSecurityConfig {
                 .requestMatchers("CR/BoardDetail/Comment").authenticated()
                 .requestMatchers("CR/BoardDetail/CommentReply").authenticated()
                 .requestMatchers("CR/BoardDetail/CommentChange").authenticated()
+                .requestMatchers("CR/BoardDetail/CommentDelete").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

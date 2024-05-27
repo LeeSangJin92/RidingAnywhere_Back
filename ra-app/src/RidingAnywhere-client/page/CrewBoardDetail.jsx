@@ -4,6 +4,7 @@ import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoardDetail.css';
 import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
+import CrewBoardDeleteCheckBox from '../component/crewboard/CrewBoardDeleteCheckBox';
 
 
 const CrewBoardDetail = () => {
@@ -226,12 +227,19 @@ const CrewBoardDetail = () => {
         })
     }
 
-
+    // 데이터 삭제 영역
+    const [showDeleteBox,setShowDeleteBox] = useState(false);
+    const [deleteCommentId, setDeleteCommentId] = useState(0);
+    const onClickDeleteBtn = (deleteBtn) => {
+        setDeleteCommentId(deleteBtn.target.value);
+        setShowDeleteBox(true);
+    }
 
     return (
         <main>
             <DefaultHeader/>
                 <section className='CrewBoardDetail'>
+                    <CrewBoardDeleteCheckBox setShowDeleteBox={setShowDeleteBox} showDeleteBox={showDeleteBox} commentId={deleteCommentId} setDeleteCommentId={setDeleteCommentId} loadCommentList={loadCommentList}/>
                     <div className='BoardTopLine'>
                         <div className='boardTypeLine'>
                             <h1>크루</h1>
@@ -319,12 +327,12 @@ const CrewBoardDetail = () => {
                                     <div className='commentEmptyNote' style={!blockList&&commentList.length===0?{display:'flex'}:{display:'none'}}>
                                         <h1>⚠️ 등록된 댓글이 없습니다.</h1>
                                     </div>
-                                    <div className='commentListLine' hidden={blockList}>
+                                    <div className='commentListLine' style={!blockList?{display:'flex'}:{display:'none'}}>
                                         {commentList.map((commentData,index) => {
                                         if(!commentData.commentReply) 
                                             return <CrewBoardCommentBox key={index} commentData={commentData} replyList={commentList.filter(
                                                 comment=>comment.commentReply&&comment.commentReply.commentId===commentData.commentId)} 
-                                                userId={userId} loadCommentList={loadCommentList} upLoadReply={upLoadComment} boardId={boardId}/>;
+                                                userId={userId} loadCommentList={loadCommentList} upLoadReply={upLoadComment} boardId={boardId} onClickDeleteBtn={onClickDeleteBtn}/>;
                                         else return null;
                                         })}
                                     </div>

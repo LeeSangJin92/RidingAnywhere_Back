@@ -79,7 +79,7 @@ const CrewBoardCommentBox = (props) => {
                     </div>
                     <div className='commentBtnLine'>
                         <input className='commentChangeBtn' type='button' hidden={userId!==writer.userId} onClick={onClickChangeBtn}/>
-                        <input className='commentDeleteBtn' type='button' hidden={userId!==writer.userId}/>
+                        <input className='commentDeleteBtn' type='button' hidden={userId!==writer.userId} onClick={props.onClickDeleteBtn} value={commentData.commentId}/>
                     </div>
                 </div>
                 <div className='BottomLine'>
@@ -91,7 +91,7 @@ const CrewBoardCommentBox = (props) => {
                     <label htmlFor={"commentReplyBtn"+commentData.commentId}><h2>댓글 작성</h2></label>
                 </div>
                 <CrewBoardReplyInsertBox setReplyShow={setReplyShow} replyShow={replyShow} commentId={commentData.commentId} loadCommentList={props.loadCommentList} boardId={boardId}/>
-                {replyList.map((replyData,index)=><CrewBoardReplyBox key={index} replyData={replyData} loadCommentList={props.loadCommentList}/>)}
+                {replyList.map((replyData,index)=><CrewBoardReplyBox key={index} replyData={replyData} loadCommentList={props.loadCommentList} onClickDeleteBtn={props.onClickDeleteBtn}/>)}
             </div>
         </div>
     );

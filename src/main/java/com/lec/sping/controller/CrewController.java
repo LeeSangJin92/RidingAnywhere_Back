@@ -198,4 +198,13 @@ public class CrewController {
         System.out.println("✅ 대댓글 등록 완료");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping("BoardDetail/CommentDelete")
+    public ResponseEntity<?> deleteComment(@RequestParam Long commentId){
+        System.out.println("🛠️ 댓글 삭제 요청 받음");
+        crewService.deleteComment(commentId);
+        System.out.println("✅ 댓글 삭제 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
