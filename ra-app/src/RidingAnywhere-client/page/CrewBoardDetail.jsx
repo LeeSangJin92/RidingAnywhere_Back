@@ -69,7 +69,8 @@ const CrewBoardDetail = () => {
         boardContext : "",          // 게시글 내용
         boardType : "",             // 게시글 타입
         boardWriter : "",           // 게시글 작성자
-        WriterLevel : "",           // 작성자 등급
+        writerId: 0,                // 게시글 작성자 ID
+        writerLevel : "",           // 작성자 등급
         boardViewCnt : "",          // 게시글 조회수
         emergencyNote : false,      // 게시글 긴급 여부
         endDate : "",               // 게시글 일정 종료날짜
@@ -143,6 +144,7 @@ const CrewBoardDetail = () => {
                     boardContext : boardData.boardContext,
                     boardType : resultBoardType,
                     boardWriter : boardData.writer.userNickname,  
+                    writerId : boardData.writer.userId,
                     writerLevel : writerLevel,
                     boardViewCnt : boardData.boardCnt, 
                     emergencyNote : boardData.emergencyNote,
@@ -229,9 +231,9 @@ const CrewBoardDetail = () => {
 
     // 데이터 삭제 영역
     const [showDeleteBox,setShowDeleteBox] = useState(false);
-    const [deleteCommentId, setDeleteCommentId] = useState(0);
+    const [deleteData, setDeleteData] = useState({Type:"",Id:0});
     const onClickDeleteBtn = (deleteBtn) => {
-        setDeleteCommentId(deleteBtn.target.value);
+        setDeleteData({Type:deleteBtn.target.id,Id:deleteBtn.target.value});
         setShowDeleteBox(true);
     }
 
@@ -239,7 +241,7 @@ const CrewBoardDetail = () => {
         <main>
             <DefaultHeader/>
                 <section className='CrewBoardDetail'>
-                    <CrewBoardDeleteCheckBox setShowDeleteBox={setShowDeleteBox} showDeleteBox={showDeleteBox} commentId={deleteCommentId} setDeleteCommentId={setDeleteCommentId} loadCommentList={loadCommentList}/>
+                    <CrewBoardDeleteCheckBox setShowDeleteBox={setShowDeleteBox} showDeleteBox={showDeleteBox} deleteData={deleteData} setDeleteData={setDeleteData} loadCommentList={loadCommentList}/>
                     <div className='BoardTopLine'>
                         <div className='boardTypeLine'>
                             <h1>크루</h1>
@@ -248,13 +250,17 @@ const CrewBoardDetail = () => {
                         <div className='TopLine1'>
                             <div className='TopLine2'>
                                 <div className='BoardInfoTop'>
-                                    <h2>✏️작성자</h2>
-                                    <h2>{crewBoardData.boardWriter}</h2>
+                                    <h2>✏️{crewBoardData.boardWriter}</h2>
                                     <span><h2>{crewBoardData.writerLevel}</h2></span>
                                 </div>
                                 <div className='BoardInfoTop'>
                                     <h2>{crewBoardData.startDate+" ~ "+crewBoardData.endDate}</h2>
+                                    <div className='BoardOptionLine' style={crewBoardData.writerId===userId?{display:'flex'}:{display:'none'}}>
+                                        <input type='button' className='BoardChangeBtn'/>
+                                        <input id='Board' type='button' className='BoardDeleteBtn' onClick={onClickDeleteBtn} value={boardId}/>
+                                    </div>
                                 </div>
+                                
                             </div>
                             <div className='TopLine2'>
                                 <h1>{crewBoardData.boardTitle}</h1>
@@ -327,7 +333,7 @@ const CrewBoardDetail = () => {
                                     <div className='commentEmptyNote' style={!blockList&&commentList.length===0?{display:'flex'}:{display:'none'}}>
                                         <h1>⚠️ 등록된 댓글이 없습니다.</h1>
                                     </div>
-                                    <div className='commentListLine' style={!blockList?{display:'flex'}:{display:'none'}}>
+                                    <div className='commentListLine' style={!blockList&&commentList.length>0?{display:'flex'}:{display:'none'}}>
                                         {commentList.map((commentData,index) => {
                                         if(!commentData.commentReply) 
                                             return <CrewBoardCommentBox key={index} commentData={commentData} replyList={commentList.filter(

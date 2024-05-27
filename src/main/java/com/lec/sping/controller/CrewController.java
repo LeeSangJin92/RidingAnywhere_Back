@@ -137,6 +137,15 @@ public class CrewController {
     }
 
     @CrossOrigin
+    @PostMapping("BoardDelete/Board")
+    public ResponseEntity<?> deleteCrewBoard(@RequestParam Long boardId){
+        System.out.println("🛠️ 게시글 삭제 요청 받음");
+        crewService.deleteBoard(boardId);
+        System.out.println("✅ 게시글 삭제 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @GetMapping("LoadCrewBoard")
     public ResponseEntity<?> responseEntity(@RequestHeader("Authorization") String authTokenHeader){
         System.out.println("🛠️ 크루 게시글 목록 요청 받음");

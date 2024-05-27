@@ -65,7 +65,7 @@ const CrewBoardReplyBox = (props) => {
                     </div>
                     <div className='commentBtnLine'>
                         <input className='commentChangeBtn' type='button' hidden={showOption} onClick={onClickChangeBtn}/>
-                        <input className='commentDeleteBtn' type='button' hidden={showOption} onClick={props.onClickDeleteBtn} value={replyData.commentId}/>
+                        <input id='Comment' className='commentDeleteBtn' type='button' hidden={showOption} onClick={props.onClickDeleteBtn} value={replyData.commentId}/>
                     </div>
                 </div>
                 <div className='BottomLine'>

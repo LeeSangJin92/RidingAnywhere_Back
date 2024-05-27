@@ -79,7 +79,7 @@ const CrewBoardCommentBox = (props) => {
                     </div>
                     <div className='commentBtnLine'>
                         <input className='commentChangeBtn' type='button' hidden={userId!==writer.userId} onClick={onClickChangeBtn}/>
-                        <input className='commentDeleteBtn' type='button' hidden={userId!==writer.userId} onClick={props.onClickDeleteBtn} value={commentData.commentId}/>
+                        <input id="Comment" className='commentDeleteBtn' type='button' hidden={userId!==writer.userId} onClick={props.onClickDeleteBtn} value={commentData.commentId}/>
                     </div>
                 </div>
                 <div className='BottomLine'>

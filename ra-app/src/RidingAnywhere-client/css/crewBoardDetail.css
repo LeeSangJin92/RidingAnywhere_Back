@@ -94,15 +94,16 @@
         }
         .TopLine2{
             display: flex;
-            width: 95%;
+            width: 100%;
             height: 60px;
             align-items: center;
             justify-content: space-between;
-            gap : 20px;
+            box-sizing: border-box;
+            padding: 10px;
             .BoardInfoTop{
                 display: flex;
                 align-items: center;
-                gap: 20px;
+                gap: 15px;
                 span{
                     display: flex;
                     justify-content: center;
@@ -116,6 +117,26 @@
                     }
                 }
             }
+
+            .BoardOptionLine{
+                display: flex;
+                input{
+                    width: 40px;
+                    height: 40px;
+                    background-size: cover;
+                    border: 0px;
+                    background-color: rgba(0, 0, 0, 0);
+                    color: rgba(0, 0, 0, 0);
+                    cursor: pointer;
+                }
+                .BoardChangeBtn{
+                    background-image: url("/public/img/ChangeBtnImg.png");
+                }
+                .BoardDeleteBtn{
+                    background-image: url("/public/img/DeleteImg.png");
+                }
+            }
+
             .TourAddressLine{
                 display: flex;
                 flex-direction: column;
