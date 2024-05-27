@@ -195,7 +195,7 @@ const CrewBoardWrite = () => {
                                     </label>
                                     </div>
                                     <div className='TimeLine'>
-                                    <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
+                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
                                         <DatePicker placeholderText='종료 날짜' boardData={boardData} isStartDate={false} setBoardData={setBoardData} dateEqual={dateEqual}/>
                                     </div>
                                 </div>

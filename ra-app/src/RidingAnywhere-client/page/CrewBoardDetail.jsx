@@ -5,6 +5,7 @@ import DefaultFooter from '../component/DefaultFooter';
 import '../css/crewBoardDetail.css';
 import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
 import CrewBoardDeleteCheckBox from '../component/crewboard/CrewBoardDeleteCheckBox';
+import DatePicker from '../component/DatePicker';
 
 
 const CrewBoardDetail = () => {
@@ -17,6 +18,40 @@ const CrewBoardDetail = () => {
 
     // 게시글 ID
     const {boardId} = useParams();
+
+    const [changeMode, setChangeMode] = useState(false);
+    const onClickChangeModeBtn = () => {
+        setChangeMode(!changeMode);
+        document.getElementById('boardContext').value="";
+        setChangeData({
+            boardId : boardId,          // 게시글 ID
+            boardTitle : "",            // 게시글 제목
+            boardContext : "",          // 게시글 내용
+            emergencyNote : false,      // 게시글 긴급 여부
+            endDate : "",               // 게시글 일정 종료날짜
+            startDate : "",             // 게시글 일정 시작날짜
+            tourAddress : "",  
+        });
+    }
+
+    // 수정에 필요한 데이터
+    const [changeData, setChangeData] = useState({
+        boardId : boardId,          // 게시글 ID
+        boardTitle : "",            // 게시글 제목
+        boardContext : "",          // 게시글 내용
+        emergencyNote : false,      // 게시글 긴급 여부
+        endDate : "",               // 게시글 일정 종료날짜
+        startDate : "",             // 게시글 일정 시작날짜
+        tourAddress : "",           // 게시글 모임 장소
+    })
+
+    const onChangeBoardData = (inputTag) => {
+        setChangeData({
+            ...changeData, [inputTag.target.id]:inputTag.target.value
+        })
+        console.log(changeData)
+    }
+
 
     const navigate = useNavigate();
     // 토큰 체크
@@ -254,19 +289,30 @@ const CrewBoardDetail = () => {
                                     <span><h2>{crewBoardData.writerLevel}</h2></span>
                                 </div>
                                 <div className='BoardInfoTop'>
-                                    <h2>{crewBoardData.startDate+" ~ "+crewBoardData.endDate}</h2>
+                                    <h2 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.startDate+" ~ "+crewBoardData.endDate}</h2>
+                                    <div style={changeMode?{display:'flex'}:{display:'none'}}>
+                                        <input type='button' className='BoardChangeUpBtn'/>
+                                        <DatePicker placeholderText={crewBoardData.startDate} boardData={changeData} isStartDate={true} setBoardData={setChangeData} dateEqual={false}/>
+                                        <DatePicker placeholderText={crewBoardData.endDate} boardData={changeData} isStartDate={false} setBoardData={setChangeData} dateEqual={false}/>
+                                    </div>
                                     <div className='BoardOptionLine' style={crewBoardData.writerId===userId?{display:'flex'}:{display:'none'}}>
-                                        <input type='button' className='BoardChangeBtn'/>
+                                        <input type='button' className='BoardChangeBtn' onClick={onClickChangeModeBtn}/>
                                         <input id='Board' type='button' className='BoardDeleteBtn' onClick={onClickDeleteBtn} value={boardId}/>
                                     </div>
                                 </div>
                                 
                             </div>
                             <div className='TopLine2'>
-                                <h1>{crewBoardData.boardTitle}</h1>
+                                <h1 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.boardTitle}</h1>
+                                <input type='text' id='boardTitle' style={changeMode?{display:'flex'}:{display:'none'}} placeholder={crewBoardData.boardTitle} value={changeData.boardTitle} onChange={onChangeBoardData}/>
+                                <input type='button' id='boardTitle' style={changeMode?{display:'flex'}:{display:'none'}}/>
                                 <div className='TourAddressLine' style={crewBoardData.boardType==='🚩모임글'?{display:'flex'}:{display:'none'}}>
-                                    <h3 id='address'>장소🚩</h3>
-                                    <h3>{crewBoardData.tourAddress}</h3>
+                                    <div>
+                                        <h3 id='address'>장소🚩</h3>
+                                        <input type='button' className='addressChangeUp'style={changeMode?{display:'flex'}:{display:'none'}}/>
+                                    </div>
+                                    <h3 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.tourAddress}</h3>
+                                    <input type='text' id='tourAddress' className='addressInput' placeholder={crewBoardData.tourAddress} value={changeData.tourAddress} style={changeMode?{display:'flex'}:{display:'none'}} onChange={onChangeBoardData}/>
                                 </div>
                             </div>
                         </div>
@@ -321,7 +367,8 @@ const CrewBoardDetail = () => {
                         {/* 게시글 내용 영역 */}
 
                         <div className='boardContextBox'>
-                            <textarea disabled value={crewBoardData.boardContext}/>
+                            <textarea disabled style={changeMode?{display:'none'}:{display:'flex'}} value={crewBoardData.boardContext}/>
+                            <textarea style={changeMode?{display:'flex'}:{display:'none'}} id='boardContext' placeholder={crewBoardData.boardContext} onChange={onChangeBoardData}/>
                             
                             {/* 댓글 영역 */}
                             <div className='commentLine'>
