@@ -61,8 +61,10 @@ public class WebSecurityConfig {
                 .requestMatchers("CR/RequestJoinAccept").authenticated()
                 .requestMatchers("CR/RequestWriteBoard").authenticated()
                 .requestMatchers("CR/LoadCrewBoard").authenticated()
-                .requestMatchers("CR/BoardDetail/board").authenticated()
-                .requestMatchers("CR/BoardDetail/comment").authenticated()
+                .requestMatchers("CR/BoardDetail/Board").authenticated()
+                .requestMatchers("CR/BoardDetail/Comment").authenticated()
+                .requestMatchers("CR/BoardDetail/CommentReply").authenticated()
+                .requestMatchers("CR/BoardDetail/CommentChange").authenticated()
                 .anyRequest().authenticated());
         http.apply(new JwtSecurityConfig(tokenProvider));
         return http.build();

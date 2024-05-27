@@ -147,7 +147,7 @@ public class CrewController {
 
     // 🔎 크루 게시글 조회
     @CrossOrigin
-    @GetMapping("BoardDetail/board")
+    @GetMapping("BoardDetail/Board")
     public ResponseEntity<?> loadBoardDetail(@RequestParam Long boardId){
         System.out.println("🛠️ 크루 게시글 조회 요청 받음");
         CrewBoard resultBoard = crewService.getCrewBoardDetail(boardId);
@@ -156,7 +156,7 @@ public class CrewController {
 
     // ✏️ 크루 게시글 댓글 작성
     @CrossOrigin
-    @PostMapping("BoardDetail/comment")
+    @PostMapping("BoardDetail/Comment")
     public ResponseEntity<?> createCrewBoardComment(@RequestHeader ("Authorization") String authTokenHeader,@RequestBody CrewBoardCommentDto crewBoardCommentDto){
         System.out.println("🛠️ 크루 게시글 댓글 작성 요청 받음");
         String token = authTokenHeader.substring(7);
@@ -168,11 +168,34 @@ public class CrewController {
 
     // 🔎 크루 게시글 댓글 로드
     @CrossOrigin
-    @GetMapping("BoardDetail/comment")
-    public ResponseEntity<?> getCrewBoardComments(@RequestHeader ("Authorization") String authTokenHeader,@RequestParam Long boardId){
+    @GetMapping("BoardDetail/Comment")
+    public ResponseEntity<?> getCrewBoardComments(@RequestParam Long boardId){
         System.out.println("🔎 크루 게시글 댓글 리스트 요청 받음");
         List<CrewBoardComment> resultList = crewService.getCrewBoardComments(boardId);
         System.out.println("✅ 크루 게시글 조회 완료");
         return new ResponseEntity<>(resultList,HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("BoardDetail/CommentChange")
+    public ResponseEntity<?> changeComment(@RequestParam Long commentId, @RequestBody String changeContext){
+        System.out.println("🛠️ 크루 게시글 댓글 수정 작업 요청 받음");
+        System.out.println(changeContext);
+        System.out.println("✏️ 댓글 ID : " + commentId);
+        System.out.println("✏️ 변환 글 : " + changeContext);
+        crewService.changeComment(commentId,changeContext);
+        System.out.println("✅ 댓글 수정 완료");;
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("BoardDetail/CommentReply")
+    public ResponseEntity<?> uploadCommentReply(@RequestHeader ("Authorization") String authTokenHeader, @RequestParam Long commentId, @RequestParam Long boardId, @RequestBody String replyContext){
+        System.out.println("🛠️ 대댓글 등록 요청 받음");
+        String token = authTokenHeader.substring(7);
+        String writerEmail = tokenProvider.parseClaims(token).getSubject();
+        crewService.uploadCommentReply(writerEmail, commentId, boardId, replyContext);
+        System.out.println("✅ 대댓글 등록 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

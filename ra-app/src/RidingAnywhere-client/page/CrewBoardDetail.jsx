@@ -8,7 +8,15 @@ import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
 
 const CrewBoardDetail = () => {
 
+    useEffect(()=>{
+        checkData();
+        loadBoardData();
+        loadCommentList();
+    },[])
+
+    // 게시글 ID
     const {boardId} = useParams();
+
     const navigate = useNavigate();
     // 토큰 체크
     const [accessToken] = useState(!sessionStorage.getItem('accessToken'));
@@ -79,7 +87,7 @@ const CrewBoardDetail = () => {
     // 🛜 게시글 데이터 조회 요청
     const loadBoardData = async () => {
         console.log("🛜 서버로 게시글 조회 요청");
-        await fetch(`/CR/BoardDetail/board?boardId=${boardId}`,{
+        await fetch(`/CR/BoardDetail/Board?boardId=${boardId}`,{
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                 "Content-Type": "application/json;charset=utf-8"
@@ -147,36 +155,40 @@ const CrewBoardDetail = () => {
         })
     }
 
-    useEffect(()=>{
-        checkData();
-        loadBoardData();
-        loadCommentList();
-    },[])
 
-    // ✏️ 댓글 작성 영역
-    const onClickCommentUpload = async () => {
+    
+    // ✏️ 댓글 리스트 데이터
+    const [commentList, setCommentList] = useState([]);
+    const [blockList, setBlockList] = useState(true);
+
+    // 🔎 댓글 검사
+    const onClickUploadBtn = () => {
         if(!commentData.comment_context){
             alert("⚠️ 입력된 댓글이 없습니다.");
-        }else{
-            console.log("✏️ 댓글 등록 요청");
-            await fetch("/CR/BoardDetail/comment",{
-                method:'POST',
-                headers:{
-                    "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
-                    "Content-Type": "application/json;charset=utf-8"
-                },
-                body:JSON.stringify(commentData)
-            }).then(response => {
-                if(response.status===200){
-                    alert("✅ 등록이 완료 되었습니다..");
-                    setCommentData({
-                        ...commentData, comment_context:''
-                    });
-                    loadCommentList();
-                } else response.status!==200&&alert("❌ 등록을 실패 했습니다..");
-            })
-        } 
+        } else upLoadComment(commentData);
     }
+
+    // ✏️ 댓글 작성 영역
+    const upLoadComment = async (upLoadData) => {
+        console.log(upLoadData);
+        console.log("✏️ 댓글 등록 요청");
+        await fetch("/CR/BoardDetail/Comment",{
+            method:'POST',
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body:JSON.stringify(upLoadData)
+        }).then(response => {
+            if(response.status===200){
+                alert("✅ 등록이 완료 되었습니다..");
+                setCommentData({...commentData, comment_context:''});
+                loadCommentList();
+            } else response.status!==200&&alert("❌ 등록을 실패 했습니다..");
+        })
+    }
+
+    
 
     // ✏️ 댓글 작성 데이터
     const [commentData,setCommentData] = useState({
@@ -196,7 +208,8 @@ const CrewBoardDetail = () => {
 
     const loadCommentList = async () => {
         console.log("🛜 댓글 리스트 호출");
-        await fetch(`/CR/BoardDetail/comment?boardId=${boardId}`,{
+        setBlockList(true);
+        await fetch(`/CR/BoardDetail/Comment?boardId=${boardId}`,{
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
                 "Content-Type": "application/json;charset=utf-8"
@@ -209,11 +222,10 @@ const CrewBoardDetail = () => {
         }).then(commentListData=>{
             !!commentListData&&console.log(commentListData);
             !!commentListData&&setCommentList(commentListData);
+            setBlockList(false);
         })
     }
 
-    // ✏️ 댓글 리스트 데이터
-    const [commentList, setCommentList] = useState([])
 
 
     return (
@@ -300,20 +312,27 @@ const CrewBoardDetail = () => {
                             {/* 댓글 영역 */}
                             <div className='commentLine'>
                                 <div className='commentList'> {/* 댓글 목록 */}
-                                    <div className='commentEmptyNote' style={commentList.length===0?{display:'flex'}:{display:'none'}}>
+                                    <div className='loadingBlock' style={blockList?{display:'flex'}:{display:'none'}}>
+                                        <h1>🔎 댓글을 불러오는 중입니다.</h1>
+                                        <h1>- 잠시만 기달려 주세요 -</h1>
+                                    </div>
+                                    <div className='commentEmptyNote' style={!blockList&&commentList.length===0?{display:'flex'}:{display:'none'}}>
                                         <h1>⚠️ 등록된 댓글이 없습니다.</h1>
                                     </div>
-                                {commentList.map((commentData,index) => {
-                                    if(!commentData.commentReply) return <CrewBoardCommentBox key={index} commentData={commentData} commentList={commentList} userId={userId}/>;
-                                    else return null;
-                                })}
-
-
+                                    <div className='commentListLine' hidden={blockList}>
+                                        {commentList.map((commentData,index) => {
+                                        if(!commentData.commentReply) 
+                                            return <CrewBoardCommentBox key={index} commentData={commentData} replyList={commentList.filter(
+                                                comment=>comment.commentReply&&comment.commentReply.commentId===commentData.commentId)} 
+                                                userId={userId} loadCommentList={loadCommentList} upLoadReply={upLoadComment} boardId={boardId}/>;
+                                        else return null;
+                                        })}
+                                    </div>
                                 </div>
                                 <div className='commentInputLine'>
                                         <h2>댓글 내용 : </h2>
                                         <input type='text' className='commentTextBox' onChange={onChangeContext} value={commentData.comment_context}/>
-                                        <input id='commentUploadBtn' type='button' className='commentUploadBtn' onClick={onClickCommentUpload} hidden/>
+                                        <input id='commentUploadBtn' type='button' className='commentUploadBtn' onClick={onClickUploadBtn} hidden/>
                                         <label htmlFor='commentUploadBtn'><h2>댓글 등록</h2></label>
                                     </div>
                             </div>

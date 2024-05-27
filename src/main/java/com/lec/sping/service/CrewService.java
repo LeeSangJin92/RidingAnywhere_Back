@@ -179,4 +179,24 @@ public class CrewService {
         CrewBoard crewBoard = crewBoardRepository.findById(boardId).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 게시글 입니다."));
         return crewBoardCommentRepository.findAllByCommentBoard(crewBoard);
     }
+
+    public void changeComment(Long commentId, String changeContext) {
+        System.out.println("🛠️ 댓글 수정 작업중...");
+        CrewBoardComment crewBoardComment = crewBoardCommentRepository.findById(commentId).orElseThrow(()->new NullPointerException("❌ 존재하지 않는 댓글입니다."));
+        crewBoardComment.setCommentContext(changeContext);
+        crewBoardCommentRepository.save(crewBoardComment);
+    }
+
+    public void uploadCommentReply(String writerEmail, Long commentId, Long boardId,String replyContext) {
+        System.out.println("🛠️ 대댓글 등록 작업중...");
+        User replyWriter = userRepository.findByUserEmail(writerEmail).orElseThrow(()-> new NullPointerException("❌ 존재 하지 않는 유저 입니다."));
+        CrewBoard board = crewBoardRepository.findById(boardId).orElseThrow(()-> new NullPointerException("❌ 존재 하지 않는 게시글 입니다."));
+        CrewBoardComment comment = crewBoardCommentRepository.findById(commentId).orElseThrow(()-> new NullPointerException("❌ 존재 하지 않는 댓글입니다."));
+        CrewBoardComment reply = new CrewBoardComment();
+        reply.setCommentContext(replyContext);  // 대댓글 내용
+        reply.setCommentWriter(replyWriter);    // 대댓글 작성자
+        reply.setCommentBoard(board);           // 대댓글 게시글
+        reply.setCommentReply(comment);         // 대댓글 상위 댓글
+        crewBoardCommentRepository.save(reply);
+    }
 }
