@@ -3,10 +3,7 @@ package com.lec.sping.controller;
 import com.lec.sping.domain.Address;
 import com.lec.sping.domain.Authority;
 import com.lec.sping.domain.User;
-import com.lec.sping.domain.crew.Crew;
-import com.lec.sping.domain.crew.CrewBoard;
-import com.lec.sping.domain.crew.CrewBoardComment;
-import com.lec.sping.domain.crew.CrewManager;
+import com.lec.sping.domain.crew.*;
 import com.lec.sping.dto.*;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.AddressService;
@@ -225,5 +222,14 @@ public class CrewController {
         crewService.changeBoardData(type,changeData);
         System.out.println("✅ 게시글 수정 완료");
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("BoardDetail/TourAttend")
+    public ResponseEntity<?> LoadAttendList(@RequestParam Long boardId){
+        System.out.println("🛠️ 크루 모임 참석 명단 호출 요청");
+        CrewTourAttend resulData = crewService.findTourAttend(boardId);
+        System.out.println("✅ 조회 완료");
+        return new ResponseEntity<>(resulData,HttpStatus.OK);
     }
 }

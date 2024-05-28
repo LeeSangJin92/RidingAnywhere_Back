@@ -3,16 +3,14 @@ package com.lec.sping.service;
 import com.lec.sping.domain.Address;
 import com.lec.sping.domain.Auth;
 import com.lec.sping.domain.User;
-import com.lec.sping.domain.crew.Crew;
-import com.lec.sping.domain.crew.CrewBoard;
-import com.lec.sping.domain.crew.CrewBoardComment;
-import com.lec.sping.domain.crew.CrewManager;
+import com.lec.sping.domain.crew.*;
 import com.lec.sping.dto.*;
 import com.lec.sping.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +25,7 @@ public class CrewService {
     private final UserRepository userRepository;
     private final CrewBoardRepository crewBoardRepository;
     private final CrewBoardCommentRepository crewBoardCommentRepository;
+    private final CrewTourAttendRepository crewTourAttendRepository;
 
     public Crew createCrew(User crewMaster, CreateCrewDto crewDto){
         Address address = addressRepository.findByCityAndTown(crewDto.getCrew_city(), crewDto.getCrew_town()).orElseThrow(()->new RuntimeException("❌존재 하지 않는 지역입니다."));
@@ -142,6 +141,18 @@ public class CrewService {
         crewBoard.setMemberCount(crewBoardDto.getMemberCount());
         crewBoard.setBoardType(crewBoardDto.getBoardType());
         crewBoardRepository.save(crewBoard);
+
+        if(!crewBoardDto.getAddress().isEmpty()){
+            System.out.println("🛠️ 모임 참석 데이터 생성");
+            CrewTourAttend crewTourAttend = new CrewTourAttend();
+            List<User> tourMember = new ArrayList<>();
+            tourMember.add(writer);
+            crewTourAttend.setTourMaxCnt(crewBoard.getMemberCount());
+            crewTourAttend.setTourBoard(crewBoard);
+            crewTourAttend.setAttendMember(tourMember);
+            crewTourAttendRepository.save(crewTourAttend);
+            System.out.println("✅ 모임 참석 명단 생성 완료");
+        }
     }
 
     public List<CrewBoard> getCrewBoard(String loginRiderEmail) {
@@ -162,6 +173,13 @@ public class CrewService {
         resultCrewBoard.setBoardCnt(resultCrewBoard.getBoardCnt()+1);
         crewBoardRepository.save(resultCrewBoard);
         return resultCrewBoard;
+    }
+
+    // 크루 명단 조회 영역
+    public CrewTourAttend findTourAttend(Long boardId) {
+        System.out.println("🛠️ 크루 모임 명단 가져오는 중...");
+        CrewBoard board = crewBoardRepository.findById(boardId).orElseThrow(()->(new NullPointerException("❌ 존재 하지 않는 게시글 입니다.")));
+        return crewTourAttendRepository.findByTourBoard(board);
     }
 
     public void createCrewBoardComment(CrewBoardCommentDto crewBoardCommentDto) {
@@ -239,4 +257,6 @@ public class CrewService {
         }
         crewBoardRepository.save(baseData);
     }
+
+
 }

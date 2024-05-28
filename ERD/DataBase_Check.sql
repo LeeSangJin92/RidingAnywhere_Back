@@ -52,3 +52,6 @@ ALTER TABLE crew_board AUTO_INCREMENT = 1;
 select * from crew_board_comment;
 delete from crew_board_comment;
 ALTER TABLE crew_board_comment AUTO_INCREMENT = 1;
+
+# 🔎 크루 모임 참여 영역
+select * from crew_tour_attend;

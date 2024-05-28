@@ -15,7 +15,7 @@ public class CrewBoardDto {
     private String boardContext;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Integer memberCount;
+    private Long memberCount;
     private String address;
     private String boardType;
 }

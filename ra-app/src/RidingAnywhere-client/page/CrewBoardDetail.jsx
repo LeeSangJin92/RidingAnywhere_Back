@@ -6,6 +6,7 @@ import '../css/crewBoardDetail.css';
 import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
 import CrewBoardDeleteCheckBox from '../component/crewboard/CrewBoardDeleteCheckBox';
 import DatePicker from '../component/DatePicker';
+import CrewAttendanceBox from '../component/crewboard/CrewAttendanceBox';
 
 
 const CrewBoardDetail = () => {
@@ -134,6 +135,14 @@ const CrewBoardDetail = () => {
         tourAddress : "",           // 게시글 모임 장소
     });
 
+    // ✏️ 모임 참성 데이터
+    const [tourAttendData, setTourAttendData] = useState({
+        tourAttendId : 0,
+        boardId : boardId,
+        tourMaxCnt : 0,
+        attendMember : []
+    })
+
 
     // ✏️ 모임 참여 인원 정보창 컨트롤
     const [showAttendanceList, setShowAttendanceList] = useState(true);
@@ -141,6 +150,25 @@ const CrewBoardDetail = () => {
         setShowAttendanceList(!showAttendanceList);
     }
 
+    // 🛜 모임 참석 명단 조회 요청
+    const loadTourAttend = async () => {
+        console.log("🛜 서버로 명단 조회 요청");
+        await fetch(`/CR/BoardDetail/TourAttend?boardId=${boardId}`,{
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then(reponse=>{
+            if(reponse.status===200){
+                console.log("✅ 참석 멤버 조회 완료");
+                return reponse.json();
+            } else console.log("❌ 조회 실패")
+        }).then(data=>{
+            if(!!data){
+                setTourAttendData(data);
+            }
+        })
+    }
     // 🛜 게시글 데이터 조회 요청
     const loadBoardData = async () => {
         console.log("🛜 서버로 게시글 조회 요청");
@@ -168,6 +196,7 @@ const CrewBoardDetail = () => {
                         break;
                     case "Tour" : 
                         resultBoardType = "🚩모임글"
+                        loadTourAttend();
                         break;
                     case "Free" : 
                         resultBoardType = "🆓자유글"
@@ -208,6 +237,7 @@ const CrewBoardDetail = () => {
                     regDate : new Date(boardData.regDate).toLocaleDateString('ko-KR',dateformatte),
                     tourAddress : boardData.address
                 }
+                if(resultBoardType==="🚩모임글") loadTourAttend();
                 setCrewBoardData(resultBoardData);
             }
         })
@@ -348,7 +378,7 @@ const CrewBoardDetail = () => {
                             <div className='TourInfoSlideOff' style={showAttendanceList?{display:'flex'}:{display:'none'}}>
                                 <div className='AttendanceCnt'>
                                     <h2>참여 인원</h2>
-                                    <h2>(100/100)</h2>
+                                    <h2>({tourAttendData.attendMember.length}/{tourAttendData.tourMaxCnt})</h2>
                                 </div>
                                 <div className='TourBtnLine' id='Off'>
                                     <input type='radio' name='attachBtn' id='attachOkayOff' value={true} hidden/>
@@ -361,7 +391,7 @@ const CrewBoardDetail = () => {
                                 <div className='AttendanceListTop'>
                                     <div className='AttendanceCnt'>
                                         <h2>참여 인원</h2>
-                                        <h2>(100/100)</h2>
+                                        <h2>({tourAttendData.attendMember.length}/{tourAttendData.tourMaxCnt})</h2>
                                     </div>
                                     <div className='TourBtnLine' id='On'>
                                         <input type='radio' name='attachBtn' value={true} id='attachOkayOn' hidden/>
@@ -371,15 +401,7 @@ const CrewBoardDetail = () => {
                                     </div>
                                 </div>
                                 <div className='AttendanceListBottom'>
-                                        <div className='CrewAttendanceBox'>
-                                            <label>
-                                                <h2>닉네임 테스트</h2>
-                                                <h2>마스터</h2>
-                                                <h2>92</h2>
-                                                <h2>서울/관악</h2>
-                                            </label>
-                                            <input type='button' hidden/>
-                                        </div>
+                                {tourAttendData.attendMember.map(memberData=><CrewAttendanceBox memberData={memberData}/>)}
                                 </div>
                             </div>
                             <div className='TourSlideBtn'>
