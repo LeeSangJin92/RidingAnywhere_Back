@@ -30,7 +30,7 @@ const CrewBoardDetail = () => {
             emergencyNote : false,      // 게시글 긴급 여부
             endDate : "",               // 게시글 일정 종료날짜
             startDate : "",             // 게시글 일정 시작날짜
-            tourAddress : "",  
+            address : "",  
         });
     }
 
@@ -42,7 +42,7 @@ const CrewBoardDetail = () => {
         emergencyNote : false,      // 게시글 긴급 여부
         endDate : "",               // 게시글 일정 종료날짜
         startDate : "",             // 게시글 일정 시작날짜
-        tourAddress : "",           // 게시글 모임 장소
+        address : "",           // 게시글 모임 장소
     })
 
     const onChangeBoardData = (inputTag) => {
@@ -50,6 +50,26 @@ const CrewBoardDetail = () => {
             ...changeData, [inputTag.target.id]:inputTag.target.value
         })
         console.log(changeData)
+    }
+
+    const onClickBoardChangeBtn = async (inputTag) => {
+        console.log("🛜 데이터 수정 요청");
+        console.log(changeData);
+        await fetch(`/CR/BoardChange/Board?type=${inputTag.target.id}`,{
+            method:"POST",
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"},
+            body:JSON.stringify(changeData)
+        }).then(response=>{
+            if(response.status===200){
+                console.log("✅ 수정 완료")
+                alert("✅ 데이터 수정이 완료 했습니다.")
+                setChangeMode(false);
+                loadBoardData();
+                loadCommentList();
+            }else{console.log("❌ 수정 실패")}
+        });
     }
 
 
@@ -290,9 +310,11 @@ const CrewBoardDetail = () => {
                                 </div>
                                 <div className='BoardInfoTop'>
                                     <h2 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.startDate+" ~ "+crewBoardData.endDate}</h2>
-                                    <div style={changeMode?{display:'flex'}:{display:'none'}}>
-                                        <input type='button' className='BoardChangeUpBtn'/>
+                                    <div style={changeMode?{display:'flex'}:{display:'none'}} className='boardDateChangeLine'>
+                                        <input type='button' id='boardDate' className='BoardChangeUpBtn' value={"기간 변경"} onClick={onClickBoardChangeBtn}/>
+                                        <h2>시작 </h2>
                                         <DatePicker placeholderText={crewBoardData.startDate} boardData={changeData} isStartDate={true} setBoardData={setChangeData} dateEqual={false}/>
+                                        <h2>종료 </h2>
                                         <DatePicker placeholderText={crewBoardData.endDate} boardData={changeData} isStartDate={false} setBoardData={setChangeData} dateEqual={false}/>
                                     </div>
                                     <div className='BoardOptionLine' style={crewBoardData.writerId===userId?{display:'flex'}:{display:'none'}}>
@@ -304,15 +326,17 @@ const CrewBoardDetail = () => {
                             </div>
                             <div className='TopLine2'>
                                 <h1 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.boardTitle}</h1>
-                                <input type='text' id='boardTitle' style={changeMode?{display:'flex'}:{display:'none'}} placeholder={crewBoardData.boardTitle} value={changeData.boardTitle} onChange={onChangeBoardData}/>
-                                <input type='button' id='boardTitle' style={changeMode?{display:'flex'}:{display:'none'}}/>
+                                <div className='boardTitleOptionLine'>
+                                    <input className='boardTitleChangeInput' type='text' id='boardTitle' style={changeMode?{display:'flex'}:{display:'none'}} placeholder={crewBoardData.boardTitle} value={changeData.boardTitle} onChange={onChangeBoardData}/>
+                                    <input type='button' id='boardTitle' className='BoardTitleChangeBtn' style={changeMode?{display:'flex'}:{display:'none'}} value={"제목 변경"} onClick={onClickBoardChangeBtn}/>
+                                </div>
                                 <div className='TourAddressLine' style={crewBoardData.boardType==='🚩모임글'?{display:'flex'}:{display:'none'}}>
                                     <div>
                                         <h3 id='address'>장소🚩</h3>
-                                        <input type='button' className='addressChangeUp'style={changeMode?{display:'flex'}:{display:'none'}}/>
+                                        <input type='button' id='boardAddress' className='addressChangeUp'style={changeMode?{display:'flex'}:{display:'none'}} value={"장소 변경"} onClick={onClickBoardChangeBtn}/>
                                     </div>
                                     <h3 style={!changeMode?{display:'flex'}:{display:'none'}}>{crewBoardData.tourAddress}</h3>
-                                    <input type='text' id='tourAddress' className='addressInput' placeholder={crewBoardData.tourAddress} value={changeData.tourAddress} style={changeMode?{display:'flex'}:{display:'none'}} onChange={onChangeBoardData}/>
+                                    <input type='text' id='address' className='addressInput' placeholder={crewBoardData.tourAddress} value={changeData.tourAddress} style={changeMode?{display:'flex'}:{display:'none'}} onChange={onChangeBoardData}/>
                                 </div>
                             </div>
                         </div>
@@ -369,6 +393,7 @@ const CrewBoardDetail = () => {
                         <div className='boardContextBox'>
                             <textarea disabled style={changeMode?{display:'none'}:{display:'flex'}} value={crewBoardData.boardContext}/>
                             <textarea style={changeMode?{display:'flex'}:{display:'none'}} id='boardContext' placeholder={crewBoardData.boardContext} onChange={onChangeBoardData}/>
+                            <input type='button' id='boardContext' className='boardContextChangeBtn' style={changeMode?{display:'flex'}:{display:'none'}} value={"내용 변경"} onClick={onClickBoardChangeBtn}/>
                             
                             {/* 댓글 영역 */}
                             <div className='commentLine'>

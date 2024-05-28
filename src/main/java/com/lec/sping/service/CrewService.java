@@ -219,4 +219,24 @@ public class CrewService {
             crewBoardRepository.delete(deleteBoard);
         } else System.out.println("❌ 댓글 제거가 실패했습니다.");
     }
+
+    public void changeBoardData(String type, CrewBoard changeData) {
+        CrewBoard baseData = crewBoardRepository.findById(changeData.getBoardId()).orElseThrow(()->new NullPointerException("❌ 존재 하지 않는 게시글 입니다."));
+        switch (type){
+            case "boardTitle" :
+                baseData.setBoardTitle(changeData.getBoardTitle());
+                break;
+            case "boardContext" :
+                baseData.setBoardContext(changeData.getBoardContext());
+                break;
+            case "boardAddress" :
+                baseData.setAddress(changeData.getAddress());
+                break;
+            case "boardDate" :
+                if(changeData.getStartDate()!=null) baseData.setStartDate(changeData.getStartDate());
+                if(changeData.getEndDate()!=null) baseData.setEndDate(changeData.getEndDate());
+                break;
+        }
+        crewBoardRepository.save(baseData);
+    }
 }

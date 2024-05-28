@@ -216,4 +216,14 @@ public class CrewController {
         System.out.println("✅ 댓글 삭제 완료");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping("BoardChange/Board")
+    public ResponseEntity<?> changeBoardData(@RequestParam String type, @RequestBody CrewBoard changeData){
+        System.out.println("🛠️ 게시글 수정 작업 요청");
+        System.out.println(changeData);
+        crewService.changeBoardData(type,changeData);
+        System.out.println("✅ 게시글 수정 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

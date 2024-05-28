@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                 .requestMatchers("CR/RequestWriteBoard").authenticated()
                 .requestMatchers("CR/LoadCrewBoard").authenticated()
                 .requestMatchers("CR/BoardDelete/Board").authenticated()
+                .requestMatchers("CR/BoardChange/Board").authenticated()
                 .requestMatchers("CR/BoardDetail/Board").authenticated()
                 .requestMatchers("CR/BoardDetail/Comment").authenticated()
                 .requestMatchers("CR/BoardDetail/CommentReply").authenticated()

@@ -100,6 +100,37 @@
             justify-content: space-between;
             box-sizing: border-box;
             padding: 10px;
+            .boardTitleOptionLine{
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                justify-content: center;
+            }
+            .boardTitleChangeInput{
+                border: 2px solid orange;
+                border-radius: 10px;
+                box-sizing: border-box;
+                padding-left: 10px;
+                height: 60px;
+                width: 400px;
+                font-size: 25px;
+                font-weight: bold;
+            }
+            .BoardTitleChangeBtn{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0);
+                border: 2px solid orange;
+                color: orange;
+                font-size: 20px;
+                font-weight: bold;
+                border-radius: 10px;
+                box-sizing: border-box;
+                cursor: pointer;
+                width: 100px;
+                height: 50px;
+            }
             .BoardInfoTop{
                 display: flex;
                 align-items: center;
@@ -109,11 +140,36 @@
                     justify-content: center;
                     align-items: center;
                     width: 90px;
-                    height: 60px;
+                    height: 50px;
                     border: 3px solid orange;
                     border-radius: 20px;
                     h2{
                         margin: 0;
+                    }
+                }
+                .boardDateChangeLine{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 620px;
+                    gap: 20px;
+                    .BoardChangeUpBtn{
+                        width: 100px;
+                        height: 50px;
+                        display: flex;
+                        font-size: 20px;
+                        font-weight: bold;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: rgba(0, 0, 0, 0);
+                        color: orange;
+                        border: 2px solid orange;
+                        border-radius: 10px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                    }
+                    .DatePicker{
+                        width: 140px;
                     }
                 }
             }
@@ -142,9 +198,32 @@
                 flex-direction: column;
                 width: 420px;
                 height: 100%;
-                gap: 10px;
+                gap: 5px;
                 h3{
                     margin: 0;
+                }
+                >div{
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    .addressChangeUp{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100px;
+                        height: 30px;
+                        border: 2px solid orange;
+                        border-radius: 10px;
+                        box-sizing: border-box;
+                        background-color: rgba(0, 0, 0, 0);
+                        color: orange;
+                        font-size: 15px;
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
+                }
+                .addressInput{
+                    width: 400px;
                 }
             }
         }
@@ -310,6 +389,21 @@
             textarea:disabled{
                 border: 2px solid gray;
                 background-color: rgb(205, 203, 201);
+            }
+
+            .boardContextChangeBtn{
+                display: flex;
+                position: absolute;
+                width: 100px;
+                transform: translate(870px, 10px);
+                height: 60px;
+                background-color: rgba(0, 0, 0);
+                color: orange;
+                font-size: 20px;
+                font-weight: bold;
+                border: 2px solid orange;
+                border-radius: 10px;
+                cursor: pointer;
             }
 
             /* 댓글 영역 */
