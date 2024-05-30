@@ -226,9 +226,11 @@ public class CrewController {
 
     @CrossOrigin
     @GetMapping("BoardDetail/TourAttend")
-    public ResponseEntity<?> LoadAttendList(@RequestParam Long boardId){
+    public ResponseEntity<?> LoadAttendList(@RequestHeader ("Authorization") String authTokenHeader, @RequestParam Long boardId){
         System.out.println("🛠️ 크루 모임 참석 명단 호출 요청");
-        CrewTourAttend resulData = crewService.findTourAttend(boardId);
+        String token = authTokenHeader.substring(7);
+        String userEmail = tokenProvider.parseClaims(token).getSubject();
+        CrewTourAttend resulData = crewService.findTourAttend(boardId, userEmail);
         System.out.println("✅ 조회 완료");
         return new ResponseEntity<>(resulData,HttpStatus.OK);
     }

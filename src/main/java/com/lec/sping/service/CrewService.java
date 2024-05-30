@@ -176,7 +176,7 @@ public class CrewService {
     }
 
     // 크루 명단 조회 영역
-    public CrewTourAttend findTourAttend(Long boardId) {
+    public CrewTourAttend findTourAttend(Long boardId, String userEmail) {
         System.out.println("🛠️ 크루 모임 명단 가져오는 중...");
         CrewBoard board = crewBoardRepository.findById(boardId).orElseThrow(()->(new NullPointerException("❌ 존재 하지 않는 게시글 입니다.")));
         return crewTourAttendRepository.findByTourBoard(board);

@@ -7,14 +7,15 @@ import CrewBoardCommentBox from '../component/crewboard/CrewBoardCommentBox';
 import CrewBoardDeleteCheckBox from '../component/crewboard/CrewBoardDeleteCheckBox';
 import DatePicker from '../component/DatePicker';
 import CrewAttendanceBox from '../component/crewboard/CrewAttendanceBox';
+import CrewTourAttendCheck from '../component/crewboard/CrewTourAttendCheck';
 
 
 const CrewBoardDetail = () => {
 
     useEffect(()=>{
         checkData();
-        loadBoardData();
         loadCommentList();
+        loadBoardData();
     },[])
 
     // 게시글 ID
@@ -108,9 +109,9 @@ const CrewBoardDetail = () => {
                     }
                     console.log("✅ 라이더 데이터 수집 완료!");
                     setUserId(data.userData.userId);
+                    return data.userData.userId;
                 }
-            })
-            }else {
+            })}else {
                 console.log("⛔ 접속자에게 엑세스 없음");
                 alert("⚠️로그인이 필요합니다.⚠️\n - 로그인 페이지로 이동합니다. - ")
                 console.log("🛠️ 로그인 페이지로 이동")
@@ -135,7 +136,7 @@ const CrewBoardDetail = () => {
         tourAddress : "",           // 게시글 모임 장소
     });
 
-    // ✏️ 모임 참성 데이터
+    // ✏️ 모임 참석 데이터
     const [tourAttendData, setTourAttendData] = useState({
         tourAttendId : 0,
         boardId : boardId,
@@ -149,6 +150,34 @@ const CrewBoardDetail = () => {
     const onClickAttendanceListBtn = () => {
         setShowAttendanceList(!showAttendanceList);
     }
+    const [checkAttend, setCheckAttend] = useState(null);
+    const [showAttendCheck, setShowAttendCheck] = useState(false);
+    const onClickAttendBtnOkay = (btnData) => {
+        setShowAttendCheck(true);
+    }
+    const onClickAttendBtnNon = () => {
+        if(crewBoardData.writerId===userId){
+            console.log("🚨 모임 개설자 불참 클릭")
+            alert("🚨 모임 개설자는 불참하실 수 없습니다.")
+        } else setCheckAttend(false);
+    }
+
+    const requestAttend = async (props) => {
+        console.log("🛜 모임 참여 전달")
+        await fetch(`/CR/BoardTour/Attend?boardId=${boardId}&attend=${props.attend}`,{
+            method:"Post",
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then(reponse=>{
+            if(reponse.status===200){
+                console.log("✅ 모임 참석 데이터 저장 완료");
+            }
+        })
+    }
+
+
 
     // 🛜 모임 참석 명단 조회 요청
     const loadTourAttend = async () => {
@@ -169,8 +198,9 @@ const CrewBoardDetail = () => {
             }
         })
     }
+
     // 🛜 게시글 데이터 조회 요청
-    const loadBoardData = async () => {
+    const loadBoardData = async (props) => {
         console.log("🛜 서버로 게시글 조회 요청");
         await fetch(`/CR/BoardDetail/Board?boardId=${boardId}`,{
             headers:{
@@ -237,7 +267,11 @@ const CrewBoardDetail = () => {
                     regDate : new Date(boardData.regDate).toLocaleDateString('ko-KR',dateformatte),
                     tourAddress : boardData.address
                 }
-                if(resultBoardType==="🚩모임글") loadTourAttend();
+                if(resultBoardType==="🚩모임글") {
+                    if(boardData.writer.userId===userId){setCheckAttend(true)};
+                    loadTourAttend();
+                };
+
                 setCrewBoardData(resultBoardData);
             }
         })
@@ -308,7 +342,6 @@ const CrewBoardDetail = () => {
                 return response.json();
             }
         }).then(commentListData=>{
-            !!commentListData&&console.log(commentListData);
             !!commentListData&&setCommentList(commentListData);
             setBlockList(false);
         })
@@ -327,6 +360,7 @@ const CrewBoardDetail = () => {
             <DefaultHeader/>
                 <section className='CrewBoardDetail'>
                     <CrewBoardDeleteCheckBox setShowDeleteBox={setShowDeleteBox} showDeleteBox={showDeleteBox} deleteData={deleteData} setDeleteData={setDeleteData} loadCommentList={loadCommentList}/>
+                    <CrewTourAttendCheck setShowAttendCheck={setShowAttendCheck} showAttendCheck={showAttendCheck} setCheckAttend={setCheckAttend} textData="" />
                     <div className='BoardTopLine'>
                         <div className='boardTypeLine'>
                             <h1>크루</h1>
@@ -380,11 +414,14 @@ const CrewBoardDetail = () => {
                                     <h2>참여 인원</h2>
                                     <h2>({tourAttendData.attendMember.length}/{tourAttendData.tourMaxCnt})</h2>
                                 </div>
-                                <div className='TourBtnLine' id='Off'>
-                                    <input type='radio' name='attachBtn' id='attachOkayOff' value={true} hidden/>
+                                <div className='TourWriter' style={userId===crewBoardData.writerId?{display:'flex'}:{display:'none'}}>
+                                    <h2>개설자<br/>필참!</h2>
+                                </div>
+                                <div className='TourBtnLine' id='Off' style={userId===crewBoardData.writerId?{display:'none'}:{display:'flex'}}>
+                                    <input type='checkbox' id='attachOkayOff' checked={checkAttend!=null&&checkAttend} readOnly onClick={onClickAttendBtnOkay} hidden/>
                                     <label htmlFor='attachOkayOff'><h2>참여</h2></label>
-                                    <input type='radio' name='attachBtn' id='attachNonOff' value={false} hidden/>
-                                    <label htmlFor='attachNonOff'><h2>불참여</h2></label>
+                                    <input type='checkbox' id='attachNonOff' checked={checkAttend!=null&&!checkAttend} readOnly onClick={onClickAttendBtnNon} hidden/>
+                                    <label htmlFor='attachNonOff'><h2>미참여</h2></label>
                                 </div>
                             </div>
                             <div className='TourInfoSideOn' style={showAttendanceList?{display:'none'}:{display:'flex'}}>
@@ -393,15 +430,18 @@ const CrewBoardDetail = () => {
                                         <h2>참여 인원</h2>
                                         <h2>({tourAttendData.attendMember.length}/{tourAttendData.tourMaxCnt})</h2>
                                     </div>
-                                    <div className='TourBtnLine' id='On'>
-                                        <input type='radio' name='attachBtn' value={true} id='attachOkayOn' hidden/>
+                                    <div className='TourWriter' style={userId===crewBoardData.writerId?{display:'flex'}:{display:'none'}}>
+                                         <h2>개설자 필참!</h2>
+                                    </div>  
+                                    <div className='TourBtnLine' id='On' style={userId===crewBoardData.writerId?{display:'none'}:{display:'flex'}}>
+                                        <input type='checkbox' id='attachOkayOn' checked={checkAttend!=null&&checkAttend} readOnly onClick={onClickAttendBtnOkay} hidden/>
                                         <label htmlFor='attachOkayOn'><h2>참여</h2></label>
-                                        <input type='radio' name='attachBtn' value={false} id='attachNonOn' hidden/>
-                                        <label htmlFor='attachNonOn'><h2>불참여</h2></label>
+                                        <input type='checkbox' id='attachNonOn' checked={checkAttend!=null&&!checkAttend} readOnly onClick={onClickAttendBtnNon} hidden/>
+                                        <label htmlFor='attachNonOn'><h2>미참여</h2></label>
                                     </div>
                                 </div>
                                 <div className='AttendanceListBottom'>
-                                {tourAttendData.attendMember.map(memberData=><CrewAttendanceBox memberData={memberData}/>)}
+                                {tourAttendData.attendMember.map((memberData,index)=><CrewAttendanceBox key={index} memberData={memberData}/>)}
                                 </div>
                             </div>
                             <div className='TourSlideBtn'>
