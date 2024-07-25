@@ -11,5 +11,5 @@ public interface CrewManagerRepository extends JpaRepository<CrewManager, Long> 
 
     List<CrewManager> findAllByCrew(Crew crew);
 
-    CrewManager findByCrewAndAndUser(Crew crew, User user);
+    CrewManager findByCrewAndUser(Crew crew, User user);
 }

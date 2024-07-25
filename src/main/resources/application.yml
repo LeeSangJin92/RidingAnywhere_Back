@@ -43,16 +43,12 @@ spring:
     # 쿼리가 훨씬 보기 좋게 정렬되어 로그 찍힌다
     properties:
       hibernate:
+        hibernate.dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
     # 테이블 생성 시 테이블 초기화 방식
     hibernate:
       ddl-auto: update
-
-  # thymeleaf 설정
-  thymeleaf:
-    cache: false
-    prefix: classpath:templates/
 
   # datasource 설정
   datasource:

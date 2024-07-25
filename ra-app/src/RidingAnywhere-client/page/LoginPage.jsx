@@ -41,13 +41,18 @@ const LoginPage = () => {
     const [loginBtnAct, setLoginBtnAct] = useState(true);
 
     // 이메일, 비밀번호 검증
-     useEffect(()=>{
+    useEffect(()=>{
+        checkRequest();
+    },[request]);
+
+    const checkRequest = () => {
         let emailRegExp = RegExp(!errorWord.onerrorEmail?"":"^([A-Za-z0-9])+@+([A-Za-z0-9])+\\.+([A-Za-z])+$");
         let passwordRegExp = RegExp(!errorWord.onerrorPW?"":'^(?=.*[A-Za-z])(?=.*[\\d])(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,14}$');
         setErrorWord({...errorWord,
+            errorUndefined:true,
             errorEmail:emailRegExp.test(request.userEmail),
             errorPW:passwordRegExp.test(request.userPassword)})
-    },[request]);
+    }
 
     useEffect(()=>{
         setLoginBtnAct(Object.values(errorWord).includes(false));
@@ -66,28 +71,27 @@ const LoginPage = () => {
             body:JSON.stringify(request)
             }).then(response => {
                     console.log("로그인 요청🛜")
-                    if(response.status===200) return response.json();
-                    else setErrorWord({...errorWord,errorUndefined:false});
+                    if(response.status===200) {return response.json()};
             }).then(data => {
-
                 // 로그인이 잘못되었을 경우
                 if(!data){
                     alert("⚠️입력하신 정보가 잘못되었습니다");
-                    return;
+                    setErrorWord({...errorWord,errorUndefined:false});
+                } else{
+                    // 받아온 데이터 확인
+                    console.log(data+"로그인 완료✅")
+                    console.log("토큰 : " + data.accessToken);
+                    console.log("타입 : " + data.grantType);
+                    console.log("유효 : " + new Date(data.tokenExpiresIn))
+                    console.log("현재 : " + new Date())
+
+                    // 토큰 세션에 저장
+                    sessionStorage.setItem('accessToken', data.accessToken);
+                    sessionStorage.setItem('tokenTime',new Date(data.tokenExpiresIn));
+
+                    // 홈 페이지로 이동
+                    navigate("/RA/Home");
                 }
-
-                // 받아온 데이터 확인
-                console.log(data+"로그인 완료✅")
-                console.log("토큰 : " + data.accessToken);
-                console.log("타입 : " + data.grantType);
-                console.log("유효 : " + new Date(data.tokenExpiresIn))
-                console.log("현재 : " + new Date())
-
-                // 토큰 세션에 저장
-                sessionStorage.setItem('accessToken', data.accessToken);
-                sessionStorage.setItem('tokenTime',new Date(data.tokenExpiresIn));
-
-                navigate("/RA/Home");
             });
     }
     return (

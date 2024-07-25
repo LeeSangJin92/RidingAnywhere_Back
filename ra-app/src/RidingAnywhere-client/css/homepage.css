@@ -5,12 +5,52 @@
     background-color: gray;
     display: flex;
     justify-content: space-around;
+    >div{
+        width: 550px;
+        text-align: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    .CrewHome{
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        background-color: black;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
 
-}
-
-.HomeSection>div{
-    background-color: brown;
-    width: 550px;
-    text-align: center;
-    align-items: center;
+        .MiniCrewJoinArea, .MiniCrewBoardArea{
+            display: flex;
+            flex-direction: column;
+            height: 45%;
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid gold;
+            border-radius: 20px;
+            gap: 10px;
+            .TitleName{
+                width: 100%;
+            }
+            .ListLine{
+                width: 100%;
+                height: 65%;
+                box-sizing: border-box;
+                border-top: 2px dashed gold;
+            }
+        }
+    }
+    .BlockCrewBoard{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        box-sizing: border-box;
+        border: 8px solid rgb(66, 66, 66);
+    }
 }

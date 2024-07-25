@@ -31,10 +31,18 @@ const HomePage = () => {
                 }
             }).then(data => {
                 console.log("✅라이더 데이터 수집 완료!");
+                console.log(data);
                 if(data.bikeList.length===0){
                     console.log("⚠️입력된 바이크 정보가 없습니다.")
                     alert("⚠️ 등록된 바이크가 없습니다. ⚠️\n - 바이크 등록 페이지로 이동합니다 -")
                     navigate("/RA/AddBike")
+                }
+                console.log("🔎 가입된 크루 조회 중...");
+                if(data.userData.authorityId.authorityId===1){
+                    console.log("⚠️ 가입된 크루 없음");
+                }else{
+                    console.log("✅ 가입된 크루 존재");
+                    setJoinCrew(true);
                 }
             })
 
@@ -45,19 +53,44 @@ const HomePage = () => {
         checkData();
     },[])
     
+    // 게시판 영역 관련 코드
+    const [joinCrew, setJoinCrew] = useState(false);
+    const [joinCrewList, setJoinCrewList] = useState([]);
+    const [crowBoardList, setCrewBoardList] = useState([]);
+
 
     return (
         <main>
             <DefaultHeader/>
             <section className='HomeSection'>  {/* 메인 영역 부분*/}
                     <div className='CrewHome'>
-                        크루 영역
+                        {/* 🛠️ 가입된 크루 없을 시 블록 처리 */}
+                        <div className='BlockCrewBoard' style={joinCrew?{display:'none'}:{display:'flex'}}>
+                            <img src='/img/NotJoiningCrew.png' alt=''></img>
+                            <h1>가입된 크루가 없습니다.</h1>
+                        </div>
+                        
+                        {/* ✏️ 크루 게시판글 목록 */}
+                        <div className='MiniCrewBoardArea' style={joinCrew?{display:'flex'}:{display:'none'}}>
+                            <h1 className='TitleName'>미니 크루 게시글</h1>
+                            <div className='ListLine'>
+                                <div className='ListHeader'>
+                                    <table>
+                                        <th>
+                                            <td><h2 className='boardType'>말머리</h2></td>
+                                            <td><h2 className='boardTitle'>제목</h2></td>
+                                            <td><h2 className='boardWriter'>작성자</h2></td>
+                                        </th>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className='RiderHome'>
                         오픈 게시판 영역
                     </div>
             </section>
-
+            
             {/* ✏️ 픽스로 들어가는 태그 및 컴포넌트 */}
             <OkBtnBox title={"테스트 제목"} context={"테스트 내용"}/>
                 <DefaultFooter/>
