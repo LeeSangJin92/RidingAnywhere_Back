@@ -19,6 +19,7 @@ const RidingAnywhereApp = () => {
       <Container>
         <Routes>
               <Route path="/" element={<Navigate to="/RA/Home" />}></Route>
+              <Route path="/RA/" element={<Navigate to="/RA/Home" />}></Route>
               <Route path="/RA/Home" element={<HomePage />}></Route>
               <Route path="/RA/Login" element={<LoginPage />}></Route>
               <Route path="/RA/AddBike" element={<AddBike />}></Route>

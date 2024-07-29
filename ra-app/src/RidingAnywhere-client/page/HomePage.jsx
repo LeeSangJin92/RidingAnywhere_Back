@@ -5,6 +5,7 @@ import DefaultFooter from '../component/DefaultFooter';
 import OkBtnBox from '../component/OkBtnBox';
 import DefaultHeader from '../component/DefaultHeader_main';
 import { useNavigate } from 'react-router-dom';
+import MiniCrewBoardBox from '../component/homepage/MiniCrewBoardBox';
 
 const HomePage = () => {
 
@@ -13,10 +14,10 @@ const HomePage = () => {
     // 🪙토큰 확인
     const [accessToken, setAccessToken] = useState(!sessionStorage.getItem('accessToken'))
     const checkData = async () => {
-        console.log("🛜라이더 엑세스 체크 중...")
+        console.log("🛜 라이더 엑세스 체크 중...")
         if(!accessToken){
-            console.log("✅접속자에게 엑세스 있음!")
-            console.log("🛜라이더 데이터 확인 중...")
+            console.log("✅ 접속자에게 엑세스 있음!")
+            console.log("🛜 라이더 데이터 확인 중...")
             await fetch("/RA/CheckRider",
             {headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -30,10 +31,10 @@ const HomePage = () => {
                     navigate('/RA/Login');
                 }
             }).then(data => {
-                console.log("✅라이더 데이터 수집 완료!");
+                console.log("✅ 라이더 데이터 수집 완료!");
                 console.log(data);
                 if(data.bikeList.length===0){
-                    console.log("⚠️입력된 바이크 정보가 없습니다.")
+                    console.log("⚠️ 입력된 바이크 정보가 없습니다.")
                     alert("⚠️ 등록된 바이크가 없습니다. ⚠️\n - 바이크 등록 페이지로 이동합니다 -")
                     navigate("/RA/AddBike")
                 }
@@ -43,6 +44,7 @@ const HomePage = () => {
                 }else{
                     console.log("✅ 가입된 크루 존재");
                     setJoinCrew(true);
+                    loadCrewBoard();
                 }
             })
 
@@ -55,9 +57,29 @@ const HomePage = () => {
     
     // 게시판 영역 관련 코드
     const [joinCrew, setJoinCrew] = useState(false);
-    const [joinCrewList, setJoinCrewList] = useState([]);
-    const [crowBoardList, setCrewBoardList] = useState([]);
+    const [showCrewBoard, setShowCrewBoard] = useState(false);
+    const [crowBoardList, setCrewBoardList] = useState([{
+        boardType:"",
+        boardTitle:""
+    }]);
 
+    // 게시판 호출
+    const loadCrewBoard = async() => {
+        console.log("🛜 크루 게시판 호출중...");
+        await fetch("/CR/LoadCrewBoard",{
+            headers:{
+                "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+                "Content-Type": "application/json;charset=utf-8"}
+            }).then(response=>{
+                if(response.status===200) return response.json();
+                else return null;
+            }).then(data=>{
+                setCrewBoardList(data);
+                setShowCrewBoard(true);
+                console.log(data);
+                console.log("✅ 크루 게시글 로드 완료");
+            })
+    }
 
     return (
         <main>
@@ -72,17 +94,18 @@ const HomePage = () => {
                         
                         {/* ✏️ 크루 게시판글 목록 */}
                         <div className='MiniCrewBoardArea' style={joinCrew?{display:'flex'}:{display:'none'}}>
-                            <h1 className='TitleName'>미니 크루 게시글</h1>
-                            <div className='ListLine'>
-                                <div className='ListHeader'>
-                                    <table>
-                                        <th>
-                                            <td><h2 className='boardType'>말머리</h2></td>
-                                            <td><h2 className='boardTitle'>제목</h2></td>
-                                            <td><h2 className='boardWriter'>작성자</h2></td>
-                                        </th>
-                                    </table>
+                            <h1 className='TitleName'>크루 게시글</h1>
+                            <div className='ListHeader'>
+                                    <h2 className='boardType'>말머리</h2>
+                                    <h2 className='boardTitle'>제목</h2>
                                 </div>
+                            <div className='ListLine'>
+                                <div className='MiniCrewBoardBlock' style={showCrewBoard?{display:"none"}:{display:"flex"}}>
+                                    <h1>데이터 준비중...</h1>
+                                </div>
+                                {crowBoardList.map(boardData=>{
+                                    return <MiniCrewBoardBox boardTitle={boardData.boardTitle} boardType={boardData.boardType} boardId={boardData.boardId}/>
+                                })}
                             </div>
                         </div>
                     </div>
