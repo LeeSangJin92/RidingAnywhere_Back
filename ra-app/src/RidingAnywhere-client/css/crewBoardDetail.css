@@ -521,6 +521,7 @@
                         border-radius: 20px;
                         padding-top: 10px;
                         padding-left: 10px;
+                        padding-bottom: 10px;
                         box-sizing: border-box;
                         
                         /* 댓글 작성자 프로필 이미지 */

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import DatePicker from '../component/DatePicker';
 import '../css/crewBoardWrite.css';
 import { useNavigate } from 'react-router-dom';
+import QuillEditor from '../component/QuillEditor';
 
 const CrewBoardWrite = () => {
 
@@ -47,17 +48,22 @@ const CrewBoardWrite = () => {
                 case "WriteTitle":          // ✏️ 게시글 제목
                     setBoardData({...boardData,boardTitle:data.target.value});
                     break;
-                case "WriteContext":        // ✏️ 게시글 내용
-                    setBoardData({...boardData,boardContext:data.target.value});
-                    break;
                 case "TourAddress":         // ✏️ 모임 주소
                     setBoardData({...boardData,address:data.target.value});
                     break;
                 case "emergencyNoteBtn":    // ✏️ 공지 긴급 사항
                     setBoardData({...boardData,emergencyNote:data.target.checked});
+                    break;
                 default:
             }
     }
+
+    // 🕹️ 게시판 내용 입력 (Quill)
+    const insertBoardContext = (data) => {
+        console.log(data);
+        setBoardData({...boardData,boardContext:data})
+    }
+
 
     // 🛠️ 시작 날짜, 종료 날짜 동일 버튼
     const [dateEqual, setDateEqual] = useState(false)
@@ -122,7 +128,6 @@ const CrewBoardWrite = () => {
             }
         }
     }
-
     const writeBoardRequest = async () => {
         console.log("🛜서버로 게시글 작성 요청");
         await fetch("/CR/RequestWriteBoard",{
@@ -178,10 +183,9 @@ const CrewBoardWrite = () => {
                         <div className='WriteBody'>
                             <div className='BoardWriteBox'>
                                 <input type='text' className='WriteTitle' placeholder='제목을 입력하세요' value={boardData.boardTitle} onChange={insertBoardData}/>
-                                <textarea className='WriteContext' placeholder='내용을 입력하세요' value={boardData.boardContext} onChange={insertBoardData}>
-                                </textarea>
+                                <QuillEditor text={boardData.boardContext} insertBoardContext={insertBoardContext}/>
                             </div>
-                            <div className='WriteOptionBox'>
+                            <div className='WriteOptionBox' >
                                 <div className='Option' id='Note' style={optionControl==='Note'?{display:'flex'}:{display:'none'}}>
                                     <input type='checkbox' id='emergencyNoteBtn' className='emergencyNoteBtn' onClick={insertBoardData} hidden/>
                                     <label htmlFor='emergencyNoteBtn' className='EmergencyNoteLabel'>

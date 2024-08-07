@@ -55,3 +55,7 @@ ALTER TABLE crew_board_comment AUTO_INCREMENT = 1;
 
 # 🔎 크루 모임 참여 영역
 select * from crew_tour_attend;
+
+# 🔎 라이더 게시판 조회 영역
+select * from rider_board;
+select * from rider_board_comment;

@@ -6,8 +6,8 @@ import com.lec.sping.domain.bike.BikeGarage;
 import com.lec.sping.domain.camping.CampingAttendance;
 import com.lec.sping.domain.course.CourseBoard;
 import com.lec.sping.domain.crew.*;
-import com.lec.sping.domain.openboard.OpenBoard;
-import com.lec.sping.domain.openboard.OpenCommit;
+import com.lec.sping.domain.riderboard.RiderBoard;
+import com.lec.sping.domain.riderboard.RiderBoardComment;
 import com.lec.sping.domain.tour.TourAttendance;
 import com.lec.sping.domain.tour.TourBoard;
 import jakarta.persistence.*;
@@ -84,12 +84,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     @JsonIgnore
-    private List<OpenBoard> openBoardList;      // 라이더 게시판 리스트
+    private List<RiderBoard> riderBoardList;      // 라이더 게시판 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     @JsonIgnore
-    private List<OpenCommit> openCommits;       // 라이더 게시판 댓글 리스트
+    private List<RiderBoardComment> openCommits;       // 라이더 게시판 댓글 리스트
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude

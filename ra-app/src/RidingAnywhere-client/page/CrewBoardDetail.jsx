@@ -453,7 +453,9 @@ const CrewBoardDetail = () => {
                         {/* 게시글 내용 영역 */}
 
                         <div className='boardContextBox'>
-                            <textarea disabled style={changeMode?{display:'none'}:{display:'flex'}} value={crewBoardData.boardContext}/>
+                            <textarea disabled style={changeMode?{display:'none'}:{display:'flex'}}>
+                                {crewBoardData.boardContext}
+                            </textarea>
                             <textarea style={changeMode?{display:'flex'}:{display:'none'}} id='boardContext' placeholder={crewBoardData.boardContext} onChange={onChangeBoardData}/>
                             <input type='button' id='boardContext' className='boardContextChangeBtn' style={changeMode?{display:'flex'}:{display:'none'}} value={"내용 변경"} onClick={onClickBoardChangeBtn}/>
                             

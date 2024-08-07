@@ -39,7 +39,7 @@ const DefaultHeader_main = () => {
                             <div className='NavMiain'>
                                 <h1>RIDER AREA</h1>       
                                 <div className='NavMenu'>      
-                                    <div className='NavCategory'>RIDER<br/>BOARD</div>      {/*라이더 커뮤니티*/}
+                                    <Link to="/RA/Board" className='NavCategory'>RIDER<br/>BOARD</Link>      {/*라이더 커뮤니티*/}
                                     <div className='NavCategory'>TOUR<br/>BOARD</div>       {/*투어 게시판*/}
                                     <div className='NavCategory'>MOTO<br/>CAMPING</div>     {/*모토 캠핑 게시판*/}
                                     <div className='NavCategory'>RIDING<br/>COURSE</div>    {/*라이딩 코스 추천*/}
