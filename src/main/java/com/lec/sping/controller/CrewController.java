@@ -219,6 +219,7 @@ public class CrewController {
     public ResponseEntity<?> changeBoardData(@RequestParam String type, @RequestBody CrewBoard changeData){
         System.out.println("🛠️ 게시글 수정 작업 요청");
         System.out.println(changeData);
+        System.out.println(type);
         crewService.changeBoardData(type,changeData);
         System.out.println("✅ 게시글 수정 완료");
         return new ResponseEntity<>(HttpStatus.OK);

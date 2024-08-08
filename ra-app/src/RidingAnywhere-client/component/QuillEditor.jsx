@@ -2,26 +2,30 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = ({text,insertBoardContext}) => {
+const QuillEditor = ({value,onChange}) => {
 
-    let insertData = insertBoardContext;
+    const clickBtn = () => {
+        console.log("버튼 클릭");
+    }
 
     return (
                 <ReactQuill
                 className='WriteContext'
-                value={text}
-                onChange={insertData}
+                value={value}
+                onChange={onChange}
                 theme="snow"
                 modules={{
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline'],
                     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['image', 'code-block']
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['code-block'],
+                    ['clean']
                 ]
-                }}
+            }}
                 formats={[
-                'header', 'font', 'list', 'bold', 'italic', 'underline', 'image', 'code-block'
+                'header', 'font', 'list', 'bold', 'italic', 'underline', 'code-block', 'color', 'background'
                 ]}
             />
     );

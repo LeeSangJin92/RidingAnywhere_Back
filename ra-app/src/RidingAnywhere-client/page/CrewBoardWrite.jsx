@@ -64,12 +64,20 @@ const CrewBoardWrite = () => {
         setBoardData({...boardData,boardContext:data})
     }
 
+    // 🕹️ 게시판 날짜 입력
+    const onChangeStartDate = (data)=>{
+        dateEqual&&setBoardData({...boardData,startDate:data, endDate:data})
+        !dateEqual&&setBoardData({...boardData,startDate:data})
+    }
+    const onChangeEndDate = (data)=>{
+        setBoardData({...boardData,endDate:data})
+    }
 
     // 🛠️ 시작 날짜, 종료 날짜 동일 버튼
     const [dateEqual, setDateEqual] = useState(false)
     const clickDateEqualBtn = (data) => {
         let dateEqualBtn = data.target;
-        setDateEqual(dateEqualBtn.checked)
+        setDateEqual(!dateEqual)
         dateEqualBtn.checked&&setBoardData({...boardData,endDate:boardData.startDate});
         !dateEqualBtn.checked&&setBoardData({...boardData,endDate:""});
     }
@@ -183,9 +191,10 @@ const CrewBoardWrite = () => {
                         <div className='WriteBody'>
                             <div className='BoardWriteBox'>
                                 <input type='text' className='WriteTitle' placeholder='제목을 입력하세요' value={boardData.boardTitle} onChange={insertBoardData}/>
-                                <QuillEditor text={boardData.boardContext} insertBoardContext={insertBoardContext}/>
+                                <QuillEditor value={boardData.boardContext} onChange={insertBoardContext}/>
                             </div>
                             <div className='WriteOptionBox' >
+                                <input type='checkbox' id='DateEqualBtn' onClick={clickDateEqualBtn} hidden/>
                                 <div className='Option' id='Note' style={optionControl==='Note'?{display:'flex'}:{display:'none'}}>
                                     <input type='checkbox' id='emergencyNoteBtn' className='emergencyNoteBtn' onClick={insertBoardData} hidden/>
                                     <label htmlFor='emergencyNoteBtn' className='EmergencyNoteLabel'>
@@ -193,27 +202,25 @@ const CrewBoardWrite = () => {
                                     </label>
                                     <div className='TimeLine'>
                                         <h2>공지 기간</h2>
-                                        <input type='checkbox' id='NoteDateEqualBtn' onClick={clickDateEqualBtn} hidden/>
-                                        <label htmlFor='NoteDateEqualBtn' className='NoteDateEqualLabel'>
+                                        <label htmlFor='DateEqualBtn' className='NoteDateEqualLabel'>
                                         <span>날짜 동일</span>
                                     </label>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
-                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} isStartDate={false} setBoardData={setBoardData} dateEqual={dateEqual}/>
+                                        <DatePicker placeholderText='시작 날짜' onChange={onChangeStartDate} value={boardData.startDate}/>
+                                        <DatePicker placeholderText='종료 날짜' onChange={onChangeEndDate} value={boardData.endDate} disabled={dateEqual}/>
                                     </div>
                                 </div>
                                 <div className='Option' id='Tour' style={optionControl==='Tour'?{display:'flex'}:{display:'none'}}>
                                     <div className='TimeLine'>
                                         <h2>모임 일정</h2>
-                                        <input type='checkbox' id='TourDateEqualBtn' onClick={clickDateEqualBtn} hidden/>
-                                        <label htmlFor='TourDateEqualBtn' className='TourDateEqualLabel'>
+                                        <label htmlFor='DateEqualBtn' className='TourDateEqualLabel'>
                                             <span>날짜 동일</span>
                                         </label>
                                     </div>
                                     <div className='TimeLine'>
-                                        <DatePicker placeholderText='시작 날짜' boardData={boardData} isStartDate={true} setBoardData={setBoardData} dateEqual={dateEqual}/>
-                                        <DatePicker placeholderText='종료 날짜' boardData={boardData} isStartDate={false} setBoardData={setBoardData} dateEqual={dateEqual}/>
+                                        <DatePicker placeholderText='시작 날짜' onChange={onChangeStartDate} value={boardData.startDate}/>
+                                        <DatePicker placeholderText='종료 날짜' onChange={onChangeEndDate} value={boardData.endDate} disabled={dateEqual}/>
                                     </div>
                                     <div className='CountMemberLine'>
                                         <h2>참석 인원</h2>

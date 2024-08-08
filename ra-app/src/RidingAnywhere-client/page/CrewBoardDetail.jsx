@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
@@ -8,6 +8,7 @@ import CrewBoardDeleteCheckBox from '../component/crewboard/CrewBoardDeleteCheck
 import DatePicker from '../component/DatePicker';
 import CrewAttendanceBox from '../component/crewboard/CrewAttendanceBox';
 import CrewTourAttendCheck from '../component/crewboard/CrewTourAttendCheck';
+import QuillEditor from '../component/QuillEditor';
 
 
 const CrewBoardDetail = () => {
@@ -20,15 +21,13 @@ const CrewBoardDetail = () => {
 
     // 게시글 ID
     const {boardId} = useParams();
-
     const [changeMode, setChangeMode] = useState(false);
     const onClickChangeModeBtn = () => {
         setChangeMode(!changeMode);
-        document.getElementById('boardContext').value="";
         setChangeData({
             boardId : boardId,          // 게시글 ID
             boardTitle : "",            // 게시글 제목
-            boardContext : "",          // 게시글 내용
+            boardContext : crewBoardData.boardContext,    // 게시글 내용
             emergencyNote : false,      // 게시글 긴급 여부
             endDate : "",               // 게시글 일정 종료날짜
             startDate : "",             // 게시글 일정 시작날짜
@@ -47,12 +46,35 @@ const CrewBoardDetail = () => {
         address : "",           // 게시글 모임 장소
     })
 
+    // 🕹️ 게시글 제목 및 장소 수정
     const onChangeBoardData = (inputTag) => {
         setChangeData({
             ...changeData, [inputTag.target.id]:inputTag.target.value
         })
-        console.log(changeData)
     }
+
+    // 🕹️ 게시글 내용 수정 (Quill)
+    const onChangeBoardContext = (data) => {
+        setChangeData({
+            ...changeData,boardContext:data
+        })
+    }
+    // useEffect(()=>{
+    //     if(quillRef.current){
+    //         let saveInputTag = document.createElement('input');
+    //         console.log(saveInputTag);
+    //         Object.assign(saveInputTag,{
+    //             type:'button',
+    //             id:'boardContext',
+    //             className:'boardContextChangeBtn',
+    //             onClick:{onClickBoardChangeBtn},
+    //             style:`${changeMode?{display:'flex'}:{display:'none'}}`
+    //         });
+    //         // saveInputTag.type='button'
+    //         //  saveInputTag.setAttribute({type:'button',id:'boardContext',className:'boardContextChangeBtn',style:`{changeMode?{display:'flex'}:{display:'none'}}`,onClick:{onClickBoardChangeBtn}});
+    //         document.getElementsByClassName("quill")[0].children[0].append(saveInputTag)
+    //     }
+    // },[])
 
     const onClickBoardChangeBtn = async (inputTag) => {
         console.log("🛜 데이터 수정 요청");
@@ -383,7 +405,7 @@ const CrewBoardDetail = () => {
                                     </div>
                                     <div className='BoardOptionLine' style={crewBoardData.writerId===userId?{display:'flex'}:{display:'none'}}>
                                         <input type='button' className='BoardChangeBtn' onClick={onClickChangeModeBtn}/>
-                                        <input id='Board' type='button' className='BoardDeleteBtn' onClick={onClickDeleteBtn} value={boardId}/>
+                                        <input type='button' id='Board'  className='BoardDeleteBtn' onClick={onClickDeleteBtn} value={boardId}/>
                                     </div>
                                 </div>
                                 
@@ -451,16 +473,16 @@ const CrewBoardDetail = () => {
                         </div>
 
                         {/* 게시글 내용 영역 */}
-
                         <div className='boardContextBox'>
-                            <textarea disabled style={changeMode?{display:'none'}:{display:'flex'}}>
-                                {crewBoardData.boardContext}
-                            </textarea>
-                            <textarea style={changeMode?{display:'flex'}:{display:'none'}} id='boardContext' placeholder={crewBoardData.boardContext} onChange={onChangeBoardData}/>
-                            <input type='button' id='boardContext' className='boardContextChangeBtn' style={changeMode?{display:'flex'}:{display:'none'}} value={"내용 변경"} onClick={onClickBoardChangeBtn}/>
-                            
+                            <div className='ContextShow' style={changeMode?{display:'none'}:{display:'block'}} dangerouslySetInnerHTML={{__html:crewBoardData.boardContext}}>
+                            </div>
+                            <div className='ContextChangeBox' style={changeMode?{display:'flex'}:{display:'none'}}>
+                                <QuillEditor text={changeData.boardContext} onChange={onChangeBoardContext}/>
+                                <input type='button' id='boardContext' className='boardContextChangeBtn' style={changeMode?{display:'flex'}:{display:'none'}} onClick={onClickBoardChangeBtn} value="변경 적용"/>
+                            </div>
+
                             {/* 댓글 영역 */}
-                            <div className='commentLine'>
+                            <div className='commentLine' style={changeMode?{display:'none'}:{display:'flex'}}>
                                 <div className='commentList'> {/* 댓글 목록 */}
                                     <div className='loadingBlock' style={blockList?{display:'flex'}:{display:'none'}}>
                                         <h1>🔎 댓글을 불러오는 중입니다.</h1>

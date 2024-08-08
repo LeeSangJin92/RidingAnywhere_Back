@@ -45,6 +45,7 @@ select * from address;
 # 🔎 크루 게시글 영역
 show tables ;
 select * from crew_board;
+DESCRIBE crew_board;
 delete from crew_board;
 ALTER TABLE crew_board AUTO_INCREMENT = 1;
 
