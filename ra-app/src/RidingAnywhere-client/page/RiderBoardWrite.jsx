@@ -33,7 +33,8 @@ const RiderBoardWrite = () => {
         setBoardData({...resetData,
             board_type:props.target.value,          // 게시글 타입
             board_context:boardData.board_context,  // 게시글 내용
-            board_title:boardData.board_title});    // 게시글 제목
+            board_title:boardData.board_title,      // 게시글 제목
+            board_date:boardData.board_date});      // 게시글 날짜
     }
 
     // 🕹️ 게시글 제목 입력
@@ -49,6 +50,11 @@ const RiderBoardWrite = () => {
     // 🕹️ 댓글 제한 버튼 반응
     const onClickCommentControlBtn = () => {
         setBoardData({...boardData,board_limit:!boardData.board_limit});
+    }
+
+    // 🕹️ 게시글 날짜 입력
+    const insertDate = (data) => {
+        setBoardData({...boardData,board_date:data});
     }
 
     // 🕹️ 게시글 디테일 변경 반응
@@ -118,7 +124,7 @@ const RiderBoardWrite = () => {
                             </div>
                             <div className='EventDate'>
                                 <h2>사건 날짜 : </h2>
-                                <DatePicker className='EventDatePicker' placeholderText='날짜 선택' boardData={boardData} isStartDate={true} setBoardData={setBoardData}/>
+                                <DatePicker className='EventDatePicker' placeholderText='날짜 선택' value={boardData.board_date} onChange={insertDate}/>
                             </div>
                             <label className='CommentControlBtn' htmlFor='CommitControlBtn'><h2>댓글 제한</h2></label>
                         </div>
@@ -141,7 +147,7 @@ const RiderBoardWrite = () => {
                             </div>
                             <div className='DrivingDate'>
                                 <h2>번개 날짜 : </h2>
-                                <DatePicker className='DrivingDatePicker' placeholderText='날짜 선택' boardData={boardData} isStartDate={true} setBoardData={setBoardData}/>
+                                <DatePicker className='DrivingDatePicker' placeholderText='날짜 선택' value={boardData.board_date} onChange={insertDate}/>
                             </div>
                             <label className='CommentControlBtn' htmlFor='CommitControlBtn'><h2>댓글 제한</h2></label>
                         </div>
