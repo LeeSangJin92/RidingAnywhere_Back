@@ -58,5 +58,7 @@ ALTER TABLE crew_board_comment AUTO_INCREMENT = 1;
 select * from crew_tour_attend;
 
 # 🔎 라이더 게시판 조회 영역
+drop table rider_board;
+drop table rider_board_comment;
 select * from rider_board;
 select * from rider_board_comment;

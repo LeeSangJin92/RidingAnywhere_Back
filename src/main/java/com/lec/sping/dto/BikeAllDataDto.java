@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class BikeAllDataDto {
     public List<BikeModel> bikeModelList = new ArrayList<>();
     public List<BikeBrand> bikeBrandList = new ArrayList<>();
