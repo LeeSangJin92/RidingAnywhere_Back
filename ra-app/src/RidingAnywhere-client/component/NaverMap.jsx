@@ -17,7 +17,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
   const [resultList,setResultList] = useState([]);
   
   // 🕹️ 결과창 숨김 컨트롤
-  const [resultDisplayed, setResultDisplayed] = useState(false); // ✏️ 검색 결과창 표시
+  const [resultDisplayed, setResultDisplayed] = useState(false); // ✏️ 검색 결과창 활성화
   const [resultHidden, setResultHidden] = useState(true); // ✏️ 검색 결과창 숨김
   const resultDisplayControl = (control) => {
     setResultDisplayed(control);
@@ -27,10 +27,53 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
   }
   useEffect(()=>{
     resultDisplayControl(resultList.length>0)
+    setResultHidden(false);
   },[resultList])
 
-  const onClickResultBox = ({lat, lng}) => {
+  // 🕹️ 마커 생성 함수
+  const createMarker = ({lat, lng, center, listHidden, poi}) => {
+    let position = new naver.maps.LatLng(lat, lng);
+     // 🕹️ center 조정 필요 시 수정
+     if(center){
+      console.log("🕹️ 맵 센터 수정");
+      naverMap.current.setCenter(position)
+    }
     console.log("🕹️맵 마커 생성")
+    let marker = new naver.maps.Marker({
+      position: position,
+      map: naverMap.current
+    });
+    // 🛠️ 결과창 숨기기
+    if(listHidden){
+      setResultHidden(true);
+      console.log("🕹️ 결과창 숨김")
+    }
+    // 🛠️ poi 제어
+    let poiData = null;
+    if(poi){
+      console.log("🛠️ POI 생성");
+      poiData = new naver.maps.InfoWindow({
+        position:position,
+        content:poi,
+        disableAnchor:true,
+        backgroundColor:"#0000000",
+        borderColor:"#0000000",
+      });
+      poiData.open(naverMap.current,marker)
+    }
+    
+    // 🛠️ 기존 마커 제거
+    if(!!markerData.marker) markerData.marker.setMap(null);
+    
+    // 🛠️ poi 제거
+    if(markerData.poi) markerData.poi.close();
+    setMarkerData({
+      ...markerData,
+      marker:marker,
+      poi:poiData,
+      lat:coordinate.lat,
+      lng:coordinate.lng
+    });
   }
 
 
@@ -49,7 +92,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
           lat:e.coord.lat(),
           lng:e.coord.lng()
         });
-    })
+      })
     }
   }, []);
 
@@ -63,41 +106,38 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
   }
 
   // 🛠️ 마커 컨트롤 영역
-  const [clickMarker, setClickMarker] = useState({
+  const [markerData, setMarkerData] = useState({
     marker:null,
+    poi:null,
     lat:37.5759,
     lng:126.9769,
     type:"Normal",
-    markerName:"서울시청",
-    number:"",
-    city:"",
-    district:"",
-    neigh:"",
-    streetName:"",
-    streetNumber:""
   })
-
 
   // 🛜 좌표 기준으로 주소 조회
   const searchCoordinate = async () => {
-    console.log("🛜 좌표 기준으로 주소 요청");
+    console.log("🛜 좌표로 주소 요청");
     try{
       const response = await fetch(`http://localhost:8080/Map/api/coordinate?lat=${coordinate.lat}&lng=${coordinate.lng}`);
       const data = await response.json();
-      console.log(data);
+      if(data.results[1]){
+        let region = Object.values(data.results[1].region).map(e=>e.name);
+        region.shift();
+        let resultAddress = region[0] + " " + region[1] + " " + data.results[1].land.name + " " + data.results[1].land.number1;
+        resultAddress = data.results[1].land.number2?resultAddress+"-"+data.results[1].land.number2:resultAddress;
+        setAddress(resultAddress);
+      } else{
+        console.log(data.results[0])
+        let region = Object.values(data.results[0].region).map(e=>e.name);
+        region.shift();
+        region.pop();
+        setAddress(region.join(" "));
+      }
+      console.log("✅ 좌표로 주소 요청")
+      // ✏️ 주소 등록 라인 변경
+
       // 🕹️ 지도에 클릭한 위치에 마커 생성
-      let markerData = new naver.maps.Marker({
-        position: new naver.maps.LatLng(coordinate.lat, coordinate.lng),
-        map: naverMap.current
-    });
-      if(!!clickMarker.marker) clickMarker.marker.setMap(null);
-      setClickMarker({
-        ...clickMarker,
-        marker:markerData,
-        lat:coordinate.lat,
-        lng:coordinate.lng
-      });
-      console.log(data);
+      createMarker({lat:coordinate.lat,lng:coordinate.lng, listHidden:true})
     }catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -141,15 +181,15 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
                   result.splice(number,0,'.');
                   return result.join('')
             }
-
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(resultData.title,'text/html');
             let mappingData = {
-              title:resultData.title,
+              title:doc.body.textContent || "",
               category:resultData.category,
               address:resultData.roadAddress,
               lat:parseFloat(changeData(resultData.mapy,2)),
               lng:parseFloat(changeData(resultData.mapx,3))
             }
-            console.log(mappingData);
             return mappingData;
           }))
         }
@@ -173,7 +213,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
                       </div>
                       <div className='addressLine'>
                         <h2>주소 :</h2>
-                        <h2 className='addressText'>{address?{address}:"선택된 주소가 없습니다."}</h2>
+                        <h2 className='addressText'>{address?address:"선택된 주소가 없습니다."}</h2>
                         <input id='insertBtn' type='button' hidden/>
                         <label htmlFor='insertBtn'><h2>등록</h2></label>
                       </div>
@@ -186,7 +226,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
                       {resultList.map((data,index)=>
                         {
                          if(!data.category) return (<ResultBoxAddress key={index} addressMain={data.mainAddress} addressRoad={data.roadAddress} lat={data.lat} lng={data.lng}/>);
-                         else return (<ResultBoxTarget key={index} title={data.title} category={data.category} address={data.address} lat={data.lat} lng={data.lng} onClick={onClickResultBox}/>);
+                         else return (<ResultBoxTarget key={index} title={data.title} category={data.category} addressData={data.address} lat={data.lat} lng={data.lng} hidden={resultHidden} onClick={createMarker} setAddress={setAddress}/>);
                         }
                       )}
                     </div>
