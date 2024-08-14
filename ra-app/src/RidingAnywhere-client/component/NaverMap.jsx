@@ -83,6 +83,8 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
     if (window.naver && window.naver.maps) {
       const mapOptions = {
         center: new window.naver.maps.LatLng(coordinate.lat, coordinate.lng),
+        maxZoom: 18,  // 최대 확대
+        minZoom: 12,  // 최소 확대
         zoom: 16,
       };
 
@@ -160,10 +162,12 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
             setResultList(data.addresses.map(resultData=>{
               let addressMapping = resultData.addressElements.map(data=>data.longName)
               let addressMain = addressMapping[0] + " " + addressMapping[1] + " " + addressMapping[2] + " " + addressMapping[7];
+              let addressRoadFull = addressMapping[0] + " " +  addressMapping[1] + " " + addressMapping[4] + " " + addressMapping[5];
               let addressRoad = addressMapping[4] + " " + addressMapping[5];
               let mappingData={
                 mainAddress:addressMain,
                 roadAddress:addressRoad,
+                roadFullAdd:addressRoadFull,
                 lat:resultData.y,
                 lng:resultData.x
               }
@@ -225,7 +229,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
                       <label htmlFor='resultHiddenBtn' className='resultHiddenLabel'>{resultHidden?"열기":"닫기"}</label>
                       {resultList.map((data,index)=>
                         {
-                         if(!data.category) return (<ResultBoxAddress key={index} addressMain={data.mainAddress} addressRoad={data.roadAddress} lat={data.lat} lng={data.lng}/>);
+                         if(!data.category) return (<ResultBoxAddress key={index} addressMain={data.mainAddress} addressRoad={data.roadAddress} roadFullAdd={data.roadFullAdd} lat={data.lat} lng={data.lng} hidden={resultHidden} onClick={createMarker} setAddress={setAddress}/>);
                          else return (<ResultBoxTarget key={index} title={data.title} category={data.category} addressData={data.address} lat={data.lat} lng={data.lng} hidden={resultHidden} onClick={createMarker} setAddress={setAddress}/>);
                         }
                       )}

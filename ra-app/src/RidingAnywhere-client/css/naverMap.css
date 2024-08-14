@@ -105,7 +105,6 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: center;
                 border-right: 10px double orange;
                 width: max-content;
                 height: 470px;
@@ -182,9 +181,68 @@
                     
                 }
 
+                .ResultBoxAddress{
+                    display: flex;
+                    flex-direction: column;
+                    width: max-content;
+                    height: 120px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    box-sizing: border-box;
+                    padding: 10px;
+                    margin: 0;
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                    background-color: rgb(125, 125, 125);
+                    border: 2px solid rgb(0, 0, 0);
+                    border-radius: 10px;
+                    font-weight: bold;
+                    .RoadAddLine{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
+                        >span{
+                            display: flex;
+                            height: 45px;
+                            align-items: center;
+                        }
+                        >label{
+                            margin-left: 10px;
+                            flex-grow: 1;
+                        }
+                    }
+                    >label{
+                        width: 100%;
+                        height: max-content;
+                        box-sizing: border-box;
+                    }
+                    label{
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        box-sizing: border-box;
+                        padding: 10px;
+                        border: 2px solid black;
+                        border-radius: 10px;
+                    }
+                    label:hover{
+                        border: 2px solid orange;
+                        background-color: rgb(18, 18, 18);
+                        span{
+                            background-image: linear-gradient(to right bottom,Orange, Yellow, Orange);
+                            -webkit-text-stroke-color: black;
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            color: transparent;
+                        }
+                    }
+                }
+
                 .resultHiddenLabel{
                     width: 30px;
-                    height: 60px;
+                    height: 120px;
                     display: flex;
                     font-weight: bold;
                     justify-content: center;
@@ -199,6 +257,7 @@
                     border-radius: 0 10px 10px 0;
                     box-sizing: border-box;
                     right: 0;
+                    bottom: 40%;
                     transform: translateX(40px);
                     cursor: pointer;
                     z-index: 24;
@@ -215,6 +274,8 @@
                 box-sizing: border-box;
                 width: 970px;
                 height: 450px;
+
+                /* ✏️ 상점 및 카테고리 POI */
                 #targetInfo{
                     display: flex;
                     gap: 5px;
@@ -240,6 +301,24 @@
                         background-color: rgb(46, 46, 46);
                         font-size: 12px;
                     }
+                    span{
+                        color: rgb(255, 187, 60);
+                        font-weight: bold;
+                    }
+                }
+
+                /* ✏️ 주소 및 도로명 POI */
+                #addressInfo{
+                    display: flex;
+                    gap: 5px;
+                    flex-direction: column;
+                    width: max-content;
+                    height: max-content;
+                    background-color: rgb(46, 46, 46);
+                    padding: 10px;
+                    border: 2px solid orange;
+                    border-radius: 10px;
+                    box-sizing: border-box;
                     span{
                         color: rgb(255, 187, 60);
                         font-weight: bold;
