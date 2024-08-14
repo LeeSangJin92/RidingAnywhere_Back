@@ -12,6 +12,14 @@ const RiderBoardWrite = () => {
     // 🛠️ 네비게이션용
     const navigate = useNavigate();
 
+    // 🔎 작성자 정보 확인 (로그인)
+    const checkLogin = () => {
+        if(!sessionStorage.getItem('accessToken')){
+            alert("🚨 로그인이 필요한 페이지입니다. \n - 로그인 페이지로 이동합니다. -");
+            navigate("/RA/Login");
+        }
+    }
+
     // ✏️ 작성하는 게시글 정보
     const [boardData, setBoardData] = useState({
         boardType:"Free",          // 게시글 타입
@@ -23,10 +31,11 @@ const RiderBoardWrite = () => {
         boardLocation:""       // 게시글 장소
     });
     
-    // ✏️ 게시글 초기값 정보 저장
+    // ✏️ 게시글 초기값 정보 저장 및 로그인 확인
     const quillRef = useRef(null);
     const [resetData,setResetData]=useState(null);
     useEffect(()=>{
+        checkLogin();
         if(boardData) setResetData(boardData);
     },[])
 
@@ -72,6 +81,15 @@ const RiderBoardWrite = () => {
     const onClickMapBtn = () => {
         setHiddenMap(!hiddenMap);
     }
+    const insertLocation = (data) => {
+        setBoardData({
+            ...boardData,boardLocation:data
+        })
+    }
+    const checkLocationData = () => {
+        if(boardData.boardLocation==="") return "🔎 장소 검색";
+        else return boardData.boardLocation;
+    }
 
     // 🕹️ 등록 버튼 클릭 반응
     const onClickOkayBtn = () => {
@@ -87,7 +105,11 @@ const RiderBoardWrite = () => {
                 if(response.status===401){
                     alert("🚨 로그인 정보가 만료되었습니다. \n - 로그인 페이지로 이동합니다. -");
                     navigate("/RA/Login");
+                } else if(response.status===200){
+                    alert("✅ 게시글이 등록되었습니다.");
+                    navigate("/RA/Board");
                 }
+
             })
         };
     }
@@ -155,8 +177,6 @@ const RiderBoardWrite = () => {
         }
     }
 
-
-
     // 🕹️ 취소 버튼 클릭 반응
     const onClickCancelBtn = () => {
         navigate('/CR/Board');
@@ -164,7 +184,7 @@ const RiderBoardWrite = () => {
 
     return (
         <main>
-            <NaverMap hidden={hiddenMap} mapHiddenControl={onClickMapBtn}/>
+            <NaverMap hidden={hiddenMap} mapHiddenControl={onClickMapBtn} insertLocation={insertLocation} setHiddenMap={setHiddenMap}/>
             <DefaultHeader/>
             <section className='RiderBoardWrite'>
                 <div className='RiderBoardWriteTop'>
@@ -208,7 +228,7 @@ const RiderBoardWrite = () => {
                             <div className='EventLocation'>
                                 <h2>사건 장소 : </h2>
                                 <input id='EventMap' type='button' onClick={onClickMapBtn} hidden/>
-                                <label className='EventMapBtn' htmlFor='EventMap'><h2>🔎 서울시 관악구 신림동</h2></label>
+                                <label className='EventMapBtn' htmlFor='EventMap'><h2>{checkLocationData()}</h2></label>
                             </div>
                             <div className='EventDate'>
                                 <h2>사건 날짜 : </h2>
@@ -231,7 +251,7 @@ const RiderBoardWrite = () => {
                             <div className='DrivingLocation'>
                                 <h2>번개 장소 : </h2>
                                 <input id='DrivingMap' type='button' onClick={onClickMapBtn} hidden/>
-                                <label className='DrivingMapBtn' htmlFor='DrivingMap'><h2>🔎 서울시 관악구 신림동</h2></label>
+                                <label className='DrivingMapBtn' htmlFor='DrivingMap'><h2>{checkLocationData()}</h2></label>
                             </div>
                             <div className='DrivingDate'>
                                 <h2>번개 날짜 : </h2>
@@ -254,7 +274,7 @@ const RiderBoardWrite = () => {
                             <div className='MechanicTypeLocation' style={hiddenMechanicMap?{display:'none'}:{display:'flex'}}>
                                 <h2>센터 장소 : </h2>
                                 <input id='MechanicMap' type='button' onClick={onClickMapBtn} hidden/>
-                                <label className='MechanicMapBtn' htmlFor='MechanicMap'><h2>🔎 서울시 관악구 신림동</h2></label>
+                                <label className='MechanicMapBtn' htmlFor='MechanicMap'><h2>{checkLocationData()}</h2></label>
                             </div>
                             <label className='CommentControlBtn' htmlFor='CommitControlBtn'><h2>댓글 제한</h2></label>
                         </div> 

@@ -3,7 +3,7 @@ import "../css/naverMap.css"
 import ResultBoxTarget from './navermap/ResultBoxTarget';
 import ResultBoxAddress from './navermap/ResultBoxAddress';
 
-const NaverMap = ({hidden, mapHiddenControl}) => {
+const NaverMap = ({hidden, setHiddenMap, mapHiddenControl, insertLocation}) => {
 
   // ✏️ 기본값 정리
   const {naver} = window;
@@ -20,11 +20,9 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
   const [resultDisplayed, setResultDisplayed] = useState(false); // ✏️ 검색 결과창 활성화
   const [resultHidden, setResultHidden] = useState(true); // ✏️ 검색 결과창 숨김
   const resultDisplayControl = (control) => {
-    setResultDisplayed(control);
-  }
+        setResultDisplayed(control);}
   const toggleResultHidden = () => {
-    setResultHidden(!resultHidden);
-  }
+        setResultHidden(!resultHidden);}
   useEffect(()=>{
     resultDisplayControl(resultList.length>0)
     setResultHidden(false);
@@ -179,7 +177,6 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
           }
         } else {
           setResultList(data.items.map((resultData)=>{
-
             function changeData(data,number){
               let result = data.split('');
                   result.splice(number,0,'.');
@@ -203,6 +200,15 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
     } else alert("🚨 검색 내용이 비어 있습니다.");
   }
 
+  // 🕹️ 등록 버튼 클릭 시 반응
+  const onClickInsertBtn = () => {
+    console.log("🕹️ 등록 버튼 클릭");
+    if(address){
+      insertLocation(address);
+      setHiddenMap(true);
+    } else alert("🚨 입력된 주소가 없습니다.")
+  }
+
   return <div className='NaverMap' style={hidden?{display:"none"}:{display:"flex"}}>
             <div className='BlockBox' onClick={mapHiddenControl}></div>
             <div className='MapBox'>
@@ -218,7 +224,7 @@ const NaverMap = ({hidden, mapHiddenControl}) => {
                       <div className='addressLine'>
                         <h2>주소 :</h2>
                         <h2 className='addressText'>{address?address:"선택된 주소가 없습니다."}</h2>
-                        <input id='insertBtn' type='button' hidden/>
+                        <input id='insertBtn' type='button' onClick={onClickInsertBtn} hidden/>
                         <label htmlFor='insertBtn'><h2>등록</h2></label>
                       </div>
                     </div>
