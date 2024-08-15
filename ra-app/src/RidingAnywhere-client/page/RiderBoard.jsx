@@ -122,7 +122,7 @@ const RiderBoard = () => {
                         <h2 className='boardCount'>조회수</h2>
                     </div>
                     <div className='boardListBody'>
-
+                        
                     </div>
                 </div>
 

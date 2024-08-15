@@ -1,12 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const CrewBoardBox = (props) => {
+const CrewBoardBox = ({userId, boardData}) => {
     
-    const navigate = useNavigate();
 
-    let userId = props.userId;
-    let boardData = props.boardData;
+    const navigate = useNavigate();
     let boardType = "";
     let writerLevel = "";
 
