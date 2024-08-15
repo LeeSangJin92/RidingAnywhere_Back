@@ -1,27 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import '../css/RiderBoard.css';
+import RiderBoardBox from '../component/riderboard/RiderBoardBox'
 import { useNavigate } from 'react-router-dom';
 
 const RiderBoard = () => {
     // 네비 사용
     const navigate = useNavigate();
 
-    // 토큰 체크
-    const [accessToken] = useState(!sessionStorage.getItem('accessToken'));
-
     // 화면 컨트롤
     const [viewBlock,setViewBlock] = useState(true);
 
     // 접속한 유저 정보
-    const [riderInfo, setriderInfo] = useState({
-        userId : 0,
-        userCrewId : 0,
-     });
+    const [userId, setUserId] = useState(0);
+
+     const loadRiderInfo = async () => {
+        console.log("🛜 라이더 정보 요청");
+        if(sessionStorage.getItem('accessToken'))
+        await fetch("/RA/CheckRider",
+            {headers:{
+            "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
+            "Content-Type": "application/json;charset=utf-8"}})
+            .then(response=>{
+                if(response.status===200){
+                    console.log("✅ 라이더 정보 요청");
+                    return response.json();
+                } else {
+                    console.log("🚨 로그인 데이터 오류");
+                    alert("🚨 로그인 정보 오류 발생");
+                    return null;}
+            }).then(data => {
+                if(data){
+                    console.log("✅ 접속중인 라이더");
+                    setUserId(data.userData.userId);
+                };
+            });
+        else console.log("⚠️ 비접속 라이더");
+     }
 
      // 게시글 목록
     const [riderBoardList,setRiderBoardList] = useState([]);
+
+    // 게시글 리스트 서버 요청
+    const loadRiderBoard = async () => {
+        console.log("🛜 서버로 게시글 요청");
+        await fetch("/RA/LoadRiderBoard",{})
+        .then(response=>{
+            if(response.status === 200) {
+                console.log("✅ 응답 완료");
+                return response.json();
+            } else return null;
+        }).then(data =>{
+            if(data){
+                console.log("✅ 게시글 정보 저장");
+                setRiderBoardList(data);
+            }
+        }).then(()=>{
+            setViewBlock(false);
+            loadRiderInfo();
+        })
+    }
     
     // 필터 리스트
     const [filterList, setFilterList] = useState({
@@ -77,6 +116,10 @@ const RiderBoard = () => {
         navigate("/RA/Board/Write");
     }
 
+    useEffect(()=>{
+        loadRiderBoard();
+    },[])
+
 
     return (
         <main>
@@ -122,7 +165,7 @@ const RiderBoard = () => {
                         <h2 className='boardCount'>조회수</h2>
                     </div>
                     <div className='boardListBody'>
-                        
+                        {riderBoardList.map((boardData,index)=><RiderBoardBox key={index} userId={userId.userId} boardData={boardData}/>)}
                     </div>
                 </div>
 

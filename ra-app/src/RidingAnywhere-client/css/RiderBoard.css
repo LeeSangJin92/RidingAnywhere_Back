@@ -117,12 +117,23 @@
 
     .boardList{
         display: flex;
+        flex-direction: column;
         width: 80%;
         height: 420px;
         margin-top: 20px;
         box-sizing: border-box;
         border: 2px solid gold;
+        overflow: hidden;
         border-radius: 20px;
+
+        /* 텍스트 배치 */
+        h2{
+            display: flex;
+            height: 100%;
+            margin:0;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* 라이더 보드 각 칼럼 사이즈 */
         .boardNo{
@@ -152,14 +163,34 @@
             align-items: center;
             justify-content: space-around;
             gap: 10px;
+            box-sizing: border-box;
             border-bottom: 2px solid gold;
-            h2{
-                display: flex;
-                height: 100%;
-                margin:0;
-                justify-content: center;
-                align-items: center;
+        }
+        .boardListBody{
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 5px;
+            box-sizing: border-box;
+            background-color: rgb(17, 17, 17);
+            div{
+                width: 100%;
+                .RiderBoardBox{
+                    height: 40px;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    cursor: pointer;
+                }
+                .RiderBoardBox:hover{
+                    background-color: black;
+                }
             }
+            overflow-y: scroll;
+            scrollbar-width: none;
+            
         }
 
 

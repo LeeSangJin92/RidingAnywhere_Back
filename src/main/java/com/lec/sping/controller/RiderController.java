@@ -6,9 +6,11 @@ import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.BoardService;
 import com.lec.sping.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/RA")
@@ -27,7 +29,15 @@ public class RiderController {
         User writeUser = userService.findByUserEmail(tokenProvider.parseClaims(token).getSubject());
         boardData.setUser(writeUser);
         boardService.writeBoard(boardData);
-
         return ResponseEntity.ok(null);
+    }
+
+    @CrossOrigin
+    @GetMapping("/LoadRiderBoard")
+    public ResponseEntity<?> loadCrewBoard(){
+        System.out.println("🛜 라이더 게시글 로드 요청");
+        List<RiderBoard> boardList = boardService.loadAllList();
+        System.out.println("✅ 라이더 게시글 로드 완료");
+        return new ResponseEntity<>(boardList,HttpStatus.OK);
     }
 }

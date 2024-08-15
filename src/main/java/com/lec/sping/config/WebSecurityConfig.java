@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/Map/api/address").permitAll()
                 .requestMatchers("/RA/CheckRider").authenticated()
                 .requestMatchers("/CR/CrewAllData").permitAll()
+                .requestMatchers("/RA/LoadRiderBoard").permitAll()
                 .requestMatchers("/RA/MyPage").authenticated()
                 .requestMatchers("/RA/UpdateUser").authenticated()
                 .requestMatchers("/RA/UpdataImage").authenticated()

@@ -28,12 +28,12 @@ const RiderBoardBox = ({userId, boardData}) => {
         default:
     }
     return (
-        <div className='RiderBoardBox'>
-            <label htmlFor={boardData.boardId} className='CrewBoardBoxLabel'>
+        <div>
+            <label htmlFor={boardData.boardId} className='RiderBoardBox'>
                 <h2 className='boardNo'>{boardData.boardId}</h2>
-                <h2 className='boardType' id={boardData.writer.authorityId.authorityName}>{boardType}</h2>
+                <h2 className='boardType' id={boardData.boardType}>{boardType}</h2>
                 <h2 className='boardTitle'>{boardData.boardTitle}{boardData.emergencyNote?<span id='emergency'>🚨!</span>:""}</h2>
-                <h2 className='boardWriter' id={boardData.writer.userId===userId?"MyBoard":""}>{boardData.writer.userNickname}</h2>
+                <h2 className='boardWriter' id={boardData.user.userId===userId?"MyBoard":""}>{boardData.user.userNickname}</h2>
                 <h2 className='boardCount'>{boardData.boardCnt}</h2>
             </label>
             <input id={boardData.boardId} onClick={onClickBox} hidden/>
