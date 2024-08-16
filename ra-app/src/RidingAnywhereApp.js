@@ -13,6 +13,7 @@ import CrewBoardDetail from "./RidingAnywhere-client/page/CrewBoardDetail";
 import "../src/RidingAnywhere-client/css/Default.css"
 import RiderBoard from "./RidingAnywhere-client/page/RiderBoard";
 import RiderBoardWrite from "./RidingAnywhere-client/page/RiderBoardWrite";
+import RiderBoardDetail from "./RidingAnywhere-client/page/RiderBoardDetail";
 
 const RidingAnywhereApp = () => {
   document.title = "Riding AnyWhere";
@@ -31,7 +32,7 @@ const RidingAnywhereApp = () => {
 
               <Route path="/RA/Board" element={<RiderBoard/>}></Route>
               <Route path="/RA/Board/Write" element={<RiderBoardWrite/>}></Route>
-
+              <Route path="/RA/Board/Detail/:boardId" element={<RiderBoardDetail/>}></Route>
               <Route path="/CR/Manager" element={<CrewManager/>}></Route>
               <Route path="/CR/Join" element={<CrewJoinBoard/>}></Route>
               <Route path="/CR/Board" element={<CrewBoard/>}></Route>
