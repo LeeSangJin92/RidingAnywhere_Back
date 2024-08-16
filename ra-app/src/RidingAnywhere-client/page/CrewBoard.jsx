@@ -206,7 +206,7 @@ const CrewBoard = () => {
                                         break;
                                     default :
                                 }
-                                if(checkRegExp)return <CrewBoardBox key={index} boardData={boardData} userId={riderInfo.userId}/>;
+                                if(checkRegExp) return <CrewBoardBox key={index} boardData={boardData} userId={riderInfo.userId}/>;
                                 else return null;
                             }
                             else return null;

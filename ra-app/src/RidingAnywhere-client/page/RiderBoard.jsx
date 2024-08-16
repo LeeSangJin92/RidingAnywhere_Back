@@ -64,10 +64,10 @@ const RiderBoard = () => {
     
     // 필터 리스트
     const [filterList, setFilterList] = useState({
-        Note:true,
-        Tour:true,
         Free:true,
-        Greetings:true,
+        Event:true,
+        Driving:true,
+        Mechanic:true,
         SearchText:new RegExp(''),
         SearchType:'all'
     });
@@ -143,11 +143,11 @@ const RiderBoard = () => {
                             <h1>필터</h1>
                             <input type='checkbox' id='Free' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Free' className='filterCheckBox'><span>자유글</span></label>
-                            <input type='checkbox' id='Event' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <input type='checkbox' id='Event' className='filterInput' checked={filterList.Event} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Event' className='filterCheckBox'><span>사건글</span></label>
-                            <input type='checkbox' id='Driving' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <input type='checkbox' id='Driving' className='filterInput' checked={filterList.Driving} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Driving' className='filterCheckBox'><span>번개글</span></label>
-                            <input type='checkbox' id='Mechanic' className='filterInput' checked={filterList.Free} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
+                            <input type='checkbox' id='Mechanic' className='filterInput' checked={filterList.Mechanic} onClick={onClickFilterBtn} disabled={viewBlock} hidden/>
                             <label htmlFor='Mechanic' className='filterCheckBox'><span>정비글</span></label>
                         </div>
                     </div>
@@ -165,12 +165,27 @@ const RiderBoard = () => {
                         <h2 className='boardCount'>조회수</h2>
                     </div>
                     <div className='boardListBody'>
-                        {riderBoardList.map((boardData,index)=><RiderBoardBox key={index} userId={userId.userId} boardData={boardData}/>)}
-                    </div>
+                        {riderBoardList.map((boardData,index)=>{
+                            if(filterList[boardData.boardType]){
+                                let checkRegExp = false;
+                                switch(filterList.SearchType){
+                                    case "all":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardTitle)||filterList.SearchText.test(boardData.boardContext));
+                                        break;
+                                    case "title":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardTitle))
+                                         break;
+                                    case "context":
+                                        checkRegExp = (filterList.SearchText.test(boardData.boardContext))
+                                        break;
+                                    default :
+                                }
+                                if(checkRegExp) return <RiderBoardBox key={index} userId={userId.userId} boardData={boardData}/>
+                            } else return null;
+                        })
+                    }
                 </div>
-
-
-
+            </div>
             </section>
             <DefaultFooter/>
         </main>
