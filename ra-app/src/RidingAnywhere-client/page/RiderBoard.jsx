@@ -13,7 +13,7 @@ const RiderBoard = () => {
     const [viewBlock,setViewBlock] = useState(true);
 
     // 접속한 유저 정보
-    const [userId, setUserId] = useState(0);
+    const [userId, setUserId] = useState(null);
 
      const loadRiderInfo = async () => {
         console.log("🛜 라이더 정보 요청");
@@ -40,7 +40,7 @@ const RiderBoard = () => {
      }
 
      // 게시글 목록
-    const [riderBoardList,setRiderBoardList] = useState([]);
+    const [riderBoardList,setRiderBoardList] = useState([])
 
     // 게시글 리스트 서버 요청
     const loadRiderBoard = async () => {
@@ -180,7 +180,7 @@ const RiderBoard = () => {
                                         break;
                                     default :
                                 }
-                                if(checkRegExp) return <RiderBoardBox key={index} userId={userId.userId} boardData={boardData}/>
+                                if(checkRegExp) return <RiderBoardBox key={index} userId={userId} boardData={boardData}/>
                             } else return null;
                         })
                     }

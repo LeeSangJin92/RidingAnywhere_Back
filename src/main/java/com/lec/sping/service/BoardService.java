@@ -30,4 +30,9 @@ public class BoardService {
         System.out.println("✅ 라이더 게시글 로드 완료");
         return resultList;
     }
+
+    public RiderBoard getLoadgin(Long boardId) {
+        System.out.println(boardId);
+        return riderBoardRepository.findById(boardId).orElseThrow(()-> new NullPointerException("⚠️ 찾으려는 게시글이 없습니다."));
+    }
 }

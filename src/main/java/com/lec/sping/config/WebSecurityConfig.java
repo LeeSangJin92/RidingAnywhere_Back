@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/RA/UpdataImage").authenticated()
                 .requestMatchers("/RA/SelectBike").authenticated()
                 .requestMatchers("/RA/DeleteBike").authenticated()
+                .requestMatchers("/RA/BoardDetail/Board").permitAll()
                 .requestMatchers("/CR/Create").authenticated()
                 .requestMatchers("/CR/LoadCrewData").authenticated()
                 .requestMatchers("CR/ChangeAddress").authenticated()

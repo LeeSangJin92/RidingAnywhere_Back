@@ -40,4 +40,13 @@ public class RiderController {
         System.out.println("✅ 라이더 게시글 로드 완료");
         return new ResponseEntity<>(boardList,HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @GetMapping("/BoardDetail/Board")
+    public ResponseEntity<?> loadBoardDetail(@RequestParam Long boardId){
+        System.out.println(boardId + "데이터 디테일 요청");
+        RiderBoard resultData = boardService.getLoadgin(boardId);
+        System.out.println(resultData);
+        return new ResponseEntity<>(resultData,HttpStatus.OK);
+    }
 }
