@@ -103,8 +103,8 @@ const HomePage = () => {
                                 <div className='MiniCrewBoardBlock' style={showCrewBoard?{display:"none"}:{display:"flex"}}>
                                     <h1>데이터 준비중...</h1>
                                 </div>
-                                {crowBoardList.map(boardData=>{
-                                    return <MiniCrewBoardBox boardTitle={boardData.boardTitle} boardType={boardData.boardType} boardId={boardData.boardId}/>
+                                {crowBoardList.map((boardData,index)=>{
+                                    return <MiniCrewBoardBox key={index} boardTitle={boardData.boardTitle} boardType={boardData.boardType} boardId={boardData.boardId}/>
                                 })}
                             </div>
                         </div>

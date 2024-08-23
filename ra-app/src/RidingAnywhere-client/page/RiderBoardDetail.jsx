@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import DefaultHeader from '../component/DefaultHeader_main';
 import DefaultFooter from '../component/DefaultFooter';
 import "../css/RiderBoardDetail.css";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import RiderBoardCommentBox from '../component/riderboard/RiderBoardCommentBox';
 
 const RiderBoardDetail = () => {
     const {boardId} = useParams();
+    const navigate = useNavigate();
 
     // ✏️ 게시글 데이터
     const [boardData, setBoardData] = useState({
+        boardId:0,                  // 게시글 Id
         boardTitle : "테스트 제목라인",            // 게시글 제목
         boardType:"🆓 자유글",      // 게시글 타입
         boardContext:"",            // 게시글 내용
@@ -30,9 +32,16 @@ const RiderBoardDetail = () => {
     // ✏️ 댓글 작성 데이터
     const [commentData,setCommentData] = useState({
         board_id:0,         // 게시글 ID
-        comment_id:0,       // 상위 댓글 ID
         comment_context:''  // 댓글 내용
     });
+
+    // ✏️ 대댓글 작성 데이터
+    const [replyData, setReplyData] = useState({
+        board_id:0,           // 게시글 ID
+        comment_context:"",      // 대댓글 내용
+        comment_id:0          // 상위 댓글 ID
+    })
+
 
     // ✏️ 댓글 데이터 입력
     const onChangeContext = (props) => {
@@ -54,7 +63,7 @@ const RiderBoardDetail = () => {
     const upLoadComment = async (upLoadData) => {
         console.log(upLoadData);
         console.log("✏️ 댓글 등록 요청");
-        await fetch("/CR/BoardDetail/Comment",{
+        await fetch("/RA/BoardDetail/Comment",{
             method:'POST',
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -69,6 +78,10 @@ const RiderBoardDetail = () => {
             } else response.status!==200&&alert("❌ 등록을 실패 했습니다..");
         })
     }
+
+    // 🕹️ 댓글 화면 컨트롤러
+    const [blockComment,setBlockComment] = useState(true);
+    const [emptyComment,setEmptyComment] = useState(false);
 
 
 
@@ -86,10 +99,12 @@ const RiderBoardDetail = () => {
             }
         }).then(data=>{
             if(data){
+                console.log(data)
                 console.log("✅ 서버 게시글 데이터 호출")
                 let boardDate = format(new Date(data.boardDate), "yyyy년 MM월 dd일") // 날짜 포맷 적용
 
                 setBoardData({
+                    boardId : data.boardId,                // 게시글 Id
                     boardTitle : data.boardTitle,           // 게시글 제목
                     boardType: typeName(data.boardType),    // 게시글 타입
                     boardContext: data.boardContext,        // 게시글 내용
@@ -118,20 +133,23 @@ const RiderBoardDetail = () => {
                 }
             }
 
-        }).then(loadBoardCommentList).then(loadRiderInfo);
+        }).then(loadRiderInfo).then(loadBoardCommentList);
     }
 
     // 🛜 게시글 댓글 불러오기
     const loadBoardCommentList = async () => {
         console.log("🛜 게시글 댓글 요청");
-        await fetch(`/RA/BoardDetail/Comment?Board=${boardId}`,{})
+        await fetch(`/RA/BoardDetail/Comment?board=${boardId}`,{})
         .then(response=>{
             if(response.status===200) return response.json();
             else console.log("🚨 게시글 댓글 요청");
         }).then(data=>{
             if(data){
-                 console.log("✅ 게시글 댓글 요청")
+                console.log("✅ 게시글 댓글 요청");
+                console.log(data);
                 setCommentList(data);
+                setBlockComment(false);
+                setEmptyComment(false);
             }
         })
     }
@@ -149,7 +167,8 @@ const RiderBoardDetail = () => {
                     return response.json();
                 } else {
                     console.log("🚨 로그인 데이터 오류");
-                    alert("🚨 로그인 정보 오류 발생");
+                    alert("🚨 로그인 정보 오류 발생\n로그인 페이지로 이동합니다.");
+                    navigate("/RA/Login");
                     return null;}
             }).then(data => {
                 if(data){
@@ -195,7 +214,7 @@ const RiderBoardDetail = () => {
                             <div>
                                 <div className='RightTopBox'>
                                     <h2>{boardData.boardDate}</h2>
-                                    <div className='boardControl' style={riderId===boardData.userId?{display:"flex"}:{display:"none"}}>
+                                    <div className='boardControl' style={riderId===boardData.boardWriter.userId?{display:"flex"}:{display:"none"}}>
                                         <input type='button' id='boardChangeBtn' onClick={onClickChangeBtn}/>
                                         <input type='button' id='boardDeleteBtn' onClick={onClickDeleteBtn}/>
                                     </div>
@@ -217,17 +236,17 @@ const RiderBoardDetail = () => {
                 {/* 댓글 영역 */}
                     <div className='PageCommentLine'>
                         <div className='commentList'> {/* 댓글 목록 */}
-                            <div className='loadingBlock'>
+                            <div className='loadingBlock' style={blockComment?{display:"flex"}:{display:"none"}}>
                                 <h1>🔎 댓글을 불러오는 중입니다.</h1>
                                 <h1>- 잠시만 기달려 주세요 -</h1>
                             </div>
-                            <div className='commentEmptyNote'>
+                            <div className='commentEmptyNote' style={emptyComment?{display:'flex'}:{display:'none'}}>
                                 <h1>⚠️ 등록된 댓글이 없습니다.</h1>
                             </div>
-                            <div className='commentListLine'>
+                            <div className='commentListLine' style={!emptyComment?{display:'flex'}:{display:'none'}}>
                                 {commentList.map((commentData,index) => {
                                 if(!commentData.commentReply) 
-                                    return <RiderBoardCommentBox key={index} commentData={commentData} replyList={commentList.filter(
+                                    return <RiderBoardCommentBox key={index} loadBoardCommentList={loadBoardCommentList} commentData={commentData} replyList={commentList.filter(
                                         comment=>comment.commentReply&&comment.commentReply.commentId===commentData.commentId)} 
                                         userId={riderId} boardId={boardId} onClickDeleteBtn={onClickDeleteBtn}/>;
                                 else return null;

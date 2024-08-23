@@ -2,6 +2,8 @@ package com.lec.sping.controller;
 
 import com.lec.sping.domain.User;
 import com.lec.sping.domain.riderboard.RiderBoard;
+import com.lec.sping.domain.riderboard.RiderBoardComment;
+import com.lec.sping.dto.RiderBoardCommentDto;
 import com.lec.sping.jwt.TokenProvider;
 import com.lec.sping.service.BoardService;
 import com.lec.sping.service.UserService;
@@ -48,5 +50,37 @@ public class RiderController {
         RiderBoard resultData = boardService.getLoadgin(boardId);
         System.out.println(resultData);
         return new ResponseEntity<>(resultData,HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/BoardDetail/Comment")
+    public ResponseEntity<?> createBoardComment(@RequestHeader("Authorization") String authTokenHeader, @RequestBody RiderBoardCommentDto commentData){
+        System.out.println("🕹️ 댓글 작성 요청");
+        String token = authTokenHeader.substring(7);
+        commentData.setWriter_email(tokenProvider.parseClaims(token).getSubject());
+        System.out.println(commentData);
+        boardService.createComment(commentData);
+        System.out.println("✅ 댓글 작성 완료");
+     return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/BoardDetail/Comment")
+    public ResponseEntity<?> loadBoardComment(@RequestParam Long board){
+        System.out.println("🛜 모든 댓글 조회 요청");
+        List<RiderBoardComment> resultList = boardService.findAllComment(board);
+        System.out.println("✅ 모든 댓글 조회 완료");
+        return new ResponseEntity<>(resultList,HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/BoardDetail/CommentReply")
+    public ResponseEntity<?> createReply(@RequestHeader("Authorization") String authTokenHeader,@RequestParam Long commentId, @RequestParam Long boardId, @RequestBody String replyContext){
+        System.out.println("✏️ 대댓글 작성 요청");
+        String token = authTokenHeader.substring(7);
+        String userEmail = tokenProvider.parseClaims(token).getSubject();
+        boardService.createReply(userEmail, commentId, boardId, replyContext);
+        System.out.println("✅ 대댓글 작성 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

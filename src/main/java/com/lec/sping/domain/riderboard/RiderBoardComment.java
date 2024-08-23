@@ -33,4 +33,9 @@ public class RiderBoardComment {
     @ManyToOne
     @JoinColumn(name = "commentReply")
     private RiderBoardComment commentReply;          // 상위 댓글
+
+    @PrePersist
+    public void setDefault(){
+        commentRegdate =LocalDateTime.now();    // 댓글 작성 날짜 적용
+    }
 }
