@@ -46,12 +46,14 @@ const RiderBoardReplyBox = (props) => {
             <div>
                 <div className='TopLine'>
                     <h2 className='commentNickName'>{replyData.user.userNickname}</h2>
-                    <div className='commentDateLine'> 
-                        <h2 className='commentRegDate'>{format(new Date(replyData.commentRegdate), "yyyy년 MM월 dd일")}</h2>
-                    </div>
-                    <div className='commentBtnLine'>
-                        <input className='commentChangeBtn' type='button' hidden={showOption} onClick={onClickChangeBtn}/>
-                        <input id='Comment' className='commentDeleteBtn' type='button' hidden={showOption} onClick={props.onClickDeleteBtn} value={replyData.commentId}/>
+                    <div className='TopRight'>
+                        <div className='commentDateLine'> 
+                            <h2 className='commentRegDate'>{format(new Date(replyData.commentRegdate), "yyyy년 MM월 dd일")}</h2>
+                        </div>
+                        <div className='commentBtnLine'>
+                            <input className='commentChangeBtn' type='button' hidden={showOption} onClick={onClickChangeBtn}/>
+                            <input id='Comment' className='commentDeleteBtn' type='button' hidden={showOption} onClick={props.onClickDeleteBtn} value={replyData.commentId}/>
+                        </div>
                     </div>
                 </div>
                 <div className='BottomLine'>
