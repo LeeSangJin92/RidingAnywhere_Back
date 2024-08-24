@@ -65,7 +65,7 @@ public class RiderController {
     }
 
     @CrossOrigin
-    @GetMapping("/BoardDetail/Comment")
+    @GetMapping("/BoardDetail/CommentList")
     public ResponseEntity<?> loadBoardComment(@RequestParam Long board){
         System.out.println("🛜 모든 댓글 조회 요청");
         List<RiderBoardComment> resultList = boardService.findAllComment(board);

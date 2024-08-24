@@ -75,14 +75,14 @@ const RiderBoardDetail = () => {
                 alert("✅ 등록이 완료 되었습니다..");
                 setCommentData({...commentData, comment_context:''});
                 loadBoardCommentList();
-            } else response.status!==200&&alert("❌ 등록을 실패 했습니다..");
+            } else {
+                response.status!==200&&alert("❌ 등록을 실패 했습니다..");}
         })
     }
 
     // 🕹️ 댓글 화면 컨트롤러
     const [blockComment,setBlockComment] = useState(true);
     const [emptyComment,setEmptyComment] = useState(false);
-
 
 
     // 🔎 로그인 유저의 Id
@@ -139,7 +139,7 @@ const RiderBoardDetail = () => {
     // 🛜 게시글 댓글 불러오기
     const loadBoardCommentList = async () => {
         console.log("🛜 게시글 댓글 요청");
-        await fetch(`/RA/BoardDetail/Comment?board=${boardId}`,{})
+        await fetch(`/RA/BoardDetail/CommentList?board=${boardId}`,{})
         .then(response=>{
             if(response.status===200) return response.json();
             else console.log("🚨 게시글 댓글 요청");
@@ -166,6 +166,7 @@ const RiderBoardDetail = () => {
                     console.log("✅ 라이더 정보 요청");
                     return response.json();
                 } else {
+                    console.log(response.status)
                     console.log("🚨 로그인 데이터 오류");
                     alert("🚨 로그인 정보 오류 발생\n로그인 페이지로 이동합니다.");
                     navigate("/RA/Login");
@@ -185,16 +186,19 @@ const RiderBoardDetail = () => {
         loadBoardData();
     },[])
 
+    // 🛠️ 브라우저 관련 변수
+    const [changeMode, setChangeMode] = useState(false);
+
     // 🕹️ 수정 버튼 클릭 반응
     const onClickChangeBtn = ({target}) => {
         console.log("🛠️ 게시글 수정 모드");
+        setChangeMode(!changeMode);
     }
 
     // 🕹️ 삭제 버튼 클릭 반응
     const onClickDeleteBtn = ({target}) => {
         console.log("🕹️ 게시글 삭제 클릭");
     }
-
 
     return (
         <main>
