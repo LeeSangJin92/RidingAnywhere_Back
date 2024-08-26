@@ -6,6 +6,7 @@ import OkBtnBox from '../component/OkBtnBox';
 import DefaultHeader from '../component/DefaultHeader_main';
 import { useNavigate } from 'react-router-dom';
 import MiniCrewBoardBox from '../component/homepage/MiniCrewBoardBox';
+import MiniRiderBoardBox from '../component/homepage/MiniRiderBoardBox';
 
 const HomePage = () => {
 
@@ -47,25 +48,27 @@ const HomePage = () => {
                     loadCrewBoard();
                 }
             })
-
         } else console.log("⛔접속자에게 엑세스 없음")
+        loadRiderBoard();
     }
 
     useEffect(()=>{
         checkData();
     },[])
     
-    // 게시판 영역 관련 코드
+    // ✏️ 게시판 영역 관련 코드
     const [joinCrew, setJoinCrew] = useState(false);
     const [showCrewBoard, setShowCrewBoard] = useState(false);
+    const [showRiderBoard, setShowRiderBoard] = useState(false);
+    const [riderBoardList, setRiderBoardList] = useState([])
     const [crowBoardList, setCrewBoardList] = useState([{
         boardType:"",
         boardTitle:""
     }]);
 
-    // 게시판 호출
+    // 🛜 크루 게시글 호출
     const loadCrewBoard = async() => {
-        console.log("🛜 크루 게시판 호출중...");
+        console.log("🛜 크루 게시글 호출중...");
         await fetch("/CR/LoadCrewBoard",{
             headers:{
                 "Authorization": `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -81,6 +84,24 @@ const HomePage = () => {
             })
     }
 
+    // 🛜 라이더 게시글 호출
+    const loadRiderBoard = async() => {
+        console.log("🛜 라이더 게시글 호출중...");
+        await fetch("/RA/LoadRiderBoard",{
+            headers:{"Content-Type": "application/json;charset=utf-8"}
+        }).then(response=>{
+            if(response.status===200) return response.json();
+            else {
+                alert("🚨 라이더 게시글 호출 실패");
+            }
+        }).then(data=>{
+            console.log("✅ 라이더 게시글 호출 완료");
+            setShowRiderBoard(true);
+            setRiderBoardList(data);
+            console.log(data);
+        })
+    }
+
     return (
         <main>
             <DefaultHeader/>
@@ -92,7 +113,7 @@ const HomePage = () => {
                             <h1>가입된 크루가 없습니다.</h1>
                         </div>
                         
-                        {/* ✏️ 크루 게시판글 목록 */}
+                        {/* ✏️ 크루 게시글 목록 */}
                         <div className='MiniCrewBoardArea' style={joinCrew?{display:'flex'}:{display:'none'}}>
                             <h1 className='TitleName'>크루 게시글</h1>
                             <div className='ListHeader'>
@@ -109,8 +130,23 @@ const HomePage = () => {
                             </div>
                         </div>
                     </div>
+                    {/* ✏️ 라이더 게시글 목록 */}
                     <div className='RiderHome'>
-                        오픈 게시판 영역
+                        <div>
+                            <h1 className='TitleName'>라이더 게시글</h1>
+                            <div className='ListHeader'>
+                                <h2 className='boardType'>말머리</h2>
+                                <h2 className='boardTitle'>제목</h2>
+                            </div>
+                            <div className='ListLine'>
+                                <div className='MiniRiderBoardBlock' style={showRiderBoard?{display:"none"}:{display:"flex"}}>
+                                    <h1>데이터 준비중...</h1>
+                                </div>
+                                {riderBoardList.map((riderBoardData,index)=>{
+                                    return <MiniRiderBoardBox key={index} riderBoardData={riderBoardData}/>
+                                })}
+                            </div>
+                        </div>
                     </div>
             </section>
             

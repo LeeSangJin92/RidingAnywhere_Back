@@ -10,10 +10,7 @@
         align-items: center;
         box-sizing: border-box;
     }
-    .RiderHome{
-        width: 620px;
-    }
-    .CrewHome{
+    .CrewHome, .RiderHome{
         width: 620px;
         display: flex;
         flex-direction: column;
@@ -21,9 +18,7 @@
         background-color: black;
         justify-content: center;
         align-items: center;
-        gap: 25px;
-
-        .MiniCrewBoardArea{
+        .MiniCrewBoardArea, >div{
             display: flex;
             flex-direction: column;
             height: 95%;
@@ -32,52 +27,72 @@
             align-items: center;
             border: 4px solid gold;
             border-radius: 20px;
-            .TitleName{
+        }
+        .TitleName{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 2px solid gold;
+        }
+        .ListHeader{
+            height: 10%;
+        }
+        .ListHeader{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+            .boardType{
+                width: 30%;
+            }
+            .boardTitle{
+                width: 70%;
+            }
+        }
+        .ListLine{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 70%;
+            box-sizing: border-box;
+            border-top: 2px solid gold;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            .MiniCrewBoardBox, .MiniRiderBoardBox{
+                display: flex;
+                align-items: center;
+                height: 50px;
+                padding-left: 30px;
+                gap: 20px;
+                box-sizing: border-box;
+                border-bottom: 1px dashed gray;
+            }
+            .MiniCrewBoardBox:hover, .MiniRiderBoardBox:hover{
+                cursor: pointer;
+                background-color: gray;
+            }
+            .MiniCrewBoardBlock{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100px;
                 width: 100%;
-                box-sizing: border-box;
-                border-bottom: 2px solid gold;
+                height: 85%;
             }
-            .ListHeader{
-                height: 10%;
-            }
-            .ListHeader, .MiniCrewBoardBox{
+            h2{
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                width: 100%;
-                gap: 10px;
-                .boardType{
-                    width: 30%;
-                }
-                .boardTitle{
-                    width: 70%;
-                }
+                justify-content: center;
+                height: 100%;
             }
-            .ListLine{
-                width: 100%;
-                height: 70%;
-                box-sizing: border-box;
-                border-top: 2px solid gold;
-                overflow-y: scroll;
-                scrollbar-width: none;
-                .MiniCrewBoardBox{
-                    border-bottom: 1px dashed gray;
-                }
-                .MiniCrewBoardBox:hover{
-                    color: gold;
-                    cursor: pointer;
-                }
-                .MiniCrewBoardBlock{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    height: 85%;
-                }
+            .boardType{
+                width: 120px;
+            }
+            .boardTitle{
+                flex-grow: 1;
             }
         }
     }

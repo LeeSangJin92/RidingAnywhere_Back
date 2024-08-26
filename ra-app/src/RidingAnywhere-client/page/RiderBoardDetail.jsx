@@ -63,6 +63,10 @@ const RiderBoardDetail = () => {
     const upLoadComment = async (upLoadData) => {
         console.log(upLoadData);
         console.log("✏️ 댓글 등록 요청");
+        if(!sessionStorage.getItem('accessToken')) {
+            alert("🚨 로그인이 필요한 기능입니다. \n - 로그인 페이지로 이동합니다 -");
+            navigate("/RA/Login");
+        } else
         await fetch("/RA/BoardDetail/Comment",{
             method:'POST',
             headers:{

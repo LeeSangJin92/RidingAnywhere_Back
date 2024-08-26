@@ -26,7 +26,7 @@ const MiniCrewBoardBox = (props) => {
     }
 
     const onClickBox = () => {
-        console.log("🕹️ 크루 게시판 디테일 이동");
+        console.log("🕹️ 크루 게시글 이동");
         navigate("/CR/Board/Detail/"+boardId)
     }
 
