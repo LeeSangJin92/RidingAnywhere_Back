@@ -35,7 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.32'
+    implementation  'mysql:mysql-connector-java:8.0.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     implementation 'org.hibernate.orm:hibernate-core:6.1.5.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
