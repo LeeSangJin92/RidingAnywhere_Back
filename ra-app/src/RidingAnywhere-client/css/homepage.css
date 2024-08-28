@@ -75,7 +75,7 @@
                 cursor: pointer;
                 background-color: gray;
             }
-            .MiniCrewBoardBlock{
+            .MiniCrewBoardBlock, .MiniRiderBoardBlock{
                 display: flex;
                 justify-content: center;
                 align-items: center;

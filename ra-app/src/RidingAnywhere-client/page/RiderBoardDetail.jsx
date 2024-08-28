@@ -150,7 +150,6 @@ const RiderBoardDetail = () => {
         }).then(data=>{
             if(data){
                 console.log("✅ 게시글 댓글 요청");
-                console.log(data);
                 setCommentList(data);
                 setBlockComment(false);
                 setEmptyComment(false);
@@ -194,13 +193,13 @@ const RiderBoardDetail = () => {
     const [changeMode, setChangeMode] = useState(false);
 
     // 🕹️ 수정 버튼 클릭 반응
-    const onClickChangeBtn = ({target}) => {
+    const onClickChangeBtn = () => {
         console.log("🛠️ 게시글 수정 모드");
         setChangeMode(!changeMode);
     }
 
     // 🕹️ 삭제 버튼 클릭 반응
-    const onClickDeleteBtn = ({target}) => {
+    const onClickDeleteBtn = () => {
         console.log("🕹️ 게시글 삭제 클릭");
     }
 
