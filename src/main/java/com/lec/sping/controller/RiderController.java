@@ -34,7 +34,7 @@ public class RiderController {
         return ResponseEntity.ok(null);
     }
 
-    @CrossOrigin
+    
     @GetMapping("/LoadRiderBoard")
     public ResponseEntity<?> loadCrewBoard(){
         System.out.println("🛜 라이더 게시글 로드 요청");
