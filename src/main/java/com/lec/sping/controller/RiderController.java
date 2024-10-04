@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "https://riding-anywhere.vercel.app")
 @RestController
 @RequestMapping("/RA")
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class RiderController {
         return ResponseEntity.ok(null);
     }
 
-    
+    @CrossOrigin
     @GetMapping("/LoadRiderBoard")
     public ResponseEntity<?> loadCrewBoard(){
         System.out.println("🛜 라이더 게시글 로드 요청");
