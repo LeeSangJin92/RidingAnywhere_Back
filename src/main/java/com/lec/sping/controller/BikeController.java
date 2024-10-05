@@ -13,7 +13,7 @@ import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "https://riding-anywhere.vercel.app")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/RA")
@@ -21,7 +21,6 @@ public class BikeController {
     private final BikeService bikeService;
     private final TokenProvider tokenProvider;
 
-    @CrossOrigin
     @GetMapping("/BikeModel")
     public ResponseEntity<BikeAllDataDto> getBikeModel(){
         System.out.println("바이크 모델 조회 시작...");
@@ -30,8 +29,6 @@ public class BikeController {
         return new ResponseEntity<>(bikeModelList, HttpStatus.OK);
     }
 
-
-    @CrossOrigin
     @PostMapping("/AddBike")
     public ResponseEntity<?> addBikeData(@RequestBody BikeAddDataDto bikeAddDataDto, @RequestHeader("Authorization") String authTokenHeader){
 
@@ -43,7 +40,6 @@ public class BikeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/SelectBike")
     public ResponseEntity<?> selectBikeData(@RequestBody BikeSelectDataDto bikeSelectData){
         System.out.println("🛜대표 바이크 수정 작업 시작");
@@ -51,7 +47,6 @@ public class BikeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/DeleteBike")
     public ResponseEntity<?> deleteBikeData(@RequestBody BikeGarage bikeData, @RequestHeader("Authorization") String authTokenHeader){
         String token = authTokenHeader.substring(7);

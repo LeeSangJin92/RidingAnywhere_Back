@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
-
+@CrossOrigin(origins = "https://riding-anywhere.vercel.app")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/RA")
@@ -28,7 +28,6 @@ public class UserController {
     private final TokenProvider tokenProvider;
     private final AddressService addressService;
 
-    @CrossOrigin
     @GetMapping("/CheckRider")
     public ResponseEntity<?> getMyUserInfo(@RequestHeader("Authorization") String authTokenHeader){
         System.out.println("🛜라이더 데이터 조회중...");
@@ -44,7 +43,6 @@ public class UserController {
         return new ResponseEntity<>(userAllDataDto,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/UpdateUser")
     public ResponseEntity<?> updateProfile(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ProfileUpdateDto updateData) {
         System.out.println("🛜수정을 원하는 라이더 정보 수집중...");
@@ -56,7 +54,6 @@ public class UserController {
         System.out.println(updateData);
         return ResponseEntity.ok(userService.UpdateProfile(updateData));
     }
-    @CrossOrigin
     @PostMapping("/UpdateImage")
     public ResponseEntity<?> updateImage(@RequestHeader("Authorization") String authTokenHeader,
                                          @RequestPart("file") MultipartFile file) throws IOException, SQLException {
@@ -68,7 +65,6 @@ public class UserController {
         return ResponseEntity.ok(userService.UpdateImage(userData, file));
     }
 
-    @CrossOrigin
     @GetMapping("/AddressData")
     public ResponseEntity<?> findAll(){
         List<Address> addressList = addressService.getfindAll();

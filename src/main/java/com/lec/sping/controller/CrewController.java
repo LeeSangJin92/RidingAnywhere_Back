@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "https://riding-anywhere.vercel.app")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/CR")
@@ -27,7 +28,6 @@ public class CrewController {
     private final CrewService crewService;
     private final AddressService addressService;
 
-    @CrossOrigin
     @PostMapping("/Create")
     public ResponseEntity<?> createCrew(@RequestHeader("Authorization") String authTokenHeader, @RequestBody CreateCrewDto crewDto){
         System.out.println("🛠️크루 생성 작업 요청 받음");
@@ -42,7 +42,6 @@ public class CrewController {
         return new ResponseEntity<>(createdCrew,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/LoadCrewData")
     public ResponseEntity<?> loadCrewData(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
         System.out.println("🛠️ 크루 데이터 호출 요청 받음");
@@ -52,7 +51,6 @@ public class CrewController {
         return new ResponseEntity<>(crew,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/ChangeAddress")
     public ResponseEntity<?> changeAddressData(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ChangeCrewDto changeCrewData){
         System.out.println("🛠️ 크루 지역 데이터 수정 요청 받음");
@@ -65,7 +63,6 @@ public class CrewController {
         return new ResponseEntity<>(crew,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("ChangeContext")
     public ResponseEntity<?> changeContext(@RequestHeader("Authorization") String authTokenHeader, @RequestBody ChangeCrewDto changeCrewData){
         System.out.println("🛠️ 크루 인사말 수정 요청 받음 ");
@@ -78,7 +75,6 @@ public class CrewController {
         return new ResponseEntity<>(crewService.save(crew),HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("GetCrewMember")
     public ResponseEntity<?> getCrewMembers(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
         System.out.println("🛠️ 크루 멤버 호출 요청 받음");
@@ -88,7 +84,6 @@ public class CrewController {
         return new ResponseEntity<>(resultData,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("CrewAllData")
     public ResponseEntity<?> findAllCrew(){
         System.out.println("🛠️ 모든 크루 리스트 호출 요청 받음");
@@ -98,7 +93,6 @@ public class CrewController {
         return new ResponseEntity<>(crewList,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("RequestCrewJoin")
     public ResponseEntity<?> requestCrewJoin(@RequestHeader("Authorization") String authTokenHeader, @RequestBody Long crewId){
         System.out.println("🛠️ 크루 가입 신청 요청 받음");
@@ -107,7 +101,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("RequestJoinAccept")
     public ResponseEntity<?> requestJoinAccept(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceptDto){
         System.out.println("🛠️ 크루 가입 신청 수락 요청 받음");
@@ -115,7 +108,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("RequestJoinRefuse")
     public ResponseEntity<?> requestJoinRefuse(@RequestHeader("Authorization") String authTokenHeader, @RequestBody JoinAcceptDto joinAcceotDto){
         System.out.println("🛠️ 크루 가입 신청 거절 요청 받음");
@@ -123,7 +115,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("RequestWriteBoard")
     public ResponseEntity<?> createWriteCrewBoard(@RequestHeader("Authorization") String authTokenHeader, @RequestBody CrewBoardDto crewBoardDto){
         System.out.println("🛠️ 크루 게시판 작성 요청 받음");
@@ -133,7 +124,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("BoardDelete/Board")
     public ResponseEntity<?> deleteCrewBoard(@RequestParam Long boardId){
         System.out.println("🛠️ 게시글 삭제 요청 받음");
@@ -142,7 +132,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("LoadCrewBoard")
     public ResponseEntity<?> responseEntity(@RequestHeader("Authorization") String authTokenHeader){
         System.out.println("🛠️ 크루 게시글 목록 요청 받음");
@@ -152,7 +141,6 @@ public class CrewController {
     }
 
     // 🔎 크루 게시글 조회
-    @CrossOrigin
     @GetMapping("BoardDetail/Board")
     public ResponseEntity<?> loadBoardDetail(@RequestParam Long boardId){
         System.out.println("🛠️ 크루 게시글 조회 요청 받음");
@@ -161,7 +149,6 @@ public class CrewController {
     }
 
     // ✏️ 크루 게시글 댓글 작성
-    @CrossOrigin
     @PostMapping("BoardDetail/Comment")
     public ResponseEntity<?> createCrewBoardComment(@RequestHeader ("Authorization") String authTokenHeader,@RequestBody CrewBoardCommentDto crewBoardCommentDto){
         System.out.println("🛠️ 크루 게시글 댓글 작성 요청 받음");
@@ -173,7 +160,6 @@ public class CrewController {
     }
 
     // 🔎 크루 게시글 댓글 로드
-    @CrossOrigin
     @GetMapping("BoardDetail/Comment")
     public ResponseEntity<?> getCrewBoardComments(@RequestParam Long boardId){
         System.out.println("🔎 크루 게시글 댓글 리스트 요청 받음");
@@ -182,7 +168,6 @@ public class CrewController {
         return new ResponseEntity<>(resultList,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("BoardDetail/CommentChange")
     public ResponseEntity<?> changeComment(@RequestParam Long commentId, @RequestBody String changeContext){
         System.out.println("🛠️ 크루 게시글 댓글 수정 작업 요청 받음");
@@ -194,7 +179,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("BoardDetail/CommentReply")
     public ResponseEntity<?> uploadCommentReply(@RequestHeader ("Authorization") String authTokenHeader, @RequestParam Long commentId, @RequestParam Long boardId, @RequestBody String replyContext){
         System.out.println("🛠️ 대댓글 등록 요청 받음");
@@ -205,7 +189,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("BoardDetail/CommentDelete")
     public ResponseEntity<?> deleteComment(@RequestParam Long commentId){
         System.out.println("🛠️ 댓글 삭제 요청 받음");
@@ -214,7 +197,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("BoardChange/Board")
     public ResponseEntity<?> changeBoardData(@RequestParam String type, @RequestBody CrewBoard changeData){
         System.out.println("🛠️ 게시글 수정 작업 요청");
@@ -225,7 +207,6 @@ public class CrewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("BoardDetail/TourAttend")
     public ResponseEntity<?> LoadAttendList(@RequestHeader ("Authorization") String authTokenHeader, @RequestParam Long boardId){
         System.out.println("🛠️ 크루 모임 참석 명단 호출 요청");

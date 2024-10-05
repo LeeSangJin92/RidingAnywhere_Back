@@ -24,7 +24,6 @@ public class RiderController {
     private final BoardService boardService;
     private final TokenProvider tokenProvider;
 
-    @CrossOrigin
     @PostMapping("/RequestWriteBoard")
     public ResponseEntity<?> writeBoard(@RequestHeader("Authorization") String authTokenHeader, @RequestBody RiderBoard boardData){
         System.out.println("🛜 라이더 게시글 작성 요청 받음");
@@ -35,7 +34,6 @@ public class RiderController {
         return ResponseEntity.ok(null);
     }
 
-    @CrossOrigin
     @GetMapping("/LoadRiderBoard")
     public ResponseEntity<?> loadCrewBoard(){
         System.out.println("🛜 라이더 게시글 로드 요청");
@@ -44,7 +42,6 @@ public class RiderController {
         return new ResponseEntity<>(boardList,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("/BoardDetail/Board")
     public ResponseEntity<?> loadBoardDetail(@RequestParam Long boardId){
         System.out.println(boardId + "데이터 디테일 요청");
@@ -53,7 +50,6 @@ public class RiderController {
         return new ResponseEntity<>(resultData,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/BoardDetail/Comment")
     public ResponseEntity<?> createBoardComment(@RequestHeader("Authorization") String authTokenHeader, @RequestBody RiderBoardCommentDto commentData){
         System.out.println("🕹️ 댓글 작성 요청");
@@ -65,7 +61,6 @@ public class RiderController {
      return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("/BoardDetail/CommentList")
     public ResponseEntity<?> loadBoardComment(@RequestParam Long board){
         System.out.println("🛜 모든 댓글 조회 요청");
@@ -74,7 +69,6 @@ public class RiderController {
         return new ResponseEntity<>(resultList,HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping("/BoardDetail/CommentReply")
     public ResponseEntity<?> createReply(@RequestHeader("Authorization") String authTokenHeader,@RequestParam Long commentId, @RequestParam Long boardId, @RequestBody String replyContext){
         System.out.println("✏️ 대댓글 작성 요청");

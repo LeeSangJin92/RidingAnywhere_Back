@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "https://riding-anywhere.vercel.app")
 @RestController
 @RequestMapping("/RA")
 @RequiredArgsConstructor
@@ -19,7 +19,6 @@ public class AuthController {
     private final AuthService authService;
     private final EmailService emailService;
 
-    @CrossOrigin
     @PostMapping("/Signup")
     public ResponseEntity<UserResponseDto> signup(@RequestBody UserRequestDto requestDto){
         try {
@@ -29,7 +28,6 @@ public class AuthController {
         }
     }
 
-    @CrossOrigin
     @PostMapping("/SignUp/Email")
     public ResponseEntity<String> check(@RequestBody String email) throws Exception{
             System.out.println("받은 이메일 주소 : "+ email);
@@ -37,7 +35,6 @@ public class AuthController {
             System.out.println("인증코드 : "+code);
             return new ResponseEntity<>(code, HttpStatus.OK);
     }
-    @CrossOrigin
     @PostMapping("/Login")
     public ResponseEntity<?> login(@RequestBody UserRequestDto requestDto){
         try {
