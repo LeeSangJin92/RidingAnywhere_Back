@@ -24,6 +24,6 @@ public class CrewTourAttend {
     CrewBoard tourBoard;            // 모임 게시글
 
     @OneToMany
-    @JoinColumn(nullable = false)
+    @JoinColumn
     List<User> attendMember;        // 참여 인원
 }

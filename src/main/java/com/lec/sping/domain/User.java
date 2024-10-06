@@ -116,7 +116,7 @@ public class User {
 
     // 계성 생성 날짜 입력
     @PrePersist
-    private void set_Defalut(){
+    private void setDefalut(){
         userRegdate = LocalDateTime.now();
     }
 
