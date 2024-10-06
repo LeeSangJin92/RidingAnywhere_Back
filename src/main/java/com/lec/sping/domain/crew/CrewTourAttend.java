@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,5 @@ public class CrewTourAttend {
     CrewBoard tourBoard;            // 모임 게시글
 
     @OneToMany
-    @JoinColumn
     List<User> attendMember;        // 참여 인원
 }

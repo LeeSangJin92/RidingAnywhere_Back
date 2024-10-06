@@ -6,8 +6,11 @@ use ra_db;
 # 🔎전체 테이블 보기
 show tables;
 
+select * from crew_tour_attend_seq;
+
 # 🔎라이더 리스트 보기
 select * from user;
+drop table user;
 delete from user;
 
 UPDATE user set crew_id = null

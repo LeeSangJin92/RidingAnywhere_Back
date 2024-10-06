@@ -5,7 +5,7 @@ server:
 spring:
   mail:
   host: #Gmail의 SMTP 서버 호스트
-  prot: 587 #SMTP 서버 포트 번호, Gmail SMTP 서버는 587번 번호로 사용
+  port: 587 #SMTP 서버 포트 번호, Gmail SMTP 서버는 587번 번호로 사용
   username: yomko65@gmail.com #이메일 코드번호 발송용으로 사용되는 이메일 주소
   password: aojclicwxbqlxyqc #이메일에서 생성된 앱 비밀번호를 입력
   servlet:

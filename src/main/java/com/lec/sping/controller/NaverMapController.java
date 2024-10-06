@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/Map")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class NaverMapController {
 
     private final RestTemplate restTemplate;

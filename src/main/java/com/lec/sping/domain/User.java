@@ -3,13 +3,9 @@ package com.lec.sping.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lec.sping.domain.bike.BikeGarage;
-import com.lec.sping.domain.camping.CampingAttendance;
-import com.lec.sping.domain.course.CourseBoard;
 import com.lec.sping.domain.crew.*;
 import com.lec.sping.domain.riderboard.RiderBoard;
 import com.lec.sping.domain.riderboard.RiderBoardComment;
-import com.lec.sping.domain.tour.TourAttendance;
-import com.lec.sping.domain.tour.TourBoard;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -77,6 +73,12 @@ public class User {
     @ToString.Exclude
     private CrewJoin joincrew;              // 크루 참여 요청
 
+    @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
+    @JoinColumn(name = "attend_member_id", nullable = true)
+    private CrewTourAttend crewTourAttend;
+
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<BikeGarage> garages;        // 내 바이크 정보
@@ -91,32 +93,12 @@ public class User {
     @JsonIgnore
     private List<RiderBoardComment> openCommits;       // 라이더 게시판 댓글 리스트
 
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @JsonIgnore
-    private List<TourBoard> tourBoardList;      // 작성한 투어 게시글 리스트
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @JsonIgnore
-    private List<TourAttendance> tourAttendanceList; // 참석하는 투어 리스트
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @JsonIgnore
-    private List<CampingAttendance> campingAttendanceList; // 참석하는 모캠 리스트
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @JsonIgnore
-    private List<CourseBoard> courseBoardList; // 작성한 코스 게시판 리스트
-
     @ManyToOne
     private Address address;    // 유저 활동 지역
 
     // 계성 생성 날짜 입력
     @PrePersist
-    private void setDefalut(){
+    private void set_Default(){
         userRegdate = LocalDateTime.now();
     }
 

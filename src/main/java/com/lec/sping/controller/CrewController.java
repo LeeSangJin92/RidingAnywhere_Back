@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(origins = "https://riding-anywhere.vercel.app")
+//@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/CR")
