@@ -19,7 +19,6 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
 @CrossOrigin(origins = "https://riding-anywhere.vercel.app")
-//@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/RA")
